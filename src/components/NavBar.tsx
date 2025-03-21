@@ -26,8 +26,8 @@ export default function NavBar() {
                 </a>
             </li>
             <li>
-                <a href="#" className="text-white hover:text-blue-300">
-                Hotels
+                <a href="/hotel" className="text-white hover:text-blue-300">
+                Hotel
                 </a>
             </li>
             <li>
@@ -59,8 +59,8 @@ export default function NavBar() {
                 </a>
             </li>
             <li>
-                <a href="#" className="text-white hover:text-blue-300">
-                Hotels
+                <a href="/hotel" className="text-white hover:text-blue-300">
+                Hotel
                 </a>
             </li>
             <li>
