@@ -37,7 +37,7 @@ export default function NavBar() {
             </li>
             <li>
                 <a href="#" className="text-white hover:text-blue-300">
-                Contact Us
+                About Us
                 </a>
             </li>
             </ul>
@@ -70,7 +70,7 @@ export default function NavBar() {
             </li>
             <li>
                 <a href="#" className="text-white hover:text-blue-300">
-                Contact Us
+                About Us
                 </a>
             </li>
             </ul>
