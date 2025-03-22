@@ -12,18 +12,13 @@ export default async function NavBar() {
         <nav className="bg-blue-900 p-4">
         <div className="max-w-screen-xl mx-auto flex justify-between items-center">
             {/* Logo */}
-            <a href="#">
+            <a href="/">
                 <div className="text-white text-2xl font-bold">STGP</div> 
                 <div className="text-white text-md font-">HotelBooking</div>
             </a>
 
             {/* Desktop Menu */}
             <ul className="hidden md:flex space-x-8">
-            <li>
-                <a href="/" className="text-white hover:text-blue-300">
-                Home
-                </a>
-            </li>
             <li>
                 <a href="/hotel" className="text-white hover:text-blue-300">
                 Hotel

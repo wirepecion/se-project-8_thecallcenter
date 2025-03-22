@@ -9,7 +9,7 @@ export default function RoomCatalog( {rooms} : {rooms?:RoomItem[]} ) {
                     {
                         rooms?.map((roomItem:RoomItem)=>(
                             <Link href={`/room/${roomItem._id}`} className="w-1/6 min-w-[250px]" key={roomItem._id}>
-                                <RoomCard key={roomItem._id} roomNumber={roomItem.number.toString()}/>
+                                <RoomCard key={roomItem._id} roomItem={roomItem}/>
                             </Link>
                         ))
                     }
