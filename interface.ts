@@ -38,8 +38,10 @@ interface HotelItem {
   _id: string,
   name: string,
   address: string,
+  tel: string,
   bookings: BookingItem[],
   rooms: RoomItem[],
+  picture: string,
   id: string
 }
   
@@ -48,4 +50,9 @@ interface HotelJson {
   count: number,
   pagination: Object,
   data: HotelItem[]
+}
+
+interface HotelResponse {
+  success: boolean,
+  data: HotelItem
 }
