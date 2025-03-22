@@ -2,8 +2,8 @@ import RoomCatalog from "./RoomCatalog";
 import Image from "next/image";
 
 export default async function HotelPage({ hotelDetail }: { hotelDetail: Promise<HotelResponse> }) {
+    
     const hotel = (await hotelDetail).data;
-    console.log(hotel.name);
 
     return (
         <div className="container mx-auto p-6">
