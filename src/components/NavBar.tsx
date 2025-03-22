@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { useSession } from 'next-auth/react';
 
 export default async function NavBar() {
 
@@ -29,7 +30,7 @@ export default async function NavBar() {
                 </a>
             </li>
             <li>
-                <a href="#" className="text-white hover:text-blue-300">
+                <a href="/booking" className="text-white hover:text-blue-300">
                 Booking
                 </a>
             </li>
@@ -40,7 +41,7 @@ export default async function NavBar() {
             </li>
             <li>
                 {
-                    session? <a href="/api/auth/signout" className="text-white hover:text-blue-300">Sign-Out{session.user?.name}</a>
+                    session? <a href="/api/auth/signout" className="text-white hover:text-blue-300">Sign-Out {session.user?.name}</a>
                     : <a href="/api/auth/signin" className="text-white hover:text-blue-300">Sign-In</a>
                 }
             </li>
