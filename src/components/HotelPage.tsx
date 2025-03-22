@@ -6,7 +6,7 @@ export default async function HotelPage({ hotelDetail }: { hotelDetail: Promise<
     console.log(hotel.name);
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto p-6 m-">
             <h1 className="text-2xl font-semibold text-center mb-6">{hotel.name}</h1>
 
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">

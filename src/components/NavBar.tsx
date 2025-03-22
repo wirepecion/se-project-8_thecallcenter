@@ -1,13 +1,11 @@
-'use client'
 import { useState } from "react";
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
-export default function NavBar() {
+export default async function NavBar() {
 
-    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-    const toggleMobileMenu = () => {
-        setMobileMenuOpen(!isMobileMenuOpen);
-    };
+    const session = await getServerSession(authOptions)
 
     return (
         <nav className="bg-blue-900 p-4">
@@ -40,41 +38,14 @@ export default function NavBar() {
                 About Us
                 </a>
             </li>
+            <li>
+                {
+                    session? <a href="/api/auth/signout" className="text-white hover:text-blue-300">Sign-Out{session.user?.name}</a>
+                    : <a href="/api/auth/signin" className="text-white hover:text-blue-300">Sign-In</a>
+                }
+            </li>
             </ul>
-
-            {/* Mobile Menu Toggle */}
-            <div className="md:hidden flex items-center" onClick={toggleMobileMenu}>
-            <button className="text-white">
-                <span className="text-2xl">☰</span>
-            </button>
-            </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-            <ul className="md:hidden flex flex-col items-center space-y-4 bg-blue-800 py-4">
-            <li>
-                <a href="/" className="text-white hover:text-blue-300">
-                Home
-                </a>
-            </li>
-            <li>
-                <a href="/hotel" className="text-white hover:text-blue-300">
-                Hotel
-                </a>
-            </li>
-            <li>
-                <a href="#" className="text-white hover:text-blue-300">
-                Booking
-                </a>
-            </li>
-            <li>
-                <a href="#" className="text-white hover:text-blue-300">
-                About Us
-                </a>
-            </li>
-            </ul>
-        )}
         </nav>
     );
 }
