@@ -1,13 +1,13 @@
-import { useState } from "react";
-import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { useSession } from 'next-auth/react';
+import getUserProfile from "@/libs/Auth/getUserProfile";
+import Image from 'next/image';
 
 export default async function NavBar() {
 
     const session = await getServerSession(authOptions)
-    console.log(session)
+    
+    const profile = session? await getUserProfile(session?.user.token) : null;
 
     return (
         <nav className="bg-black p-4">
@@ -36,9 +36,15 @@ export default async function NavBar() {
             </li>
             <li>
                 {
-                    session? <a href="/api/auth/signout" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-white hover:text-black whitespace-nowrap">
-                        Sign-Out {session.user?.name}</a>
-                    : <a href="/api/auth/signin" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-white hover:text-black whitespace-nowrap">
+                    session? <a href="/api/auth/signout" className="border p-2 rounded-lg items-center text-xs text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap flex flex-row">
+                            <Image src="/img/user.png" alt="user" width={0} height={0} className="user-img w-[20px] h-[20px] mr-2"></Image>
+                            <span>
+                                {profile.data.name}
+                                <br/>
+                                {profile.data.email}
+                            </span>
+                        </a>
+                    : <a href="/api/auth/signin" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap">
                         Sign-In / Register</a>
                 }
             </li>
