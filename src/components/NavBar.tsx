@@ -21,7 +21,7 @@ export default function NavBar() {
             {/* Desktop Menu */}
             <ul className="hidden md:flex space-x-8">
             <li>
-                <a href="#" className="text-white hover:text-blue-300">
+                <a href="/" className="text-white hover:text-blue-300">
                 Home
                 </a>
             </li>
@@ -54,7 +54,7 @@ export default function NavBar() {
         {isMobileMenuOpen && (
             <ul className="md:hidden flex flex-col items-center space-y-4 bg-blue-800 py-4">
             <li>
-                <a href="#" className="text-white hover:text-blue-300">
+                <a href="/" className="text-white hover:text-blue-300">
                 Home
                 </a>
             </li>

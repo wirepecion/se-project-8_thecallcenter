@@ -1,4 +1,5 @@
 export default async function createRoom(roomData: object) {
+    
     const response = await fetch(`/api/v1/hotels`, {
         method: "POST",
         headers: {

@@ -1,4 +1,5 @@
 export default async function updateRoom(id: string, roomData: object) {
+    
     const response = await fetch(`/api/v1/rooms/${id}`, {
         method: "PUT",
         headers: {

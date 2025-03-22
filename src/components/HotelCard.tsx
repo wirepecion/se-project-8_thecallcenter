@@ -17,7 +17,7 @@ export default function Card ( { hotelName, onRate } : { hotelName:string, onRat
                 className='object-cover rounded-t-lg'
                 />
             </div> */}
-            <div className='w-full h-[15%] p-[10px]'>
+            <div className='w-full h-[15%] p-[10px] text-center'>
                 <h3>{hotelName}</h3>
                 {
                     onRate? <Rating

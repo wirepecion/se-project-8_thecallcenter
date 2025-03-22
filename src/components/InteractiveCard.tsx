@@ -25,7 +25,7 @@ export default function InteractiveCard ( { children, contentName } : { children
     }
     
     return (
-        <div className='w-full h-[300px] rounded-lg shadow-lg bg-white'
+        <div className='flex flex-wrap w-[250px] h-[300px] rounded-lg shadow-lg bg-white'
         onMouseOver={ (e)=>onCardMouseAction(e) }
         onMouseOut={ (e)=>onCardMouseAction(e) }>
             { children }

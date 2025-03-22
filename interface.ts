@@ -38,7 +38,8 @@ interface HotelItem {
   _id: string,
   name: string,
   address: string,
-  tel: string,
+  bookings: BookingItem[],
+  rooms: RoomItem[],
   id: string
 }
   
