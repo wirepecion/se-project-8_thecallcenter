@@ -6,18 +6,18 @@ export default async function HotelPage({ hotelDetail }: { hotelDetail: Promise<
     const hotel = (await hotelDetail).data;
 
     return (
-        <div className="container mx-auto p-6 m-">
+        <div className="container mx-auto p-6">
             <h1 className="text-2xl font-semibold text-center mb-6">{hotel.name}</h1>
 
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                 {hotel.picture && (
-                    <div className="w-full md:w-1/3">
+                    <div className="w-full md:w-1/3 h-[300px] relative overflow-hidden rounded-lg shadow-lg">
                         <Image
                             src={hotel.picture}
                             alt="Hotel Image"
                             width={400}
                             height={300}
-                            className="rounded-lg shadow-lg"
+                            className="w-full h-full object-cover"
                         />
                     </div>
                 )}

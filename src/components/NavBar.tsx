@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { useSession } from 'next-auth/react';
 
 export default async function NavBar() {
 
