@@ -16,6 +16,7 @@ export default function Card ( { roomItem } : { roomItem:RoomItem } ) {
             </div> */}
             <div className='w-full h-[15%] p-[10px] text-center'>
                 <h3>Room No.{roomItem.number}</h3>
+                
                 <h3>{roomItem.type} room</h3>
                 <h3>{roomItem.price} baht</h3>
             </div>

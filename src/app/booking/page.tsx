@@ -1,10 +1,8 @@
-import Image from "next/image";
-import { Select, MenuItem, TextField, Button } from "@mui/material";
-import DateReserve from "@/components/DateReserve";
+import { Select, MenuItem, Button } from "@mui/material";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import getUserProfile from "@/libs/Auth/getUserProfile";
-import getHotels from "@/libs/Hotel/getHotels";
+import LocationDateReserve from "@/components/LocationDateReserve";
 
 export default async function Booking() {
   const session = await getServerSession(authOptions);
@@ -12,8 +10,6 @@ export default async function Booking() {
 
   const profile = await getUserProfile(session.user.token);
   var createdAt = new Date(profile.data.createdAt);
-
-  const hotelJsonReady = await getHotels()
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center bg-gray-100 py-10 px-6">
@@ -55,21 +51,11 @@ export default async function Booking() {
           {/* Booking Section */}
           <div className="flex flex-col items-center space-y-5 bg-gray-50 p-6 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold text-gray-700">Select Your Stay</h2>
-
-            <div className="w-full">
-              <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
-              <DateReserve />
-            </div>
-
-            <div className="w-full">
-              <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
-              <DateReserve />
-            </div>
-
+            <LocationDateReserve/>
             <Button
               variant="contained"
               color="primary"
-              className="w-full bg-cyan-700 hover:bg-indigo-600"
+              className="w-full bg-black hover:bg-gray"
             >
               Book Room
             </Button>
