@@ -2,6 +2,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import Image from 'next/image';
+import UserLink from "./UserLink"; // adjust path if needed
+import Hamburger from "./Hamburger";
+
 
 export default async function NavBar() {
 
@@ -36,16 +39,22 @@ export default async function NavBar() {
             </li>
             <li>
                 {
-                    session? <a href="/api/auth/signout" className="border p-2 rounded-lg items-center text-xs text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap flex flex-row">
-                            <Image src="/img/user.png" alt="user" width={0} height={0} className="user-img w-[20px] h-[20px] mr-2"></Image>
-                            <span>
-                                {profile.data.name}
-                                <br/>
-                                {profile.data.email}
-                            </span>
+                    session ? <UserLink profile={profile.data} /> : (
+                        <a href="/api/auth/signin" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap">
+                          Sign-In / Register
                         </a>
-                    : <a href="/api/auth/signin" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap">
-                        Sign-In / Register</a>
+                      )      
+                }
+            </li>
+            <li> 
+                
+                {
+                    session ? <Hamburger profile={profile.data} /> : (
+                        <a href="/api/auth/signin" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap">
+                          Sign-In / Register
+                        </a>
+                      )
+                                 
                 }
             </li>
             </ul>
