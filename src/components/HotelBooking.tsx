@@ -101,7 +101,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
             <Autocomplete
                     disablePortal
                     options={rooms}
-                    getOptionLabel={(option) => `Room ${option.number} - ${option.type} - $${option.price}`}
+                    getOptionLabel={(option) => `Room ${option.number} - ${option.type} - ${option.price} baht`}
                     sx={{ width: 300 }}
                     value={selectedRoom}
                     onChange={(event, newValue) => setSelectedRoom(newValue)}
