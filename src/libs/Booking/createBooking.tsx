@@ -11,7 +11,7 @@ export default async function createBooking(roomId: string, bookingData: object,
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data || "Failed to create booking");
+        throw new Error(data.message || "Failed to create booking");
     }
 
     return data;
