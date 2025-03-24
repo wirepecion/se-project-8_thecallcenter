@@ -79,9 +79,9 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                                 className="font-roboto text-black bg-white rounded-xl w-full"
                                 InputProps={{
                                     ...params.InputProps,
-                                    className: "h-[60px] flex items-center px-4 rounded-xl",
+                                    className: "h-[85px] flex items-center px-4 rounded-xl",
                                     classes: { notchedOutline: "border-none" },
-                                    startAdornment: <FaHotel className="mr-2 text-gray-500" />,
+                                    startAdornment: <FaHotel className="mr-2 text-black h-[40%] w-[20vh]" />,
                                 }}
                             />
                         )}
@@ -104,9 +104,9 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                                 className="font-roboto text-black bg-white rounded-xl w-full"
                                 InputProps={{
                                     ...params.InputProps,
-                                    className: "h-[60px] flex items-center px-4 rounded-xl",
+                                    className: "h-[85px] flex items-center px-4 rounded-xl",
                                     classes: { notchedOutline: "border-none" },
-                                    startAdornment: <FaBed className="mr-2 text-gray-500" />,
+                                    startAdornment: <FaBed className="mr-2 text-black h-[40%] w-[20vh]" />,
                                 }}
                             />
                         )}
@@ -125,13 +125,12 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                     </div>
 
                     {/* Payment Method & Book Button */}
-                    <div className="flex flex-row space-x-4 items-center justify-center w-full">
-                        <div className="relative w-full">
-                            <FaMoneyBillWave className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                        <div className="relative w-[100%] h-[85px] flex flex-row items-center bg-white rounded-xl ">
+                            <FaMoneyBillWave className="mr-2 text-black h-[40%] w-[20vh]" />
                             <select
                                 value={paymentMethod}
                                 onChange={(e) => setPaymentMethod(e.target.value)}
-                                className="appearance-none w-full pl-10 pr-4 py-3 rounded-xl border-none bg-white text-black font-roboto text-sm focus:outline-none"
+                                className="font-roboto text-black bg-white rounded-xl w-full"
                             >
                                 <option value="" disabled>Select Payment Method</option>
                                 <option value="credit card">Credit Card</option>
@@ -144,11 +143,10 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                             onClick={handleBooking}
                             variant="contained"
                             color="primary"
-                            className="w-[50%] bg-[#F2814D] hover:bg-[#e27035] text-white px-10 py-3 rounded-lg font-bold"
+                            className="w-[25%] bg-[#F2814D] hover:bg-[#e27035] text-white px-10 py-3 rounded-lg font-bold"
                         >
                             BOOK NOW
                         </Button>
-                    </div>
 
                     {/* Alerts */}
                     {showAlert && alertType === "success" && (
