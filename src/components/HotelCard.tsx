@@ -5,7 +5,7 @@ import InteractiveCard from './InteractiveCard';
 import { Rating } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 
-export default function Card({ hotelName, imgSrc, onRate }: { hotelName: string, imgSrc: string, onRate?: Function }) {
+export default function Card({ hotelName, address, imgSrc, onRate }: { hotelName: string, address: string, imgSrc: string, onRate?: Function }) {
     
     const [rating, setRating] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ export default function Card({ hotelName, imgSrc, onRate }: { hotelName: string,
 
     return (
         <InteractiveCard contentName={hotelName}>
-            <div className='w-full h-[70%] relative rounded-t-lg flex items-center justify-center bg-gray-200 '>
+            <div className='w-full h-[70%] relative rounded-t-lg flex items-center justify-center bg-gray-200 text-black'>
                 {loading && !error && (
                     <div className="absolute z-10">
                         <CircularProgress /> {/* Material UI Spinner */}
@@ -29,13 +29,14 @@ export default function Card({ hotelName, imgSrc, onRate }: { hotelName: string,
                         onError={() => { setLoading(false); setError(true); }}
                     />
                 ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+                    <div className="absolute inset-0 flex items-center justify-center text-black">
                         Failed to load image
                     </div>
                 )}
             </div>
-            <div className='w-full h-[15%] p-[10px] text-center text-black'>
+            <div className='w-full h-[15%] text-center text-black'>
                 <h3>{hotelName}</h3>
+                <h5 className='text-black'>{address}</h5>
                 {onRate ? (
                     <Rating
                         id={`${hotelName} Rating`}
