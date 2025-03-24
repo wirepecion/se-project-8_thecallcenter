@@ -5,7 +5,7 @@ import InteractiveCard from './InteractiveCard';
 import { Rating } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 
-export default function Card({ hotelName, imgSrc, onRate }: { hotelName: string, imgSrc: string, onRate?: Function }) {
+export default function Card({ hotelName, address, imgSrc, onRate }: { hotelName: string, address: string, imgSrc: string, onRate?: Function }) {
     
     const [rating, setRating] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -34,8 +34,9 @@ export default function Card({ hotelName, imgSrc, onRate }: { hotelName: string,
                     </div>
                 )}
             </div>
-            <div className='w-full h-[15%] p-[10px] text-center'>
+            <div className='w-full h-[15%] text-center'>
                 <h3>{hotelName}</h3>
+                <h5 className='text-gray-500'>{address}</h5>
                 {onRate ? (
                     <Rating
                         id={`${hotelName} Rating`}
