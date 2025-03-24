@@ -50,7 +50,6 @@ export default async function NavBar() {
                 
                 {
                     session ? <Hamburger profile={profile.data} /> : ''
-                                 
                 }
             </li>
             </ul>

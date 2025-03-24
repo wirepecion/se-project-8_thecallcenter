@@ -1,12 +1,19 @@
 "use client";
 import { useState } from "react";
+import createBooking from "@/libs/Booking/createBooking";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from '@mui/material/TextField';
+import DateReserve from "./DateReserve";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Alert, Button } from "@mui/material"
 
 export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
     const [selectedHotel, setSelectedHotel] = useState<string>("");
     const [rooms, setRooms] = useState<RoomItem[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<RoomItem | null>(null);
+    const [paymentMethod, setPaymentMethod] = useState<string>("");
+    const [alertType, setAlertType] = useState<'success' | 'error' | null>(null); 
+    const [showAlert, setShowAlert] = useState(false);
 
     const handleHotelChange = (hotelName: string|undefined) => {
         if (hotelName === undefined) {
@@ -20,8 +27,39 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
         }
     };
 
+    const handleBooking = async () => {
+        try {
+            const bookingData = {
+                checkInDate: "2025-04-01",
+                checkOutDate: "2025-04-04",
+                paymentMethod: "credit_card",
+            };
+        
+            const result = await createBooking("room123", bookingData);
+    
+            // Handle the successful booking response
+            setAlertType('success');
+            setShowAlert(true);
+        
+            // Hide the alert after 3 seconds
+            setTimeout(() => setShowAlert(false), 3000);
+    
+        } catch (error) {
+          // Handle booking failure
+          setAlertType('error');
+          setShowAlert(true);
+    
+          // Hide the alert after 3 seconds
+          setTimeout(() => setShowAlert(false), 3000);
+        }
+    };
+
     return (
         <div>
+            {/* Booking Section */}
+            <div className="flex flex-col items-center space-y-5 bg-gray-50 p-6 rounded-lg shadow-md">
+                <h2 className="text-lg font-semibold text-gray-700">Select Your Stay</h2>
+
             {/* Hotel Selection */}
             <div className="space-y-1 py-5">
                 <Autocomplete
@@ -49,6 +87,66 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                     renderInput={(params) => <TextField {...params} label="Room" />}
                     disabled={rooms.length === 0}
                 />
+            </div>
+
+            {/* Check-in Date */}
+            <div className="w-full">
+              <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
+              <DateReserve />
+            </div>
+
+            {/* Check-in Date */}
+            <div className="w-full">
+              <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
+              <DateReserve />
+            </div>
+
+            {/* Payment Method */}
+            <div className="w-full py-4">
+                <FormControl sx={{ width: 200 }}>
+                <InputLabel>Payment Method</InputLabel>
+                    <Select
+                        value={paymentMethod}
+                        label="Payment Method"
+                        onChange={ (e) => setPaymentMethod(e.target.value) }
+                        >
+                        <MenuItem value="credit_card">Credit Card</MenuItem>
+                        <MenuItem value="debit_card">Debit Card</MenuItem>
+                        <MenuItem value="bank_transfer">Bank Transfer</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
+
+            {/* Booking Button */}
+            <div className="w-full">
+            <Button
+                onClick={handleBooking}
+                variant="contained"
+                color="primary"
+                className="w-full bg-cyan-700 hover:bg-indigo-600 text-white py-2 rounded-lg"
+            >
+                Book Room
+            </Button>
+
+            {/* Conditional Rendering for Success or Error Alert */}
+            {showAlert && alertType === 'success' && (
+                <Alert
+                severity="success"
+                className="w-full mt-4"
+                >
+                Your booking was successful!
+                </Alert>
+            )}
+
+            {showAlert && alertType === 'error' && (
+                <Alert
+                severity="error"
+                className="w-full mt-4"
+                >
+                Something went wrong with your booking. Please try again.
+                </Alert>
+            )}
+            </div>
             </div>
         </div>
     );

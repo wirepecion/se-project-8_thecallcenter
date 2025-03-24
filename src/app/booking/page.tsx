@@ -1,11 +1,9 @@
-import { Button } from "@mui/material";
 import DateReserve from "@/components/DateReserve";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import getHotels from "@/libs/Hotel/getHotels";
 import HotelBooking from "@/components/HotelBooking";
-import BookingButton from "@/components/BookingButton";
 
 export default async function Booking() {
     const session = await getServerSession(authOptions);
@@ -53,24 +51,7 @@ export default async function Booking() {
             </table>
           </div>
 
-          {/* Booking Section */}
-          <div className="flex flex-col items-center space-y-5 bg-gray-50 p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold text-gray-700">Select Your Stay</h2>
-
-            <HotelBooking hotels={hotelJson.data}/>
-
-            <div className="w-full">
-              <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
-              <DateReserve />
-            </div>
-
-            <div className="w-full">
-              <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
-              <DateReserve />
-            </div>
-
-            <BookingButton/>
-          </div>
+          <HotelBooking hotels={hotelJson.data}/>
         </div>
       </div>
     </main>
