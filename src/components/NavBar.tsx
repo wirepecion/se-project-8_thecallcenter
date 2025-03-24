@@ -13,17 +13,21 @@ export default async function NavBar() {
     const profile = session ? await getUserProfile(session?.user.token) : null;
 
     return (
-        <nav className="grid grid-cols-12 gap-[15px] w-[1065px] mx-auto py-10 bg-[#000235]">
+        <nav className="grid grid-cols-12 gap-[15px] w-[1065px] mx-auto py-10 bg-transitive">
             {/* Left section: Logo */}
-            <div className="col-span-4 flex items-center">
+            <div className="col-span-5 flex items-center">
                 <a href="/" className="text-white text-md font-bold">
                     HOTELIO
                 </a>
             </div>
 
+            {/* <div className="col-span-1 flex justify-center">
+            </div> */}
+
             {/* Right section: Nav items */}
-            <div className="col-span-8 flex justify-end">
-                <ul className="flex space-x-6 items-center">
+
+            <div className="col-span-7 flex justify-end">
+                <ul className="flex space-x-14 items-center">
                     <li>
                         <a href="#" className="font-sans font-semibold text-white hover:text-blue-300">
                             About

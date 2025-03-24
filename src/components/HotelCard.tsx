@@ -13,7 +13,7 @@ export default function Card({ hotelName, imgSrc, onRate }: { hotelName: string,
 
     return (
         <InteractiveCard contentName={hotelName}>
-            <div className='w-full h-[70%] relative rounded-t-lg flex items-center justify-center bg-gray-200'>
+            <div className='w-full h-[70%] relative rounded-t-lg flex items-center justify-center bg-gray-200 '>
                 {loading && !error && (
                     <div className="absolute z-10">
                         <CircularProgress /> {/* Material UI Spinner */}
@@ -34,7 +34,7 @@ export default function Card({ hotelName, imgSrc, onRate }: { hotelName: string,
                     </div>
                 )}
             </div>
-            <div className='w-full h-[15%] p-[10px] text-center'>
+            <div className='w-full h-[15%] p-[10px] text-center text-black'>
                 <h3>{hotelName}</h3>
                 {onRate ? (
                     <Rating
