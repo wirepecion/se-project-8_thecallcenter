@@ -1,39 +1,69 @@
 export default function AboutUs() {
+    const members = [
+      {
+        name: "Siravut",
+        role: "UX/UI",
+        desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.",
+        img: "/assets/member1.jpg",
+      },
+      {
+        name: "Siravut",
+        role: "UX/UI",
+        desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.",
+        img: "/assets/member2.jpg",
+      },
+      {
+        name: "Siravut",
+        role: "UX/UI",
+        desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.",
+        img: "/assets/member3.jpg",
+      },
+    ];
+  
     return (
-      <section className="grid grid-cols-12 max-w-[75%] mx-auto gap-x-[15px] py-20 px-4 text-white bg-[#000235]">
+      <section className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pb-36 bg-transitive text-white">
         {/* Heading */}
-        <div className="col-span-12 text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-roboto font-bold">About Us</h2>
-          <p className="text-sm text-gray-400 font-outfit mt-2">
+        <div className="col-span-12 text-center space-y-4">
+          <h3 className="text-md font-medium text-white">About Us</h3>
+          <div className="text-4xl font-bold space-x-6">
+            <span className="text-orange-400">C</span>ode
+            <span className="text-orange-400 ml-6">E</span>xplore
+            <span className="text-orange-400 ml-6">D</span>esign
+            <span className="text-orange-400 ml-6">T</span>ravel
+          </div>
+          <p className="pt-4 font-semibold">
             Four Words, Countless Possibilities. That’s How The CEDT Team Builds Your Perfect Stay.
           </p>
         </div>
   
-        {/* Keywords Section */}
-        <div className="col-span-12 flex justify-around text-center font-roboto text-xl font-semibold mb-10">
-          <div>Code</div>
-          <div>Explore</div>
-          <div>Design</div>
-          <div>Travel</div>
-        </div>
-  
-        {/* Team Members */}
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="col-span-12 md:col-span-4 mb-8">
-            <div className="bg-[#1b1b45] p-6 rounded-lg text-center">
+        {/* Member Cards */}
+        {members.map((member, index) => (
+          <div
+            key={index}
+            className="col-span-12 md:col-span-4 mt-16 border border-white rounded-lg px-6 py-8 text-center relative"
+          >
+            {/* Avatar + Circle */}
+            <div className="relative w-24 h-24 mx-auto mb-4">
               <img
-                src={`/assets/avatar-${i}.jpg`}
-                alt={`Siravut ${i}`}
-                className="mx-auto rounded-full w-20 h-20 mb-4 object-cover"
+                src={member.img}
+                alt={member.name}
+                className="w-24 h-24 rounded-full object-cover mx-auto"
               />
-              <h4 className="font-roboto font-bold text-lg">Siravut</h4>
-              <p className="text-sm text-gray-400 font-outfit mt-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque.
-              </p>
-              <span className="inline-block mt-4 text-xs font-bold text-orange-400">UX/UI</span>
+              <div className="w-4 h-4 bg-orange-400 rounded-full absolute -top-2 -right-2"></div>
+            </div>
+  
+            <h4 className="text-lg font-bold">{member.name}</h4>
+            <p className="text-sm text-white pt-3">{member.desc}</p>
+            <div className="mt-6 inline-block bg-[#F2814D] text-white px-4 py-2 rounded-md text-xs font-semibold">
+              {member.role}
             </div>
           </div>
         ))}
+  
+        {/* Footer text */}
+        <div className="col-span-12 text-center pt-20 font-bold text-sm text-white">
+          CEDT Students @ Chulalongkorn University
+        </div>
       </section>
     );
   }
