@@ -2,7 +2,7 @@ import Button from "./Button";
 import InteractiveButton from "./InteractiveButton";
 export default function Hero() {
     return (
-        <section className="grid grid-cols-12 gap-[15px] w-[1065px] mx-auto pt-32 pb-36 bg-[#000235]">
+        <section className="grid grid-cols-12 gap-[15px] w-[1065px] mx-auto pt-32 pb-28 bg-[#000235]">
         {/* Left content */}
         <div className="col-span-12 md:col-span-6 space-y-6">
           <h1 className="text-8xl text-white md:text-7xl font-Outfit font-bold leading-tight">

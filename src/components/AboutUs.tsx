@@ -65,7 +65,7 @@ export default function AboutUs() {
   ];
 
   return (
-    <section className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pb-36 text-white">
+    <section  id="about" className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pt-8 pb-36 text-white">
       {/* Heading */}
       <div className="col-span-12 text-center space-y-4">
         <h3 className="text-md font-medium text-white">About Us</h3>
