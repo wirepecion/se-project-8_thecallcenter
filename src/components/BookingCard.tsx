@@ -7,7 +7,7 @@ import DateReserve from "./DateReserve";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import { useSession } from "next-auth/react";
 
-export default function BookingCard({ bookingData }: { bookingData: BookingItem }) {
+export default function BookingCard({ bookingData, setBookings }: { bookingData: BookingItem, setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>> }) {
     const [isEdit, setIsEdit] = useState(false);
 
     // Keep original booking dates (for displaying on the card)
@@ -18,7 +18,7 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
     const [tempCheckIn, setTempCheckIn] = useState<Date | null>(checkIn);
     const [tempCheckOut, setTempCheckOut] = useState<Date | null>(checkOut);
 
-    const { data:session } = useSession()
+    const { data: session } = useSession();
 
     const handleUpdate = async () => {
         try {
@@ -38,23 +38,24 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
             alert(errorMessage);
         }
     };
-    
 
     const handleDelete = async () => {
         const isConfirmed = window.confirm("Are you sure you want to delete this booking?");
         if (!isConfirmed) return;
-        console.log("User Token:", session?.user.token);
         
         try {
             await deleteBooking(bookingData._id, session?.user.token);
-            setIsEdit(false);
+            
+            // Remove the deleted booking from the list
+            setBookings((prev) => prev.filter((booking) => booking._id !== bookingData._id));
+
             alert("Booking deleted successfully!");
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Failed to delete booking.";
             alert(errorMessage);
         }
     };
-    
+
     return (
         <div>
             {/* Booking Card */}
@@ -69,14 +70,13 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
                         Edit
                     </button>
                     <button className="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition"
-                        onClick={() => handleDelete()}>
+                        onClick={handleDelete}>
                         Delete
                     </button>
                 </div>
             </div>
-
-            {/* Edit Popup */}
-            {isEdit && (
+              {/* Edit Popup */}
+              {isEdit && (
                 <>
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
 

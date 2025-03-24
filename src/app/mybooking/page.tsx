@@ -1,29 +1,46 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+"use client";
+
+import { useEffect, useState } from "react";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import getBookings from "@/libs/Booking/getBookings";
 import BookingCard from "@/components/BookingCard";
+import { useSession } from "next-auth/react";
 
-export default async function MyBooking() {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.token) return null;
+export default function MyBooking() {
+    const { data: session } = useSession();
+    const [bookings, setBookings] = useState<BookingItem[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const profile = await getUserProfile(session.user.token);
-    const createdAt = new Date(profile.data.createdAt);
+    useEffect(() => {
+        async function fetchData() {
+            if (!session?.user?.token) return;
 
-    const bookingJson:BookingJson = await getBookings(session.user.token)
+            const profile = await getUserProfile(session.user.token);
+            const bookingJson: BookingJson = await getBookings(session.user.token);
+
+            setBookings(bookingJson.data);
+            setLoading(false);
+        }
+
+        fetchData();
+    }, []);
+
+    if (loading) return <p className="text-center text-gray-500">Loading bookings...</p>;
 
     return (
         <main className="w-full min-h-screen flex flex-col items-center bg-gray-100">
             <div className="max-w-4xl w-full p-8 rounded-lg">
                 {/* Title */}
-                <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
-                    My Booking
-                </h1>
-                {bookingJson?.count ? (
+                <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">My Bookings</h1>
+
+                {bookings.length > 0 ? (
                     <div>
-                        {bookingJson.data.map((bookingItem: BookingItem) => (
-                            <BookingCard key={bookingItem._id} bookingData={bookingItem}/>
+                        {bookings.map((bookingItem) => (
+                            <BookingCard 
+                                key={bookingItem._id} 
+                                bookingData={bookingItem} 
+                                setBookings={setBookings} // Pass the setter function
+                            />
                         ))}
                     </div>
                 ) : (
