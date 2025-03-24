@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 
 export default function BookingCard({ bookingData }: { bookingData: BookingItem }) {
     const [isEdit, setIsEdit] = useState(false);
-    console.log("Booking Data:", bookingData);
 
     // Keep original booking dates (for displaying on the card)
     const [checkIn, setCheckIn] = useState<Date | null>(new Date(bookingData.checkInDate));
