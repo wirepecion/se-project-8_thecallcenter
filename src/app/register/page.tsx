@@ -11,7 +11,6 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [tel, setTel] = useState("");
-    const [role, setRole] = useState("user");
     const [loading, setLoading] = useState(false);
     const [alertType, setAlertType] = useState<'success' | 'error' | null>(null); 
     const [showAlert, setShowAlert] = useState(false);
@@ -25,16 +24,21 @@ export default function RegisterPage() {
 
         try {
 
-            if (!name || !email || !password || !tel || !role) {
+            if (!name || !email || !password || !tel) {
                 throw new Error("All fields are required.")
             }
-    
-            if (password !== confirmPassword) {
-                throw new Error("Passwords do not match.")
+
+            const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (!emailRegex.test(email)) {
+                throw new Error("Invalid email format.");
             }
 
             if (password.length < 6) {
                 throw new Error("Your password must be at least 6 characters.")
+            }
+    
+            if (password !== confirmPassword) {
+                throw new Error("Passwords do not match.")
             }
             
             const userData = {
@@ -42,7 +46,7 @@ export default function RegisterPage() {
                 email: email,
                 password: password,
                 tel: tel,
-                role: role
+                role: 'user'
             };
             const result = await userRegister(userData)
 
@@ -115,17 +119,6 @@ export default function RegisterPage() {
                         onChange={(e) => setTel(e.target.value)}
                         className="w-full p-2 border rounded"
                     />
-                    <div className="w-full">
-                        <p className="text-sm text-gray-600 mb-1">Choose Your Role:</p>
-                        <select 
-                            value={role} 
-                            onChange={(e) => setRole(e.target.value)} 
-                            className="w-full p-2 border rounded"
-                        >
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
                     
                     <button 
                         type="submit"
