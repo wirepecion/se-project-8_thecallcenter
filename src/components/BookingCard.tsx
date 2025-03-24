@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import updateBooking from "@/libs/Booking/updateBooking";
 import DateReserve from "./DateReserve";
 import deleteBooking from "@/libs/Booking/deleteBooking";
@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 
 export default function BookingCard({ bookingData }: { bookingData: BookingItem }) {
     const [isEdit, setIsEdit] = useState(false);
+    console.log("Booking Data:", bookingData);
 
     // Keep original booking dates (for displaying on the card)
     const [checkIn, setCheckIn] = useState<Date | null>(new Date(bookingData.checkInDate));
@@ -56,12 +57,12 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
     };
     
     return (
-        <>
+        <div>
             {/* Booking Card */}
-            <main className="flex flex-col bg-white p-6 rounded-xl shadow-lg my-5 relative z-10">
-                <p><span className="font-semibold">Hotel: </span> {bookingData.hotel ?? "Unknown"}</p>
-                <p><span className="font-semibold">Check-In Date: </span> {(new Dayjs(checkIn)).format("MMMM D, YYYY h:mm A")}</p>
-                <p><span className="font-semibold">Check-Out Date: </span> {(new Dayjs(checkOut)).format("MMMM D, YYYY h:mm A")}</p>
+            <div className="flex flex-col bg-white p-6 rounded-xl shadow-lg my-5 relative z-10">
+                <p><span className="font-semibold">Hotel: </span> {bookingData.hotel.name}</p>
+                <p><span className="font-semibold">Check-In Date: </span> {(dayjs(checkIn)).format("MMMM D, YYYY h:mm A")}</p>
+                <p><span className="font-semibold">Check-Out Date: </span> {(dayjs(checkOut)).format("MMMM D, YYYY h:mm A")}</p>
 
                 <div className="absolute top-6 right-6 flex space-x-3">
                     <button className="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition"
@@ -73,7 +74,7 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
                         Delete
                     </button>
                 </div>
-            </main>
+            </div>
 
             {/* Edit Popup */}
             {isEdit && (
@@ -111,6 +112,6 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
                     </div>
                 </>
             )}
-        </>
+        </div>
     );
 }

@@ -4,7 +4,7 @@ import getUserProfile from "@/libs/Auth/getUserProfile";
 import getBookings from "@/libs/Booking/getBookings";
 import BookingCard from "@/components/BookingCard";
 
-export default async function Booking() {
+export default async function MyBooking() {
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.token) return null;
 
@@ -22,8 +22,8 @@ export default async function Booking() {
                 </h1>
                 {bookingJson?.count ? (
                     <div>
-                        {bookingJson.data.map((bookingItem: BookingItem, index: number) => (
-                            <BookingCard key={bookingItem._id || index} bookingData={bookingItem}/>
+                        {bookingJson.data.map((bookingItem: BookingItem) => (
+                            <BookingCard key={bookingItem._id} bookingData={bookingItem}/>
                         ))}
                     </div>
                 ) : (

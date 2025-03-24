@@ -2,7 +2,8 @@ interface BookingItem {
   _id: string,
   checkInDate: string,
   checkOutDate: string,
-  hotel: string
+  room: string,
+  hotel: HotelItem
 }
   
 interface BookingJson {
