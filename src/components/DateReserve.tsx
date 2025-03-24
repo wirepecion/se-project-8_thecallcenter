@@ -70,7 +70,13 @@ export default function DateReserve({
             value={checkOutDate}
             onChange={handleCheckOutChange}
             minDate={checkInDate ? checkInDate.add(1, "day") : tomorrow}
-            maxDate={checkInDate ? checkInDate.add(3, "day") : undefined}
+            maxDate={
+              role === "admin"
+                ? undefined // No limit for admins
+                : checkInDate
+                ? checkInDate.add(3, "day") // Max checkout is 3 days after check-in
+                : undefined
+            }
             slotProps={{
               textField: {
                 variant: "outlined",

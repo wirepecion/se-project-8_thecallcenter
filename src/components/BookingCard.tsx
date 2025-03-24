@@ -156,7 +156,7 @@ export default function BookingCard({
               <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 className="text-lg font-semibold mb-4">Edit Booking</h2>
                 <div className="flex flex-col space-y-4">
-                  <DateReserve onDateChange={handleDateChange} />
+                  <DateReserve onDateChange={handleDateChange} role={session?.user.role || 'user'} />
                 </div>
                 <div className="flex justify-end space-x-3 mt-4">
                   <Button

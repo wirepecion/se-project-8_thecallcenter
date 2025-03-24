@@ -46,7 +46,6 @@ export default function MyBooking() {
                                 key={bookingItem._id} 
                                 bookingData={bookingItem} 
                                 setBookings={setBookings} // Pass the setter function
-                                profile={userProfile || undefined}
                             />
                         ))}
                     </div>

@@ -12,7 +12,7 @@ export default function Card ( { roomItem } : { roomItem:RoomItem } ) {
     else imgSrc="https://drive.google.com/uc?id=1lZvDpg5gaXv-RPhk3MdPKga9YqDeT92d"
     
     return (
-        <InteractiveCard contentName={ roomItem.number.toString() }>
+        <InteractiveCard className={ roomItem.number.toString() }>
             { <div className='w-full h-[70%] relative rounded-t-lg'>
                 <Image src={imgSrc}
                 alt='Card'

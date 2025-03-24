@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export default function InteractiveHotelCard({
+export default function InteractiveCard({
   children,
   className = "",
 }: {

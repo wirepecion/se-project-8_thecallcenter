@@ -121,6 +121,7 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                                 setCheckInDate(dates[0]);
                                 setCheckOutDate(dates[1]);
                             }}
+                            role={session?.user.role || 'user'}
                         />
                     </div>
 
