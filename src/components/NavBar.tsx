@@ -40,7 +40,7 @@ export default async function NavBar() {
             <li>
                 {
                     session ? <UserLink profile={profile.data} /> : (
-                        <a href="/api/auth/signin" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap">
+                        <a href="/register" className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap">
                           Sign-In / Register
                         </a>
                       )      
