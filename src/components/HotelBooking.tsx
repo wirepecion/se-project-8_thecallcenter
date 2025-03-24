@@ -111,17 +111,15 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                 />
             </div>
 
-            {/* Check-in Date */}
+            {/* Check-in & Check-out Dates */}
             <div className="w-full flex flex-col items-center">
-              <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
-              <DateReserve onDateChange={setCheckInDate} />
+            <p className="text-sm text-gray-600 mb-1">Select Dates:</p>
+            <DateReserve onDateChange={(dates) => {
+                setCheckInDate(dates[0]);
+                setCheckOutDate(dates[1]);
+            }} />
             </div>
 
-            {/* Check-in Date */}
-            <div className="w-full flex flex-col items-center">
-              <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
-              <DateReserve onDateChange={setCheckOutDate} />
-            </div>
 
             {/* Payment Method */}
             <div className="py-4">
