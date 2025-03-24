@@ -50,7 +50,7 @@ export default async function Booking() {
             </table>
           </div>
 
-          <HotelBooking hotels={hotelJson.data}/>
+          <HotelBooking hotels={hotelJson.data} role={profile.data.role}/>
         </div>
       </div>
     </main>

@@ -2,7 +2,7 @@ interface BookingItem {
   _id: string,
   checkInDate: string,
   checkOutDate: string,
-  room: string,
+  room: RoomItem,
   hotel: HotelItem
 }
   

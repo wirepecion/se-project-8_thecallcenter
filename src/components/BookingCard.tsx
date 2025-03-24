@@ -6,12 +6,13 @@ import deleteBooking from "@/libs/Booking/deleteBooking";
 import { useSession } from "next-auth/react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert } from "@mui/material";
 
-export default function BookingCard({ bookingData, setBookings }: { bookingData: BookingItem, setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>> }) {
+export default function BookingCard({ bookingData, setBookings, profile }: { bookingData: BookingItem, setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>, profile: UserItem | undefined }) {
     const [isEdit, setIsEdit] = useState(false);
     const [open, setOpen] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);  // State for Snackbar
     const [snackbarMessage, setSnackbarMessage] = useState(""); // Snackbar message
     const { data: session } = useSession();
+    console.log(bookingData)
 
     // Keep original booking dates (for displaying on the card)
     const [checkIn, setCheckIn] = useState<Date | null>(new Date(bookingData.checkInDate));
@@ -67,6 +68,8 @@ export default function BookingCard({ bookingData, setBookings }: { bookingData:
         <div>
             {/* Booking Card */}
             <div className="flex flex-col bg-white p-6 rounded-xl shadow-lg my-5 relative z-10">
+                <p><span className="font-semibold">Customer: </span> {profile?.name || "Unknown"}</p>
+                <p><span className="font-semibold">Room No. </span> {bookingData.room.number || "Unknown"}</p>
                 <p><span className="font-semibold">Hotel: </span> {bookingData.hotel?.name || "Unknown"}</p>
                 <p><span className="font-semibold">Check-In Date: </span> {dayjs(checkIn).format("MMMM D, YYYY")}</p>
                 <p><span className="font-semibold">Check-Out Date: </span> {dayjs(checkOut).format("MMMM D, YYYY")}</p>
@@ -99,7 +102,7 @@ export default function BookingCard({ bookingData, setBookings }: { bookingData:
 
                             <div className="flex flex-col space-y-4">
                             {/* Pass the handleDateChange function to DateReserve to handle both check-in and check-out */}
-                            <DateReserve onDateChange={handleDateChange} />
+                            <DateReserve onDateChange={handleDateChange} role={profile?.role || 'user'}/>
                             </div>
 
                             <div className="flex justify-end space-x-3 mt-4">
