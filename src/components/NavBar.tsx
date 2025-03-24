@@ -47,9 +47,8 @@ export default async function NavBar() {
                 }
             </li>
             <li> 
-                
                 {
-                    session ? <Hamburger profile={profile.data} /> : ''
+                    session ? <Hamburger profile={profile.data} /> : null
                 }
             </li>
             </ul>
