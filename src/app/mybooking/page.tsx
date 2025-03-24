@@ -35,7 +35,7 @@ export default function MyBooking() {
             <div className="max-w-4xl w-full p-8 rounded-lg">
                 {/* Title */}
                 {  userProfile?.role=='admin'?
-                <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Bookings</h1>
+                <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">All Bookings</h1>
                 : <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">My Bookings</h1> }
 
                 {bookings.length > 0 ? (
