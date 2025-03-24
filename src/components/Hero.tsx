@@ -1,4 +1,5 @@
 import Button from "./Button";
+import InteractiveButton from "./InteractiveButton";
 export default function Hero() {
     return (
         <section className="grid grid-cols-12 gap-[15px] w-[1065px] mx-auto pt-32 pb-36 bg-[#000235]">
@@ -13,8 +14,13 @@ export default function Hero() {
                   {/* Button row with 5/12 width */}
         <div className="grid grid-cols-12">
         <div className="col-span-12 md:col-span-9 flex space-x-8 pt-3">
-            <Button variant="primary">BOOK NOW</Button>
-            <Button variant="black-outline">VIEW STAYS</Button>
+            <InteractiveButton>
+                <Button href="/booking" variant="primary">BOOK NOW</Button>
+            </InteractiveButton>
+            <InteractiveButton>
+            <Button href="/hotel" variant="black-outline">VIEW STAYS</Button>
+            </InteractiveButton>
+            
           </div>
         </div>
           
@@ -28,7 +34,7 @@ export default function Hero() {
   
         {/* Right image */}
         <div className="col-span-12 md:col-span-6 flex justify-center">
-          <img src="/assets/hero-graphic.png" alt="Hero Graphic" className="w-auto h-auto" />
+          <img src="/assets/hero-graphic.png" alt="Hero Graphic" className="w-[100vh]] h-[60vh]" />
         </div>
       </section>
     );
