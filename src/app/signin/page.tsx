@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -9,9 +9,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  
-  // Use the session to trigger re-renders
-  const { data: session, status } = useSession();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,11 +22,8 @@ export default function LoginPage() {
     if (result?.error) {
       setError("Invalid email or password");
     } else {
-      // Wait for session to be updated
-      if (session) {
-        // Now the session is updated, you can redirect
-        router.push("/"); // Redirect to home after login
-      }
+      router.push("/"); // Redirect after login
+      router.refresh()
     }
   };
 
