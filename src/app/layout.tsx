@@ -37,7 +37,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${outfit.variable} ${roboto.variable}`}>
-      <body className="bg-[#000235]">
+      <body className="bg-[#000235] text-white">
         <NextAuthProvider session={ nextAuthSession }>
           <NavBar/>
           {children}
