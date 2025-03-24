@@ -1,16 +1,18 @@
-export default async function updateHotel(id: string, hotelData: object) {
-    
-    const response = await fetch(`https://hotel-back-end.vercel.app/api/v1/hotels/${id}`, {
+export default async function updateBooking(id: string, bookingData: object, token: string | undefined) {
+    const response = await fetch(`http://localhost:5000/api/v1/bookings/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(hotelData),
+        body: JSON.stringify(bookingData),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-        return new Error("Failed to update hotel");
+        throw new Error(data.message || "Failed to update booking");
     }
 
-    return await response.json();
+    return data;
 }

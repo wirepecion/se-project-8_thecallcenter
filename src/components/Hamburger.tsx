@@ -30,18 +30,13 @@ export default function Hamburger({ profile }: { profile: any }) {
           </div>
           <ul className="py-1 text-sm text-gray-700">
             <li>
-              <a href="/dashboard" className="block px-4 py-2 hover:bg-gray-100">
-                Dashboard
+              <a href="/mybooking" className="block px-4 py-2 hover:bg-gray-100">
+                My Booking
               </a>
             </li>
             <li>
-              <a href="/settings" className="block px-4 py-2 hover:bg-gray-100">
-                Settings
-              </a>
-            </li>
-            <li>
-              <a href="/earnings" className="block px-4 py-2 hover:bg-gray-100">
-                Earnings
+              <a href="/booking" className="block px-4 py-2 hover:bg-gray-100">
+                Booking
               </a>
             </li>
           </ul>

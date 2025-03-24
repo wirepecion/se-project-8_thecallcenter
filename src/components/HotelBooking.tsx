@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import DateReserve from "./DateReserve";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Alert, Button } from "@mui/material"
+import { Dayjs } from "dayjs";
+import { useSession } from "next-auth/react";
 
 export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
     const [selectedHotel, setSelectedHotel] = useState<string>("");
@@ -14,6 +16,10 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
     const [paymentMethod, setPaymentMethod] = useState<string>("");
     const [alertType, setAlertType] = useState<'success' | 'error' | null>(null); 
     const [showAlert, setShowAlert] = useState(false);
+    const [checkIn, setCheckIn] = useState<Dayjs | null>(null);
+    const [checkOut, setCheckOut] = useState<Dayjs | null>(null);
+
+    const { data: session, status } = useSession();
 
     const handleHotelChange = (hotelName: string|undefined) => {
         if (hotelName === undefined) {
@@ -35,7 +41,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                 paymentMethod: "credit_card",
             };
         
-            const result = await createBooking("room123", bookingData);
+            const result = await createBooking("room123", bookingData, session?.user.token);
     
             // Handle the successful booking response
             setAlertType('success');
@@ -92,13 +98,13 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
             {/* Check-in Date */}
             <div className="w-full">
               <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
-              <DateReserve />
+              <DateReserve selectedDate={checkIn} setSelectedDate={setCheckIn}/>
             </div>
 
             {/* Check-in Date */}
             <div className="w-full">
               <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
-              <DateReserve />
+              <DateReserve selectedDate={checkOut} setSelectedDate={setCheckOut}/>
             </div>
 
             {/* Payment Method */}

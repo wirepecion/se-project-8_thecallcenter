@@ -1,14 +1,25 @@
-"use client"
-import { DatePicker } from "@mui/x-date-pickers"
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+"use client";
+import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { useState } from "react";
 
-export default function DateReserve() {
+interface DateReserveProps {
+    selectedDate: Dayjs | null;
+    setSelectedDate: (date: Dayjs) => void;
+}
+
+export default function DateReserve({ selectedDate, setSelectedDate }: DateReserveProps) {
     return (
-        <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-10 py-5 flex flex-row justify-center">
+        <div className="bg-slate-100 rounded-lg px-5 py-3 flex flex-col items-center">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker className="bg-white"/>
+                <DatePicker
+                    value={selectedDate}
+                    onChange={(newValue) => newValue && setSelectedDate(newValue)}
+                    className="bg-white"
+                />
             </LocalizationProvider>
         </div>
-    )
+    );
 }
