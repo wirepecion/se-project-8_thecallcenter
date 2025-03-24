@@ -89,13 +89,11 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
                             <div className="flex flex-col space-y-4">
                                 <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
                                 <DateReserve
-                                    selectedDate={tempCheckIn}
-                                    setSelectedDate={setTempCheckIn}
+                                   onDateChange={setTempCheckIn}
                                 />
                                 <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
                                 <DateReserve
-                                    selectedDate={tempCheckOut}
-                                    setSelectedDate={setTempCheckOut}
+                                   onDateChange={setTempCheckOut}
                                 />
                             </div>
 
