@@ -1,9 +1,7 @@
-import styles from "./page.module.css";
-
 export default function Home() {
   return (
     <main>
-      <a href="/booking">Booking</a>
+      <div className="w-screen h-screen bg-gray-500"></div>
     </main>
   );
 }
