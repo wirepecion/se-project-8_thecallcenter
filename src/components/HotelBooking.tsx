@@ -16,6 +16,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
     const [paymentMethod, setPaymentMethod] = useState<string>("");
     const [alertType, setAlertType] = useState<'success' | 'error' | null>(null); 
     const [showAlert, setShowAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleHotelChange = (hotelName: string|undefined) => {
         if (hotelName === undefined) {
@@ -51,14 +52,15 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
             // Hide the alert after 3 seconds
             setTimeout(() => setShowAlert(false), 3000);
     
-        } catch (error) {
+        } catch (error:any) {
             console.log(error)
-          // Handle booking failure
-          setAlertType('error');
-          setShowAlert(true);
-    
-          // Hide the alert after 3 seconds
-          setTimeout(() => setShowAlert(false), 3000);
+
+            setAlertType('error');
+            setErrorMessage(error.message || 'Something went wrong'); // Set error message to state
+            setShowAlert(true);
+
+            // Hide the alert after 3 seconds
+            setTimeout(() => setShowAlert(false), 3000);
         }
     };
 
@@ -80,12 +82,13 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                     handleHotelChange(newValue?.name);
                 }}
                 renderInput={(params:any) => <TextField {...params} label="Hotel" />}
+                isOptionEqualToValue={(option, value) => option._id === value?._id}
                 />
             </div>
 
             {/* Room Selection */}
             <div className="space-y-1 py-5">
-                <Autocomplete
+            <Autocomplete
                     disablePortal
                     options={rooms}
                     getOptionLabel={(option) => `Room ${option.number} - ${option.type} - $${option.price}`}
@@ -93,6 +96,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                     value={selectedRoom}
                     onChange={(event, newValue) => setSelectedRoom(newValue)}
                     renderInput={(params) => <TextField {...params} label="Room" />}
+                    isOptionEqualToValue={(option, value) => option._id === value?._id}
                     disabled={rooms.length === 0}
                 />
             </div>
@@ -151,7 +155,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                 severity="error"
                 className="w-full max-w-[300px] mt-4 justify-center mx-auto"
                 >
-                Something went wrong with your booking. Please try again.
+                {errorMessage}
                 </Alert>
             )}
             </div>
