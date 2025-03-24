@@ -5,8 +5,22 @@ import NavBar from "@/components/NavBar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import NextAuthProvider from "@/providers/NextAuthProvider";
+import { Outfit, Roboto } from 'next/font/google'
 
 const inter = Inter({ subsets: ["latin"] });
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+})
+
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-roboto',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,8 +36,8 @@ export default async function RootLayout({
   const nextAuthSession = await getServerSession(authOptions)
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={`${outfit.variable} ${roboto.variable}`}>
+      <body className="bg-[#000235]">
         <NextAuthProvider session={ nextAuthSession }>
           <NavBar/>
           {children}

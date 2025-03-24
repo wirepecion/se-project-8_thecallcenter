@@ -5,7 +5,12 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        outfit: ['var(--font-outfit)'],
+        roboto: ['var(--font-roboto)'],
+      },
+    },
   },
   plugins: [],
 }
