@@ -8,7 +8,7 @@ import deleteBooking from "@/libs/Booking/deleteBooking";
 import { useSession } from "next-auth/react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
-export default function BookingCard({ bookingData }: { bookingData: BookingItem }) {
+export default function BookingCard({ bookingData, setBookings }: { bookingData: BookingItem, setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>> }) {
     const [isEdit, setIsEdit] = useState(false);
     const [open, setOpen] = useState(false);
     const { data: session } = useSession();
@@ -41,6 +41,10 @@ export default function BookingCard({ bookingData }: { bookingData: BookingItem 
     const handleDeleteConfirm = async () => {
         try {
             await deleteBooking(bookingData._id, session?.user.token);
+            
+            // Remove the deleted booking from the list
+            setBookings((prev) => prev.filter((booking) => booking._id !== bookingData._id));
+
             alert("Booking deleted successfully!");
         } catch (error) {
             alert(error instanceof Error ? error.message : "Failed to delete booking.");
