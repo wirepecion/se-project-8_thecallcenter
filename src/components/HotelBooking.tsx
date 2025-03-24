@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import DateReserve from "./DateReserve";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Alert, Button } from "@mui/material"
+import { Dayjs } from "dayjs";
+import { useSession } from "next-auth/react";
 
 export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
     const [selectedHotel, setSelectedHotel] = useState<string>("");
@@ -17,6 +19,10 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
     const [alertType, setAlertType] = useState<'success' | 'error' | null>(null); 
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [checkIn, setCheckIn] = useState<Dayjs | null>(null);
+    const [checkOut, setCheckOut] = useState<Dayjs | null>(null);
+
+    const { data: session, status } = useSession();
 
     const handleHotelChange = (hotelName: string|undefined) => {
         if (hotelName === undefined) {
@@ -43,7 +49,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                 paymentMethod: paymentMethod,
             };
         
-            const result = await createBooking(selectedRoom._id, bookingData);
+            const result = await createBooking(selectedRoom._id, bookingData, session?.user.token);
     
             // Handle the successful booking response
             setAlertType('success');

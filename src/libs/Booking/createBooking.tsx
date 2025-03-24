@@ -7,11 +7,12 @@ export default async function createBooking(roomId: string, bookingData: object)
         },
         body: JSON.stringify(bookingData),
     });
+    
+    const data = await response.json();
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create booking");
+        throw new Error(data || "Failed to create booking");
     }
 
-    return await response.json();
+    return data;
 }
