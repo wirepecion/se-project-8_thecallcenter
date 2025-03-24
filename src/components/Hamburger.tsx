@@ -23,11 +23,11 @@ export default function Hamburger({ profile }: { profile: any }) {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-50">
-          <div className="px-4 py-3 text-sm text-gray-900 border-b">
+        <div className="absolute right-0 mt-4 w-32 bg-white rounded-lg shadow-lg z-50">
+          {/* <div className="px-4 py-3 text-sm text-gray-900 border-b">
             <div className="font-medium">{profile.name}</div>
             <div className="text-gray-500 text-xs">{profile.email}</div>
-          </div>
+          </div> */}
           <ul className="py-1 text-sm text-gray-700">
             <li>
               <a href="/mybooking" className="block px-4 py-2 hover:bg-gray-100">
