@@ -13,11 +13,11 @@ export default async function NavBar() {
     const profile = session ? await getUserProfile(session?.user.token) : null;
 
     return (
-        <nav className="grid grid-cols-12 max-w-[75%] mx-auto py-10 bg-transparent items-center text-Outfit">
+        <nav className="grid grid-cols-12 gap-[15px] w-[1065px] mx-auto py-10 bg-[#000235]">
             {/* Left section: Logo */}
-            <div className="col-span-4">
+            <div className="col-span-4 flex items-center">
                 <a href="/" className="text-white text-md font-bold">
-                    HotelBooking
+                    HOTELIO
                 </a>
             </div>
 
