@@ -1,7 +1,7 @@
 import RoomCard from "./RoomCard";
 import Link from "next/link";
 
-export default function RoomCatalog({ rooms }: { rooms?: RoomItem[] | null }) {
+export default function RoomCatalog({ rooms }: { rooms: RoomItem[] }) {
     const sortedRooms = Array.isArray(rooms) 
     ? [...rooms].sort((a, b) => a.number - b.number) // Numeric sorting
     : [];
