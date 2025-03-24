@@ -1,16 +1,16 @@
-"use client";
-
 import { useState } from "react";
 import dayjs from "dayjs";
 import updateBooking from "@/libs/Booking/updateBooking";
 import DateReserve from "./DateReserve";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import { useSession } from "next-auth/react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert } from "@mui/material";
 
 export default function BookingCard({ bookingData, setBookings }: { bookingData: BookingItem, setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>> }) {
     const [isEdit, setIsEdit] = useState(false);
     const [open, setOpen] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);  // State for Snackbar
+    const [snackbarMessage, setSnackbarMessage] = useState(""); // Snackbar message
     const { data: session } = useSession();
 
     // Keep original booking dates (for displaying on the card)
@@ -32,9 +32,13 @@ export default function BookingCard({ bookingData, setBookings }: { bookingData:
             setCheckIn(tempCheckIn);
             setCheckOut(tempCheckOut);
             setIsEdit(false);
-            alert("Booking updated successfully!");
+            
+            // Trigger snackbar with success message
+            setSnackbarMessage("Booking updated successfully!");
+            setSnackbarOpen(true);
         } catch (error) {
-            alert(error instanceof Error ? error.message : "Failed to update booking.");
+            setSnackbarMessage(error instanceof Error ? error.message : "Failed to update booking.");
+            setSnackbarOpen(true);
         }
     };
 
@@ -45,11 +49,13 @@ export default function BookingCard({ bookingData, setBookings }: { bookingData:
             // Remove the deleted booking from the list
             setBookings((prev) => prev.filter((booking) => booking._id !== bookingData._id));
 
-            alert("Booking deleted successfully!");
+            setSnackbarMessage("Booking deleted successfully!");
+            setSnackbarOpen(true);
+            setOpen(false);  // Close the delete dialog
         } catch (error) {
-            alert(error instanceof Error ? error.message : "Failed to delete booking.");
+            setSnackbarMessage(error instanceof Error ? error.message : "Failed to delete booking.");
+            setSnackbarOpen(true);
         }
-        setOpen(false);
     };
 
     return (
@@ -101,6 +107,18 @@ export default function BookingCard({ bookingData, setBookings }: { bookingData:
                     </div>
                 </>
             )}
+
+            {/* Snackbar for success or error message */}
+            <Snackbar 
+                open={snackbarOpen} 
+                autoHideDuration={3000} 
+                onClose={() => setSnackbarOpen(false)} 
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+                <Alert onClose={() => setSnackbarOpen(false)} severity="success">
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
