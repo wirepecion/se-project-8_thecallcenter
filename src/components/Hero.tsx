@@ -12,23 +12,17 @@ export default function Hero() {
             The most seamless and secure way to book unique hotel experiences around the world.
           </p>
                   {/* Button row with 5/12 width */}
-        <div className="grid grid-cols-12">
-        <div className="col-span-12 md:col-span-9 flex space-x-8 pt-3">
-            <InteractiveButton>
-                <Button href="/booking" variant="primary">BOOK NOW</Button>
-            </InteractiveButton>
-            <InteractiveButton>
-            <Button href="/hotel" variant="black-outline">VIEW STAYS</Button>
-            </InteractiveButton>
-            
+          <div className="grid grid-cols-12">
+            <div className="col-span-12 md:col-span-9 flex space-x-8 pt-3">
+              <InteractiveButton>
+                  <Button href="/booking" variant="primary">BOOK NOW</Button>
+              </InteractiveButton>
+              <InteractiveButton>
+              <Button href="/hotel" variant="black-outline">VIEW STAYS</Button>
+              </InteractiveButton>
+              
+            </div>
           </div>
-        </div>
-          
-          {/* button */}
-          {/* <div className="col-span-12 md:col-span-4 flex space-x-4">
-            <button className="bg-orange-400 text-white rounded-md y-2 px-6">Book Now</button>
-            <button className="border text-white border-white py-2 px-6 rounded-md">View Stays</button>
-            </div> */}
         </div>
 
   

@@ -1,34 +1,22 @@
-"use client"
-import React from "react";
+"use client";
 
-export default function InteractiveCard ( { children, contentName } : { children: React.ReactNode, contentName:string } ) {
+import { motion } from "framer-motion";
 
-    function onCardMouseAction(event: React.SyntheticEvent) {
-        if (event.type == 'mouseover') {
-
-            event.currentTarget.classList.remove('shadow-lg')
-            event.currentTarget.classList.add('shadow-2xl')
-
-            event.currentTarget.classList.remove('bg-white')
-            event.currentTarget.classList.add('bg-neutral-200')
-
-        }
-        else {
-
-            event.currentTarget.classList.remove('shadow-2xl')
-            event.currentTarget.classList.add('shadow-lg')
-
-            event.currentTarget.classList.remove('bg-neutral-200')
-            event.currentTarget.classList.add('bg-white')
-
-        }
-    }
-    
-    return (
-        <div className='flex flex-wrap w-[250px] h-[300px] rounded-lg shadow-lg bg-white'
-        onMouseOver={ (e)=>onCardMouseAction(e) }
-        onMouseOut={ (e)=>onCardMouseAction(e) }>
-            { children }
-        </div>
-    );
+export default function InteractiveHotelCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      className={`cursor-pointer ${className}`}
+    >
+      {children}
+    </motion.div>
+  );
 }
