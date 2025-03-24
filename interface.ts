@@ -57,3 +57,11 @@ interface HotelResponse {
   success: boolean,
   data: HotelItem
 }
+
+interface UserItem {
+  _id: string
+  name: string
+  tel: string
+  email: string
+  role: string
+}
