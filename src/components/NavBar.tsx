@@ -4,6 +4,8 @@ import getUserProfile from "@/libs/Auth/getUserProfile";
 import Image from 'next/image';
 import UserLink from "./UserLink"; // adjust path if needed
 import Hamburger from "./Hamburger";
+import Link from 'next/link';
+
 
 
 export default async function NavBar() {
@@ -29,13 +31,15 @@ export default async function NavBar() {
             <div className="col-span-7 flex justify-end">
                 <ul className="flex space-x-14 items-center">
                     <li>
-                        <a href="#" className="font-sans font-semibold text-white hover:text-blue-300">
-                            About
-                        </a>
+                        <Link href="/#about" scroll={true}>
+                            <span className="font-sans font-semibold text-white hover:text-blue-300">
+                                About
+                            </span>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#" className="font-sans font-semibold text-white hover:text-blue-300">
-                            Contact
+                        <a href="/booking" className="font-sans font-semibold text-white hover:text-blue-300">
+                            Booking
                         </a>
                     </li>
                     <li>
