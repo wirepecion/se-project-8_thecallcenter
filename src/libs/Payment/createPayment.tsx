@@ -1,5 +1,5 @@
 export async function createPayment(bookingId: string, paymentData: object, token: string | undefined) {
-    const response = await fetch(`http://localhost:5000/api/v1/bookings/${bookingId}/payments`, {
+    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/bookings/${bookingId}/payments`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
