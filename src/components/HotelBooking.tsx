@@ -43,6 +43,10 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
                 throw new Error('Please select your room')
             }
 
+            if (!session) {
+                throw new Error('Please sign-in before make a booking')
+            }
+
             const bookingData = {
                 checkInDate: checkInDate,
                 checkOutDate: checkOutDate,
