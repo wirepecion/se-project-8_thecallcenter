@@ -10,14 +10,17 @@ export default function MyBooking() {
     const { data: session } = useSession();
     const [bookings, setBookings] = useState<BookingItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const [userProfile, setUserProfile] = useState<UserItem | null>(null);
 
     useEffect(() => {
         async function fetchData() {
             if (!session?.user?.token) return;
-
+            
             const profile = await getUserProfile(session.user.token);
-            const bookingJson: BookingJson = await getBookings(session.user.token);
+            console.log(profile)
+            setUserProfile(profile.data)
 
+            const bookingJson: BookingJson = await getBookings(session.user.token);
             setBookings(bookingJson.data);
             setLoading(false);
         }
@@ -31,7 +34,9 @@ export default function MyBooking() {
         <main className="w-full min-h-screen flex flex-col items-center bg-gray-100">
             <div className="max-w-4xl w-full p-8 rounded-lg">
                 {/* Title */}
-                <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">My Bookings</h1>
+                {  userProfile?.role=='admin'?
+                <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Bookings</h1>
+                : <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">My Bookings</h1> }
 
                 {bookings.length > 0 ? (
                     <div>
