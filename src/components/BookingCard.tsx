@@ -21,6 +21,11 @@ export default function BookingCard({ bookingData, setBookings }: { bookingData:
     const [tempCheckIn, setTempCheckIn] = useState<Date | null>(checkIn);
     const [tempCheckOut, setTempCheckOut] = useState<Date | null>(checkOut);
 
+    const handleDateChange = (dates: [Date | null, Date | null]) => {
+        setTempCheckIn(dates[0]);
+        setTempCheckOut(dates[1]);
+    };
+
     const handleUpdate = async () => {
         try {
             await updateBooking(bookingData._id, {
@@ -93,10 +98,8 @@ export default function BookingCard({ bookingData, setBookings }: { bookingData:
                             <h2 className="text-lg font-semibold mb-4">Edit Booking</h2>
 
                             <div className="flex flex-col space-y-4">
-                                <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
-                                <DateReserve onDateChange={setTempCheckIn} />
-                                <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
-                                <DateReserve onDateChange={setTempCheckOut} />
+                            {/* Pass the handleDateChange function to DateReserve to handle both check-in and check-out */}
+                            <DateReserve onDateChange={handleDateChange} />
                             </div>
 
                             <div className="flex justify-end space-x-3 mt-4">
