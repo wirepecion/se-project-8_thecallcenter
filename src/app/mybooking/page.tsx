@@ -31,15 +31,15 @@ export default function MyBooking() {
     if (loading) return <p className="text-center text-gray-500">Loading bookings...</p>;
 
     return (
-        <main className="w-full min-h-screen flex flex-col items-center bg-gray-100">
-            <div className="max-w-4xl w-full p-8 rounded-lg">
+        <main className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pt-6 pb-16 text-white">
+            <div className="col-span-12 w-full rounded-lg">
                 {/* Title */}
                 {  userProfile?.role=='admin'?
-                <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Bookings</h1>
-                : <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">My Bookings</h1> }
+                <h1 className="text-3xl font-outfit font-semibold text-left text-white mb-6">Bookings</h1>
+                : <h1 className="text-3xl font-outfit font-semibold text-left text-white mb-6">My Bookings</h1> }
 
                 {bookings.length > 0 ? (
-                    <div>
+                    <div className="w-full space-y-4">
                         {bookings.map((bookingItem) => (
                             <BookingCard 
                                 key={bookingItem._id} 
