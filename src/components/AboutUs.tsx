@@ -1,21 +1,21 @@
 export default function AboutUs() {
     const members = [
       {
-        name: "Siravut",
-        role: "UX/UI",
-        desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.",
+        name: "Siravut Chunu",
+        role: "UX/UI Designer",
+        desc: "Involved in the design process of the user experience and interface for all web pages. Focused on graphic design and creating seamless UI flows.",
         img: "/assets/member1.jpg",
       },
       {
-        name: "Siravut",
-        role: "UX/UI",
-        desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.",
+        name: "Worachart Poungtabtim",
+        role: "Main Developer",
+        desc: "Serving as the lead developer, taking on a pivotal role in designing the logic and writing the core code for our project.",
         img: "/assets/member2.jpg",
       },
       {
-        name: "Siravut",
-        role: "UX/UI",
-        desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.",
+        name: "Patcharapon Ongkakul",
+        role: "Assistant Developer",
+        desc: "Assisting in code development, designing components, and performing thorough testing to ensure the program runs smoothly.",
         img: "/assets/member3.jpg",
       },
     ];
