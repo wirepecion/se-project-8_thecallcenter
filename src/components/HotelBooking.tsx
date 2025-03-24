@@ -13,6 +13,8 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
     const [selectedHotel, setSelectedHotel] = useState<string>("");
     const [rooms, setRooms] = useState<RoomItem[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<RoomItem | null>(null);
+    const [checkInDate, setCheckInDate] = useState<Date | null>(null);
+    const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
     const [paymentMethod, setPaymentMethod] = useState<string>("");
     const [alertType, setAlertType] = useState<'success' | 'error' | null>(null); 
     const [showAlert, setShowAlert] = useState(false);
@@ -35,13 +37,18 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
 
     const handleBooking = async () => {
         try {
+
+            if (!selectedRoom) {
+                throw new Error('Please select your room')
+            }
+
             const bookingData = {
-                checkInDate: "2025-04-01",
-                checkOutDate: "2025-04-04",
-                paymentMethod: "credit_card",
+                checkInDate: checkInDate,
+                checkOutDate: checkOutDate,
+                paymentMethod: paymentMethod,
             };
         
-            const result = await createBooking("room123", bookingData, session?.user.token);
+            const result = await createBooking(selectedRoom._id, bookingData, session?.user.token);
     
             // Handle the successful booking response
             setAlertType('success');
@@ -51,6 +58,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
             setTimeout(() => setShowAlert(false), 3000);
     
         } catch (error) {
+            console.log(error)
           // Handle booking failure
           setAlertType('error');
           setShowAlert(true);
@@ -96,29 +104,29 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
             </div>
 
             {/* Check-in Date */}
-            <div className="w-full">
+            <div className="w-full flex flex-col items-center">
               <p className="text-sm text-gray-600 mb-1">Check-In Date:</p>
-              <DateReserve selectedDate={checkIn} setSelectedDate={setCheckIn}/>
+              <DateReserve onDateChange={setCheckInDate} />
             </div>
 
             {/* Check-in Date */}
-            <div className="w-full">
+            <div className="w-full flex flex-col items-center">
               <p className="text-sm text-gray-600 mb-1">Check-Out Date:</p>
-              <DateReserve selectedDate={checkOut} setSelectedDate={setCheckOut}/>
+              <DateReserve onDateChange={setCheckOutDate} />
             </div>
 
             {/* Payment Method */}
-            <div className="w-full py-4">
-                <FormControl sx={{ width: 200 }}>
+            <div className="py-4">
+                <FormControl sx={{ width: 250 }}>
                 <InputLabel>Payment Method</InputLabel>
                     <Select
                         value={paymentMethod}
                         label="Payment Method"
                         onChange={ (e) => setPaymentMethod(e.target.value) }
                         >
-                        <MenuItem value="credit_card">Credit Card</MenuItem>
-                        <MenuItem value="debit_card">Debit Card</MenuItem>
-                        <MenuItem value="bank_transfer">Bank Transfer</MenuItem>
+                        <MenuItem value="credit card">Credit Card</MenuItem>
+                        <MenuItem value="debit card">Debit Card</MenuItem>
+                        <MenuItem value="bank transfer">Bank Transfer</MenuItem>
                     </Select>
                 </FormControl>
             </div>
@@ -138,7 +146,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
             {showAlert && alertType === 'success' && (
                 <Alert
                 severity="success"
-                className="w-full mt-4"
+                className="w-full max-w-[300px] mt-4 justify-center mx-auto"
                 >
                 Your booking was successful!
                 </Alert>
@@ -147,7 +155,7 @@ export default function HotelBooking({ hotels }: { hotels: HotelItem[] }) {
             {showAlert && alertType === 'error' && (
                 <Alert
                 severity="error"
-                className="w-full mt-4"
+                className="w-full max-w-[300px] mt-4 justify-center mx-auto"
                 >
                 Something went wrong with your booking. Please try again.
                 </Alert>
