@@ -10,7 +10,8 @@ export default function Card ( { roomItem } : { roomItem:RoomItem } ) {
     else if (roomItem.type=='deluxe') imgSrc="https://drive.google.com/uc?id=1yEzvJXtgIJ7LPcGFKOxEsP0Lbysi1kdN"
     else if (roomItem.type=='suite') imgSrc="https://drive.google.com/uc?id=1UPqmS-xkoAdiZG2oPlZrTyOrtGy6sOGe"
     else imgSrc="https://drive.google.com/uc?id=1lZvDpg5gaXv-RPhk3MdPKga9YqDeT92d"
-    
+    console.log(imgSrc)
+
     return (
         <InteractiveCard className={ roomItem.number.toString() }>
             { <div className='w-full h-[70%] relative rounded-t-lg'>
