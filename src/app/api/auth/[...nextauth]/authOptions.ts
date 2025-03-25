@@ -33,6 +33,7 @@ export const authOptions:AuthOptions = {
     session: { strategy: "jwt" },
     pages: {
         signIn: "/signin", // Custom login page
+        signOut: "/signout", // Custom logout page
         error: "/signin?error=true", // Redirect on error
     },
     callbacks: {
@@ -40,8 +41,8 @@ export const authOptions:AuthOptions = {
             return {...token, ...user}
         },
         async session({session, token, user}) {
-            session.user = token as any
-            return session
+            session.user = token ? (token as any) : null;
+            return session;
         },
         async redirect({ url, baseUrl }) {
             return baseUrl
