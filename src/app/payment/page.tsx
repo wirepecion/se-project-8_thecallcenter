@@ -43,13 +43,13 @@ export default function Payment() {
     if (loading) return <p className="text-center text-gray-500">Loading payments...</p>;
 
     return (
-        <main className="w-full min-h-screen flex flex-col items-center bg-gray-100">
+        <main className="w-full min-h-screen flex flex-col items-center">
             <div className="max-w-4xl w-full p-8 rounded-lg">
                 {/* Title */}
                 {userProfile?.role === "admin" ? (
-                    <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">All Payments</h1>
+                    <h1 className="text-3xl font-semibold text-center text-whie mb-6">All Payments</h1>
                 ) : (
-                    <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">My Payments</h1>
+                    <h1 className="text-3xl font-semibold text-center text-white mb-6">My Payments</h1>
                 )}
 
                 {payments.length > 0 ? (
