@@ -22,7 +22,7 @@ export default async function HotelPage({ hotelDetail }: { hotelDetail: Promise<
                     </div>
                 )}
                 <div className="flex-1 bg-white p-6 rounded-lg shadow-lg">
-                    <div className="text-lg space-y-2">
+                    <div className="text-lg text-black space-y-2">
                         <p><span className="font-semibold">Name:</span> {hotel.name}</p>
                         <p><span className="font-semibold">Address:</span> {hotel.address}</p>
                         <p><span className="font-semibold">Tel:</span> {hotel.tel}</p>
