@@ -14,14 +14,14 @@ export default function Card ( { roomItem } : { roomItem:RoomItem } ) {
 
     return (
         <InteractiveCard className={ roomItem.number.toString() }>
-            { <div className='w-full h-[70%] relative rounded-t-lg'>
+            { <div className='w-full h-[180px] relative rounded-t-lg'>
                 <Image src={imgSrc}
                 alt='Card'
                 fill={true}
                 className='object-cover rounded-t-lg'
                 />
             </div> }
-            <div className='w-full h-[35%] text-center mt-2'>
+            <div className='w-full h-[100px] text-center text-black bg-white rounded-b-lg p-3'>
                 <h3>Room No.{roomItem.number}</h3>
                 
                 <h3>{roomItem.type} room</h3>
