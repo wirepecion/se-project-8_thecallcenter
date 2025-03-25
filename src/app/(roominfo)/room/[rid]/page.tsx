@@ -16,14 +16,14 @@ export default async function RoomDetailPage({ params }: { params: { rid: string
             <h1 className="text-lg font-bold">Room {roomDetail.data.number}</h1>
             <h1 className="text-md text-white">{roomDetail.data.hotel.name} Hotel</h1>
 
-            <div className="w-full flex justify-center my-5">
+            <div className="w-full flex justify-center mt-5">
                 <div className="relative w-[500px] h-[350px]">
                     <Image src={imgSrc} alt="Room Image" fill className="object-cover rounded-lg my-5" />
                 </div>
             </div>
 
 
-            <div className="flex flex-row my-20">
+            <div className="flex justify-center flex-row my-16">
                 <div className="flex justify-center w-[60%]">
                     <div className="text-md mx-5 text-left">
                         <div>Room No. {roomDetail.data.number}</div>
