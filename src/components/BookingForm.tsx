@@ -33,6 +33,12 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
         }
     };
 
+    // Sort hotels alphabetically by name
+    const sortedHotels = [...hotels].sort((a, b) => a.name.localeCompare(b.name));
+
+    // Sort rooms by room number
+    const sortedRooms = [...rooms].sort((a, b) => a.number - b.number);
+
     const handleBooking = async () => {
         try {
             if (!selectedRoom) throw new Error("Please select your room");
@@ -64,7 +70,7 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                     {/* Hotel Selection */}
                     <Autocomplete
                         disablePortal
-                        options={hotels}
+                        options={sortedHotels}
                         getOptionLabel={(option) => option.name}
                         onChange={(event, newValue) => {
                             setSelectedRoom(null);
@@ -91,7 +97,7 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                     {/* Room Selection */}
                     <Autocomplete
                         disablePortal
-                        options={rooms}
+                        options={sortedRooms}
                         getOptionLabel={(option) => `Room ${option.number} - ${option.type} - $${option.price}`}
                         value={selectedRoom}
                         onChange={(event, newValue) => setSelectedRoom(newValue)}
@@ -126,28 +132,28 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                     </div>
 
                     {/* Payment Method & Book Button */}
-                        <div className="relative w-[100%] h-[85px] flex flex-row items-center bg-white rounded-xl ">
-                            <FaMoneyBillWave className="mr-2 text-black h-[40%] w-[20vh]" />
-                            <select
-                                value={paymentMethod}
-                                onChange={(e) => setPaymentMethod(e.target.value)}
-                                className="font-roboto text-black bg-white rounded-xl w-full"
-                            >
-                                <option value="" disabled>Select Payment Method</option>
-                                <option value="credit card">Credit Card</option>
-                                <option value="debit card">Debit Card</option>
-                                <option value="bank transfer">Bank Transfer</option>
-                            </select>
-                        </div>
-
-                        <Button
-                            onClick={handleBooking}
-                            variant="contained"
-                            color="primary"
-                            className="w-[25%] bg-[#F2814D] hover:bg-[#e27035] text-white px-10 py-3 rounded-lg font-bold"
+                    <div className="relative w-[100%] h-[85px] flex flex-row items-center bg-white rounded-xl ">
+                        <FaMoneyBillWave className="mr-2 text-black h-[40%] w-[20vh]" />
+                        <select
+                            value={paymentMethod}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            className="font-roboto text-black bg-white rounded-xl w-full"
                         >
-                            BOOK NOW
-                        </Button>
+                            <option value="" disabled>Select Payment Method</option>
+                            <option value="credit card">Credit Card</option>
+                            <option value="debit card">Debit Card</option>
+                            <option value="bank transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+
+                    <Button
+                        onClick={handleBooking}
+                        variant="contained"
+                        color="primary"
+                        className="w-[25%] bg-[#F2814D] hover:bg-[#e27035] text-white px-10 py-3 rounded-lg font-bold"
+                    >
+                        BOOK NOW
+                    </Button>
 
                     {/* Alerts */}
                     {showAlert && alertType === "success" && (
