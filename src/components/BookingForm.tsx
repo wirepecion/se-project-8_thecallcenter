@@ -8,8 +8,9 @@ import DateReserve from "./DateReserve";
 import { Alert, Button } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { FaHotel, FaBed, FaMoneyBillWave } from "react-icons/fa";
+import { UserData } from "next-auth/providers/42-school";
 
-export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
+export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem[], userProfile: UsersData }) {
     const [selectedHotel, setSelectedHotel] = useState<string>("");
     const [rooms, setRooms] = useState<RoomItem[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<RoomItem | null>(null);
@@ -19,7 +20,7 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
     const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-
+    
     const { data: session } = useSession();
 
     const handleHotelChange = (hotelName: string | undefined) => {
@@ -121,7 +122,7 @@ export default function BookingForm({ hotels }: { hotels: HotelItem[] }) {
                                 setCheckInDate(dates[0]);
                                 setCheckOutDate(dates[1]);
                             }}
-                            role={session?.user.role || 'user'}
+                            role={userProfile.data.role}
                         />
                     </div>
 

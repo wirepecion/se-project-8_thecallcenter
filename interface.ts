@@ -67,6 +67,11 @@ interface UserItem {
   role: string
 }
 
+interface UsersData {
+  success: boolean,
+  data: UserItem
+}
+
 interface PaymentItem {
   _id: string;
   booking: string; 

@@ -19,7 +19,7 @@ export default async function Booking() {
       {/* Booking Form in its own centered grid */}
       {/* <section className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pt-10 pb-36">
         <div className="col-span-12 md:col-span-12 md:col-start-1"> */}
-          <BookingForm hotels={hotelJson.data} />
+          <BookingForm hotels={hotelJson.data} userProfile={profile}/>
         {/* </div>
       </section> */}
 
