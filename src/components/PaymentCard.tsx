@@ -36,7 +36,6 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
     };
 
     const handleUpdate = async (status: string, method: string) => {
-        if (!isAdmin) return; // Prevent non-admins from executing this
 
         try {
             const updatedData = {
@@ -164,16 +163,20 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                 <DialogTitle>Update Payment</DialogTitle>
                 <DialogContent>
                     {/* Status Update */}
-                    <p>Status:</p>
-                    <Select
-                        fullWidth
-                        value={updateStatus}
-                        onChange={(e) => setUpdateStatus(e.target.value)}
-                        sx={{ marginBottom: 2 }}
-                    >
-                        <MenuItem value="completed">Completed</MenuItem>
-                        <MenuItem value="failed">Failed</MenuItem>
-                    </Select>
+                    {role === "admin" && (
+                    <div>
+                        <p>Status:</p>
+                        <Select
+                            fullWidth
+                            value={updateStatus}
+                            onChange={(e) => setUpdateStatus(e.target.value)}
+                            sx={{ marginBottom: 2 }}
+                        >
+                            <MenuItem value="completed">Completed</MenuItem>
+                            <MenuItem value="failed">Failed</MenuItem>
+                        </Select>
+                    </div>
+                    )}
 
                     {/* Payment Method Update */}
                     <p>Payment Method:</p>
@@ -181,6 +184,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                         fullWidth
                         value={updateMethod}
                         onChange={(e) => setUpdateMethod(e.target.value)}
+                        disabled={status !== "unpaid"}
                     >
                         <MenuItem value="credit card">Credit Card</MenuItem>
                         <MenuItem value="debit card">Debit Card</MenuItem>
@@ -189,7 +193,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setUpdateOpen(false)} color="secondary">Cancel</Button>
-                    <Button onClick={() => handleUpdate(updateStatus, updateMethod)} color="primary">Update</Button>
+                    <Button onClick={() => handleUpdate( (role === "admin" ? updateStatus : "unpaid"), updateMethod)} color="primary">Update</Button>
                 </DialogActions>
             </Dialog>
 
