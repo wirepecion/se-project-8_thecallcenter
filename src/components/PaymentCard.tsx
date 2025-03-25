@@ -42,7 +42,7 @@ export default function PaymentCard({ paymentData } : {paymentData: PaymentItem}
 
     return (
         <div>
-            <div className="flex flex-col bg-white p-6 rounded-xl shadow-lg my-5 relative z-10">
+            <div className="flex flex-col text-black bg-white p-6 rounded-xl shadow-lg my-5 relative z-10">
                 <p><span className="font-semibold">Amount: </span> {amount}</p>
                 <p><span className="font-semibold">Method: </span> {method}</p>
                 <p><span className="font-semibold">Status: </span> 
