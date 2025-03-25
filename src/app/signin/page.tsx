@@ -28,8 +28,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 text-black">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-[350px]">
+    <div className="flex items-center justify-center text-black">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-[350px] mt-20">
         <h2 className="text-2xl font-bold text-gray-800 text-center">Login</h2>
 
         {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
@@ -61,7 +61,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-lg mt-5 hover:bg-blue-600 transition">
+          <button type="submit" className="w-full bg-orange-500 text-white py-3 rounded-lg mt-5 hover:bg-orange-600 transition">
             Sign In
           </button>
         </form>
