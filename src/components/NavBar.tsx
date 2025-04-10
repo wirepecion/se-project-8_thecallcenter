@@ -6,62 +6,61 @@ import UserLink from "./UserLink"; // adjust path if needed
 import Hamburger from "./Hamburger";
 import Link from 'next/link';
 
-
-
 export default async function NavBar() {
-
     const session = await getServerSession(authOptions)
-
     const profile = session ? await getUserProfile(session?.user.token) : null;
 
     return (
-        <nav className="grid grid-cols-12 gap-[15px] w-[1065px] mx-auto py-10 bg-transitive">
-            {/* Left section: Logo */}
-            <div className="col-span-5 flex items-center">
-                <a href="/" className="text-white text-md font-bold">
-                    HOTELIO
-                </a>
+        <nav className="flex justify-between items-center w-full px-6 py-4 bg-transparent">
+            {/* Logo */}
+            <div className="text-white text-lg font-bold">
+                <a href="/">HOTELIO</a>
             </div>
 
-            {/* <div className="col-span-1 flex justify-center">
-            </div> */}
-
-            {/* Right section: Nav items */}
-
-            <div className="col-span-7 flex justify-end">
-                <ul className="flex space-x-14 items-center">
+            {/* Desktop Navigation (hidden on small screens) */}
+            <div className="hidden md:flex space-x-10 items-center">
+                <ul className="flex space-x-6">
                     <li>
-                        <Link href="/#about" scroll={true}>
+                        <Link href="/#about">
                             <span className="font-sans font-semibold text-white hover:text-blue-300">
                                 About
                             </span>
                         </Link>
                     </li>
                     <li>
-                        <a href="/booking" className="font-sans font-semibold text-white hover:text-blue-300">
-                            Booking
-                        </a>
+                        <Link href="/booking">
+                            <span className="font-sans font-semibold text-white hover:text-blue-300">
+                                Booking
+                            </span>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/hotel" className="font-sans font-semibold text-white hover:text-blue-300">
-                            Explore Stay
-                        </a>
+                        <Link href="/hotel">
+                            <span className="font-sans font-semibold text-white hover:text-blue-300">
+                                Explore Stay
+                            </span>
+                        </Link>
                     </li>
-                    <li>
-                        {session ? (
-                            <UserLink profile={profile.data} />
-                        ) : (
-                            <a
-                                href="/register"
-                                className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap"
-                            >
-                                Sign-In / Register
-                            </a>
-                        )}
-                    </li>
-                    <li>{session ? <Hamburger profile={profile.data} /> : null}</li>
                 </ul>
+                <div>
+                    {session ? (
+                        <UserLink profile={profile.data} />
+                    ) : (
+                        <Link
+                            href="/register"
+                            className="border p-2 rounded-lg text-white font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap"
+                        >
+                            Sign-In / Register
+                        </Link>
+                    )}
+                </div>
+                {session && <Hamburger profile={profile.data} />}
             </div>
+
+            {/* Mobile Hamburger Menu (shown only on small screens) */}
+            {/* <div className="md:hidden">
+                <Hamburger profile={session ? profile.data : null} />
+            </div> */}
         </nav>
     );
 }
