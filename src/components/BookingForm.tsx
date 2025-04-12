@@ -9,6 +9,7 @@ import { Alert, Button } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { FaHotel, FaBed, FaMoneyBillWave } from "react-icons/fa";
 import { UserData } from "next-auth/providers/42-school";
+import Link from "next/link";
 
 export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem[], userProfile: UsersData }) {
     const [selectedHotel, setSelectedHotel] = useState<string>("");
@@ -146,7 +147,8 @@ export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem
                             <option value="bank transfer">Bank Transfer</option>
                         </select>
                     </div>
-
+                    
+                    <Link href="/checkout" >
                     <Button
                         onClick={handleBooking}
                         variant="contained"
@@ -155,6 +157,7 @@ export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem
                     >
                         BOOK NOW
                     </Button>
+                    </Link>
 
                     {/* Alerts */}
                     {showAlert && alertType === "success" && (
