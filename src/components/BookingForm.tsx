@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from 'next/navigation'; 
 import { useState } from "react";
 import createBooking from "@/libs/Booking/createBooking";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -17,7 +17,6 @@ export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem
     const [selectedRoom, setSelectedRoom] = useState<RoomItem | null>(null);
     const [checkInDate, setCheckInDate] = useState<Date | null>(null);
     const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
-    const [paymentMethod, setPaymentMethod] = useState<string>("");
     const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -41,29 +40,33 @@ export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem
     // Sort rooms by room number
     const sortedRooms = [...rooms].sort((a, b) => a.number - b.number);
 
-    const handleBooking = async () => {
-        try {
-            if (!selectedRoom) throw new Error("Please select your room");
-            if (!session) throw new Error("Please sign-in before making a booking");
+    const router = useRouter();
 
-            const bookingData = {
-                checkInDate,
-                checkOutDate,
-                paymentMethod,
-            };
+const handleBooking = async () => {
+    try {
+        if (!selectedRoom) throw new Error("select a room first");
+        if (!session) throw new Error("please login first");
 
-            await createBooking(selectedRoom._id, bookingData, session.user.token);
+        const bookingData = {
+            checkInDate,
+            checkOutDate,
+        };
 
-            setAlertType("success");
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
-        } catch (error: any) {
-            setAlertType("error");
-            setErrorMessage(error.message || "Something went wrong");
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
-        }
-    };
+        const bookingDetails = await createBooking(selectedRoom._id, bookingData, session.user.token);
+
+        const paymentId = bookingDetails.data.payment._id;
+        console.log(paymentId);
+
+        
+        router.push(`/checkout/${paymentId}`);
+
+    } catch (error: any) {
+        setAlertType("error");
+        setErrorMessage(error.message || "An error occurred during booking.");
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
+    }
+};
 
     return (
         <section className="w-[1065px] h-[500px] mx-auto grid grid-cols-12 gap-[15px] mt-10 bg-white bg-opacity-20 rounded-2xl">
@@ -133,22 +136,9 @@ export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem
                         />
                     </div>
 
-                    {/* Payment Method & Book Button */}
-                    <div className="relative w-[100%] h-[85px] flex flex-row items-center bg-white rounded-xl ">
-                        <FaMoneyBillWave className="mr-2 text-black h-[40%] w-[20vh]" />
-                        <select
-                            value={paymentMethod}
-                            onChange={(e) => setPaymentMethod(e.target.value)}
-                            className="font-roboto text-black bg-white rounded-xl w-full"
-                        >
-                            <option value="" disabled>Select Payment Method</option>
-                            <option value="credit card">Credit Card</option>
-                            <option value="debit card">Debit Card</option>
-                            <option value="bank transfer">Bank Transfer</option>
-                        </select>
-                    </div>
                     
-                    <Link href="/checkout" >
+                    
+                    
                     <Button
                         onClick={handleBooking}
                         variant="contained"
@@ -157,7 +147,7 @@ export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem
                     >
                         BOOK NOW
                     </Button>
-                    </Link>
+                    
 
                     {/* Alerts */}
                     {showAlert && alertType === "success" && (
