@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CountdownTimer from '@/components/CountdownTimer';
 
-export default function Checkout() {
+export default function Checkout({ params }: { params: { bid: string } }) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
