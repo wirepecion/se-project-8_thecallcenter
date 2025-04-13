@@ -90,3 +90,15 @@ interface PaymentJson {
   pagination: Object,
   data: PaymentItem[]
 }
+
+interface PaymentItem2 {
+  _id: string;
+  booking: string; 
+  user: string; 
+  // @ts-ignore
+  amount: number;
+  status: string;
+  method: string;
+  paymentDate?: Date;
+  canceledAt?: Date | null;
+}
