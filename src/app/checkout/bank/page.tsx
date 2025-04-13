@@ -1,18 +1,36 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CountdownTimer from '@/components/CountdownTimer';
 
-
-export default function CheckoutCard() {
+export default function CheckoutBank() {
     const subtotal = 49.80;
     const discount = 7.24;
     const total = (subtotal - discount).toFixed(2);
 
     const router = useRouter();
-    const searchParams = useSearchParams(); // เพิ่มมาใช้รับค่า query param
-    const [paymentMethod, setPaymentMethod] = useState('card');
+    const searchParams = useSearchParams();
+
+    const [paymentMethod, setPaymentMethod] = useState('bank');
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedBank, setSelectedBank] = useState('');
+
+    const handlePaymentChange = (method: string) => {
+        if (method === 'bank') {
+            setPaymentMethod('bank');
+        } else {
+            setIsLoading(true);
+            router.push(`/checkout?paymentMethod=${method}`);
+        }
+    };
+
+    useEffect(() => {
+        const bankFromUrl = searchParams.get('bankType');
+        if (bankFromUrl) {
+            setSelectedBank(bankFromUrl);
+        }
+    }, [searchParams]);
 
     return (
         <main className="w-full min-h-screen flex flex-row">
@@ -29,7 +47,7 @@ export default function CheckoutCard() {
                                 type="radio"
                                 name="payment"
                                 checked={paymentMethod === 'card'}
-                                onChange={() => setPaymentMethod('card')}
+                                onChange={() => handlePaymentChange('card')}
                             />
                             <span>Card</span>
                         </label>
@@ -38,9 +56,7 @@ export default function CheckoutCard() {
                                 type="radio"
                                 name="payment"
                                 checked={paymentMethod === 'bank'}
-                                onChange={() => {
-                                    router.push('/checkout?paymentMethod=bank');
-                                }}
+                                onChange={() => handlePaymentChange('bank')}
                             />
                             <span>Bank</span>
                         </label>
@@ -49,65 +65,48 @@ export default function CheckoutCard() {
                                 type="radio"
                                 name="payment"
                                 checked={paymentMethod === 'thaiqr'}
-                                onChange={() => {
-                                    router.push('/checkout?paymentMethod=thaiqr');
-                                }}
+                                onChange={() => handlePaymentChange('thaiqr')}
                             />
                             <span>ThaiQR</span>
                         </label>
                     </div>
                 </div>
 
-
-                {paymentMethod === 'card' && (
-                    <div className="flex flex-col items-center mb-6">
-                        <p className="text-gray-600 text-base font-medium mb-6">
-                            Enter your 4-digit card pin to confirm this payment
-                        </p>
-                        <div className="flex gap-4">
-                            <input
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={1}
-                                className="w-14 h-14 text-2xl text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            />
-                            <input
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={1}
-                                className="w-14 h-14 text-2xl text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            />
-                            <input
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={1}
-                                className="w-14 h-14 text-2xl text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            />
-                            <input
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={1}
-                                className="w-14 h-14 text-2xl text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            />
-                        </div>
+                {paymentMethod === 'bank' && (
+                    <div className="mb-6">
+                        <label className="block font-medium mb-2 text-black">Choose your bank:</label>
+                        <select
+                            value={selectedBank}
+                            onChange={(e) => setSelectedBank(e.target.value)}
+                            className="w-full border border-gray-300 p-2 rounded text-black"
+                        >
+                            <option value="">Select a bank</option>
+                            <option value="kbank">Kasikornbank</option>
+                            <option value="scb">SCB</option>
+                            <option value="bbl">Bangkok Bank</option>
+                        </select>
+                        <div className="pb-5"> </div>
+                        <label className="block font-medium mb-2 text-black ">Enter Your Bank Account Number </label>
+                        <input
+                            type="text"
+                            className="w-full border border-gray-300 p-2 rounded"
+                        />
                     </div>
                 )}
 
-
                 <button
-                     onClick={() => {
+                    onClick={() => {
                         router.push('/checkout/success');
                       }}
-                    
-                    className="w-full bg-[#20589a] hover:bg-[#E0401D] text-white py-2 rounded font-semibold">
-                    Confirm Payment
+                    className="w-full bg-[#20589a] hover:bg-[#E0401D] text-white py-2 rounded font-semibold"
+                >
+                    Pay USD {total}
                 </button>
 
                 <p className="text-xs text-gray-500 mt-4">
                     Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
                 </p>
             </div>
-
 
             <div className="w-1/2 bg-gray-100 p-12 flex flex-col">
                 <h1 className="text-3xl font-semibold mb-8 text-black">Order Summary</h1>
@@ -132,7 +131,6 @@ export default function CheckoutCard() {
                         className="flex-1 border border-gray-300 p-2 rounded-l text-black"
                     />
                     <button className="bg-gray-400 hover:bg-[#E0401D] text-white px-4 rounded-r transition-colors">Apply</button>
-
                 </div>
 
                 <div className="border-t pt-4 space-y-5 text-sm text-gray-700">
@@ -152,6 +150,7 @@ export default function CheckoutCard() {
                     <p className="text-xs text-gray-400">Including your $21.4 tax</p>
                 </div>
             </div>
+
         </main>
     );
 }

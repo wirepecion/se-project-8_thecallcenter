@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import CountdownTimer from '@/components/CountdownTimer';
 
 export default function Checkout() {
@@ -8,7 +10,19 @@ export default function Checkout() {
     const discount = 7.24;
     const total = (subtotal - discount).toFixed(2);
 
-    const [paymentMethod, setPaymentMethod] = useState('card'); 
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const [paymentMethod, setPaymentMethod] = useState(() => searchParams.get('paymentMethod') || 'card');
+    const [selectedBank, setSelectedBank] = useState('');
+
+
+    useEffect(() => {
+        const currentPayment = searchParams.get('paymentMethod');
+        if (currentPayment) {
+            setPaymentMethod(currentPayment);
+        }
+    }, [searchParams]);
 
     return (
         <main className="w-full min-h-screen flex flex-row">
@@ -42,10 +56,10 @@ export default function Checkout() {
                             <input
                                 type="radio"
                                 name="payment"
-                                checked={paymentMethod === 'transfer'}
-                                onChange={() => setPaymentMethod('transfer')}
+                                checked={paymentMethod === 'thaiqr'}
+                                onChange={() => setPaymentMethod('thaiqr')}
                             />
-                            <span>Transfer</span>
+                            <span>ThaiQR</span>
                         </label>
                     </div>
                 </div>
@@ -85,24 +99,29 @@ export default function Checkout() {
                 {paymentMethod === 'bank' && (
                     <div className="mb-6">
                         <label className="block font-medium mb-2 text-black">Choose your bank:</label>
-                        <select className="w-full border border-gray-300 p-2 rounded text-black">
+                        <select
+                            value={selectedBank}
+                            onChange={(e) => setSelectedBank(e.target.value)}
+                            className="w-full border border-gray-300 p-2 rounded text-black"
+                        >
                             <option value="">Select a bank</option>
                             <option value="kbank">Kasikornbank</option>
                             <option value="scb">SCB</option>
                             <option value="bbl">Bangkok Bank</option>
                         </select>
+
                     </div>
                 )}
 
-                {paymentMethod === 'transfer' && (
+                {paymentMethod === 'thaiqr' && (
                     <div className="mb-6 flex flex-col items-center text-center">
-                        <p className="text-gray-400 mb-6 text-lg ">Transfer USD ${total} to:</p>
+                        <p className="text-gray-400 mb-6 text-lg ">thaiqr USD ${total} to:</p>
                         <p className="text-black list-none font-semibold  text-2xl space-y-2">
                             Polaris Bank</p>
-                            <p className="text-black list-none font-bold  text-3xl space-y-2">
+                        <p className="text-black list-none font-bold  text-3xl space-y-2">
                             0123456781</p>
-                            
-                        
+
+
                         <div className="mt-6">
                             <CountdownTimer duration={600} />
                         </div>
@@ -110,7 +129,18 @@ export default function Checkout() {
                 )}
 
 
-                <button className="w-full bg-[#20589a] hover:bg-[#E0401D] text-white py-2 rounded font-semibold">
+                <button
+                    onClick={() => {
+                        if (paymentMethod === 'card') {
+                          router.push('/checkout/card');
+                        } else if (paymentMethod === 'bank') {
+                          router.push(`/checkout/bank?bankType=${selectedBank}`);
+                        } else if (paymentMethod === 'thaiqr') {
+                          router.push('/checkout/success');
+                        }
+                      }}
+                      
+                    className="w-full bg-[#20589a] hover:bg-[#E0401D] text-white py-2 rounded font-semibold">
                     Pay USD {total}
                 </button>
 
