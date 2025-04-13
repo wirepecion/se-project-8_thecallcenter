@@ -3,27 +3,48 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CountdownTimer from '@/components/CountdownTimer';
+import {getPayment} from '@/libs/Payment/getPayment';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { useSession } from "next-auth/react";
 
-export default function Checkout({ params }: { params: { bid: string } }) {
+export  default function Checkout({ params }: { params: { bid: string } }) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
     //get idbooking เจอในroom เป็นprice 
 
-    const bookingId = searchParams.get('bookingId');
+    const bookingId = params.bid; 
     const [paymentMethod, setPaymentMethod] = useState(() => searchParams.get('paymentMethod') || 'card');
     const [selectedBank, setSelectedBank] = useState('');
 
     const subtotal = 49.80;
     const discount = subtotal * 0.15; 
     const total = (subtotal - discount).toFixed(2);
+    const { data: session } = useSession()
 
+    
     useEffect(() => {
         const currentPayment = searchParams.get('paymentMethod');
         if (currentPayment) {
             setPaymentMethod(currentPayment);
         }
     }, [searchParams]);
+
+    
+    useEffect(() => {
+        const fetchPayment = async () => {
+        
+          const token = session?.user.token 
+          if (!token || !bookingId) return;
+          const data = await getPayment(bookingId, token);
+          console.log(data);
+        };
+        
+        fetchPayment();
+      }, []);
+      
+
 
     const handlePayment = async () => {
         if (!bookingId) {
@@ -163,6 +184,10 @@ export default function Checkout({ params }: { params: { bid: string } }) {
                     Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
                 </p>
             </div>
+
+
+
+
             <div className="w-1/2 bg-gray-100 p-12 flex flex-col">
                 <h1 className="text-3xl font-semibold mb-8 text-black">Order Summary</h1>
                 <hr />
