@@ -72,7 +72,7 @@ export default function Checkout() {
                             <input
                                 type="text"
                                 placeholder="1234 5678 9101 1121"
-                                className="w-full border border-gray-300 p-2 rounded"
+                                className="text-black w-full border border-gray-300 p-2 rounded"
                             />
                         </div>
                         <div className="flex space-x-4 mb-6">
@@ -81,7 +81,7 @@ export default function Checkout() {
                                 <input
                                     type="text"
                                     placeholder="MM/YY"
-                                    className="w-full border border-gray-300 p-2 rounded"
+                                    className="text-black w-full border border-gray-300 p-2 rounded"
                                 />
                             </div>
                             <div className="w-1/2">
@@ -89,7 +89,7 @@ export default function Checkout() {
                                 <input
                                     type="text"
                                     placeholder="123"
-                                    className="w-full border border-gray-300 p-2 rounded"
+                                    className="text-black w-full border border-gray-300 p-2 rounded"
                                 />
                             </div>
                         </div>
