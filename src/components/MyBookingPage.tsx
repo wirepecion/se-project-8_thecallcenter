@@ -17,26 +17,23 @@ export default function MyBookingPage({
     sessionToken: string;
 }) {
     const [bookings, setBookings] = useState<BookingItem[]>(initialBookings);
-    const [selectedBooking, setSelectedBooking] = useState<BookingItem | null>(null);  // Track selected booking
-    const [isModalOpen, setIsModalOpen] = useState(false);  // Manage modal visibility
+    const [selectedBooking, setSelectedBooking] = useState<BookingItem | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const userProfile = initialUserProfile;
 
     const handleEditClick = (booking: BookingItem) => {
-        setSelectedBooking(booking);  // Set the booking to be edited
-        setIsModalOpen(true);  // Open the modal
+        setSelectedBooking(booking);
+        setIsModalOpen(true);
     };
 
     const handleModalClose = () => {
-        setIsModalOpen(false);  // Close the modal
-        setSelectedBooking(null);  // Clear selected booking
+        setIsModalOpen(false);
+        setSelectedBooking(null);
     };
 
-    // Handle booking deletion
     const handleDeleteBooking = async (booking: BookingItem) => {
         try {
-            // Call API to delete the booking
-            await deleteBooking(booking._id, sessionToken);  // Replace with actual API call
-            // Update the state to remove the deleted booking
+            await deleteBooking(booking._id, sessionToken);
             setBookings((prevBookings) => prevBookings.filter((b) => b._id !== booking._id));
         } catch (error) {
             console.error("Error deleting booking:", error);
@@ -44,10 +41,9 @@ export default function MyBookingPage({
     };
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}> {/* Wrapping with LocalizationProvider */}
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
             <main className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pt-6 pb-16 text-black">
                 <div className="col-span-12 w-full rounded-lg">
-                    {/* Title */}
                     <h1 className="text-3xl font-outfit font-semibold text-left text-white mb-6">
                         {userProfile?.role === "admin" ? "Bookings" : "My Bookings"}
                     </h1>
@@ -59,8 +55,8 @@ export default function MyBookingPage({
                                     key={bookingItem._id}
                                     bookingData={bookingItem}
                                     setBookings={setBookings}
-                                    onEditClick={handleEditClick} 
-                                    onDeleteClick={handleDeleteBooking}  // Pass delete handler
+                                    onEditClick={handleEditClick}
+                                    onDeleteClick={handleDeleteBooking}
                                 />
                             ))}
                         </div>
@@ -69,7 +65,6 @@ export default function MyBookingPage({
                     )}
                 </div>
 
-                {/* Edit Booking Modal */}
                 {isModalOpen && selectedBooking && (
                     <EditBookingModal
                         booking={selectedBooking}
@@ -80,6 +75,6 @@ export default function MyBookingPage({
                     />
                 )}
             </main>
-        </LocalizationProvider>  
+        </LocalizationProvider>
     );
 }

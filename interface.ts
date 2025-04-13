@@ -4,7 +4,8 @@ interface BookingItem {
   checkOutDate: string,
   room: RoomItem,
   hotel: HotelItem,
-  user: UserItem
+  user: UserItem,
+  status: string,
 }
   
 interface BookingJson {
