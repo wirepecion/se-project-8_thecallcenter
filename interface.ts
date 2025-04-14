@@ -93,12 +93,21 @@ interface PaymentJson {
 
 interface PaymentItem2 {
   _id: string;
-  booking: string; 
-  user: string; 
+  booking: BookingItemforPayment; 
+  user: UserItem; 
   // @ts-ignore
   amount: number;
   status: string;
   method: string;
   paymentDate?: Date;
   canceledAt?: Date | null;
+}
+
+interface BookingItemforPayment {
+  _id: string,
+  checkInDate: string,
+  checkOutDate: string,
+  room: RoomItem,
+  hotel: HotelItem, 
+  user: UserItem
 }
