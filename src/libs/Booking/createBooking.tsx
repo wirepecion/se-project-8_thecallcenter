@@ -1,7 +1,7 @@
 import BACKEND_URL from "../config";
 
 export default async function createBooking(roomId: string, bookingData: object, token: string) {
-    
+
     const response = await fetch(`${BACKEND_URL}/api/v1/rooms/${roomId}/bookings`, {
         method: "POST",
         headers: {

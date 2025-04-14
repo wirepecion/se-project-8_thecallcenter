@@ -1,7 +1,7 @@
 import BACKEND_URL from "../config";
 
 export async function getPayment(paymentId: string, token: string | undefined) {
-    
+
     const response = await fetch(`${BACKEND_URL}/api/v1/payments/${paymentId}`, {
         method: "GET",
         headers: {
