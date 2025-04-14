@@ -5,10 +5,12 @@ import getUserProfile from "@/libs/Auth/getUserProfile";
 import { getPayments } from "@/libs/Payment/getPayments";
 import PaymentCard from "@/components/PaymentCard";
 import { useSession } from "next-auth/react";
+import getBookings from "@/libs/Booking/getBookings";
 
 export default function Payment() {
     const { data: session } = useSession();
     const [payments, setPayments] = useState<PaymentItem[]>([]);
+    const [bookings, setBookings] = useState<BookingItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [userProfile, setUserProfile] = useState<UserItem | null>(null);
 
@@ -18,9 +20,13 @@ export default function Payment() {
             
             const profile = await getUserProfile(session.user.token);
             setUserProfile(profile.data);
-
-            const paymentJson: PaymentJson = await getPayments(session.user.token);
-            setPayments(paymentJson.data);
+            if (profile.data.role === "hotelManager") {
+                const bookingJson = await getBookings(session.user.token);
+                setBookings(bookingJson.data);
+            } else {
+                const paymentJson = await getPayments(session.user.token);
+                setPayments(paymentJson.data);
+            }
             setLoading(false);
         }
 
@@ -45,14 +51,36 @@ export default function Payment() {
     return (
         <main className="w-full min-h-screen flex flex-col items-center">
             <div className="max-w-4xl w-full p-8 rounded-lg">
-                
-                {userProfile?.role === "admin" ? (
-                    <h1 className="text-3xl font-semibold text-center text-white mb-6">All Payments</h1>
+                {/* Title */}
+                {userProfile?.role === "admin" || userProfile?.role === "hotelManager" ? (
+                    <h1 className="text-3xl font-semibold text-center text-whie mb-6">All Payments</h1>
                 ) : (
                     <h1 className="text-3xl font-semibold text-center text-white mb-6">My Payments</h1>
                 )}
 
-                {payments.length > 0 ? (
+
+            {userProfile?.role === "hotelManager" ? (
+                bookings.length > 0 ? (
+                    <div>
+                        {bookings.map((bookingItem: any) => (
+                            <div key={bookingItem._id}>
+                                {bookingItem.payments.map((paymentItem: PaymentItem) => (
+                                    <PaymentCard 
+                                        key={paymentItem._id} 
+                                        paymentData={paymentItem} 
+                                        onStatusChange={handlePaymentUpdate}
+                                        onDelete={handleDeletePayment} 
+                                        role={userProfile?.role || 'user'}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-center text-gray-500">No payments found.</p>
+                )
+            ) : (
+                payments.length > 0 ? (
                     <div>
                         {payments.map((paymentItem) => (
                             <PaymentCard 
@@ -66,7 +94,8 @@ export default function Payment() {
                     </div>
                 ) : (
                     <p className="text-center text-gray-500">No payments found.</p>
-                )}
+                )
+            )}
             </div>
         </main>
     );
