@@ -1,6 +1,8 @@
+import BACKEND_URL from "../config";
+
 export default async function createHotel(hotelData: object) {
     
-    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/hotels`, {
+    const response = await fetch(`${BACKEND_URL}/api/v1/hotels`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -13,4 +15,5 @@ export default async function createHotel(hotelData: object) {
     }
 
     return await response.json();
+    
 }

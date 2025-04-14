@@ -1,6 +1,8 @@
+import BACKEND_URL from "../config";
+
 export default async function updateRoom(id: string, roomData: object) {
     
-    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/rooms/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/v1/rooms/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -13,4 +15,5 @@ export default async function updateRoom(id: string, roomData: object) {
     }
 
     return await response.json();
+    
 }
