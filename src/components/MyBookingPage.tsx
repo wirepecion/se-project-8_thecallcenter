@@ -6,6 +6,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import BookingCard from "@/components/BookingCard";
 import EditBookingModal from "./EditBookingModal";
 import deleteBooking from "@/libs/Booking/deleteBooking";
+import updateBooking from "@/libs/Booking/updateBooking";
+import { Alert } from "@mui/material";
 
 export default function MyBookingPage({
     initialBookings,
@@ -19,6 +21,9 @@ export default function MyBookingPage({
     const [bookings, setBookings] = useState<BookingItem[]>(initialBookings);
     const [selectedBooking, setSelectedBooking] = useState<BookingItem | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const userProfile = initialUserProfile;
 
     const handleEditClick = (booking: BookingItem) => {
@@ -29,6 +34,29 @@ export default function MyBookingPage({
     const handleModalClose = () => {
         setIsModalOpen(false);
         setSelectedBooking(null);
+    };
+
+    const handleRefundBooking = async (booking: BookingItem) => {
+        try {
+            // Create an update object with the new status
+            const updateData = {
+                status: "canceled"
+            };
+    
+            // Call API to update the booking
+            await updateBooking(booking._id, updateData, sessionToken);
+
+            setAlertType("success");
+            setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 3000);
+    
+        } catch (error: any) {
+            console.error("Error occurred during refunding:", error);
+            setAlertType("error");
+            setErrorMessage(error.message || "An error occurred during refunding.");
+            setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 3000);
+        }
     };
 
     const handleDeleteBooking = async (booking: BookingItem) => {
@@ -42,6 +70,17 @@ export default function MyBookingPage({
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+            {showAlert && alertType && (
+                <div className="fixed top-10 left-0 w-full z-[9999] flex justify-center p-4">
+                    <div className="w-full max-w-md">
+                        <Alert severity={alertType} onClose={() => setShowAlert(false)}>
+                            {alertType === "success"
+                                ? "Your refunding was successful!"
+                                : errorMessage}
+                        </Alert>
+                    </div>
+                </div>
+            )}
             <main className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pt-6 pb-16 text-black">
                 <div className="col-span-12 w-full rounded-lg">
                     <h1 className="text-3xl font-outfit font-semibold text-left text-white mb-6">
@@ -56,6 +95,7 @@ export default function MyBookingPage({
                                     bookingData={bookingItem}
                                     setBookings={setBookings}
                                     onEditClick={handleEditClick}
+                                    onRefundClick = {handleRefundBooking}
                                     onDeleteClick={handleDeleteBooking}
                                 />
                             ))}

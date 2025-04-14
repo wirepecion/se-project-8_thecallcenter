@@ -11,11 +11,13 @@ export default function BookingCard({
     bookingData,
     setBookings,
     onEditClick,
+    onRefundClick,
     onDeleteClick,
 }: {
     bookingData: BookingItem;
     setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
     onEditClick: (booking: BookingItem) => void;
+    onRefundClick: (booking: BookingItem) => void;
     onDeleteClick: (booking: BookingItem) => void;
 }) {
     const { data: session } = useSession();
@@ -38,6 +40,12 @@ export default function BookingCard({
 
         fetchData();
     }, [session]);
+
+    const handleRefund = () => {
+        if (window.confirm("Are you sure you want to refund this booking?")) {
+            onRefundClick(bookingData);
+        }
+    };
 
     const handleDelete = () => {
         if (window.confirm("Are you sure you want to delete this booking?")) {
@@ -78,6 +86,9 @@ export default function BookingCard({
             <div className="flex space-x-3 items-center justify-end pt-2">
                 <Button variant="contained" color="success" onClick={() => onEditClick(bookingData)}>
                     Edit
+                </Button>
+                <Button variant="contained" color="warning" onClick={handleRefund}>
+                    Refund
                 </Button>
                 <Button variant="contained" color="error" onClick={handleDelete}>
                     Delete
