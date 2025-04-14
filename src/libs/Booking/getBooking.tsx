@@ -1,6 +1,8 @@
+import BACKEND_URL from "../config";
+
 export default async function getBooking(id:string, token: string | undefined) {
     
-    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/bookings/${id}`,{
+    const response = await fetch(`${BACKEND_URL}/api/v1/bookings/${id}`,{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -12,4 +14,5 @@ export default async function getBooking(id:string, token: string | undefined) {
     }
 
     return await response.json()
+    
 }
