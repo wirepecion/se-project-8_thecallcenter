@@ -1,5 +1,8 @@
+import BACKEND_URL from "../config";
+
 export async function updatePayment(paymentId: string, updatedData: object, token: string | undefined) {
-    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/payments/${paymentId}`, {
+    
+    const response = await fetch(`${BACKEND_URL}/api/v1/payments/${paymentId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -12,4 +15,5 @@ export async function updatePayment(paymentId: string, updatedData: object, toke
     if (!response.ok) throw new Error(data.message || "Failed to update payment");
 
     return data;
+    
 }

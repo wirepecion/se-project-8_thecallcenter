@@ -1,6 +1,8 @@
+import BACKEND_URL from "../config";
+
 export default async function deleteHotel(id: string) {
     
-    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/hotels/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/v1/hotels/${id}`, {
         method: "DELETE",
     });
 
@@ -9,4 +11,5 @@ export default async function deleteHotel(id: string) {
     }
 
     return await response.json(); 
+    
 }

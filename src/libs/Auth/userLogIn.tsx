@@ -1,6 +1,8 @@
+import BACKEND_URL from "../config";
+
 export default async function userLogIn(userEmail:string, userPassword:string) {
 
-    const response = await fetch("https://hotel-booking-backend-ten.vercel.app/api/v1/auth/login", {
+    const response = await fetch(`${BACKEND_URL}/api/v1/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -15,4 +17,5 @@ export default async function userLogIn(userEmail:string, userPassword:string) {
     }
 
     return await response.json()    
+    
 }

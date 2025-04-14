@@ -1,5 +1,8 @@
+import BACKEND_URL from "../config";
+
 export async function createPayment(bookingId: string, paymentData: object, token: string | undefined) {
-    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/bookings/${bookingId}/payments`, {
+    
+    const response = await fetch(`${BACKEND_URL}/api/v1/bookings/${bookingId}/payments`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -12,4 +15,5 @@ export async function createPayment(bookingId: string, paymentData: object, toke
     if (!response.ok) throw new Error(data.message || "Failed to create payment");
 
     return data;
+    
 }

@@ -1,5 +1,8 @@
+import BACKEND_URL from "../config";
+
 export default async function deleteBooking(id: string, token: string | undefined) {
-    const response = await fetch(`https://hotel-booking-backend-ten.vercel.app/api/v1/bookings/${id}`, {
+    
+    const response = await fetch(`${BACKEND_URL}/api/v1/bookings/${id}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Bearer ${token}`
@@ -13,4 +16,5 @@ export default async function deleteBooking(id: string, token: string | undefine
     }
 
     return data; // Return successful response
+    
 }
