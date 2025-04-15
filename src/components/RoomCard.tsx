@@ -21,7 +21,7 @@ export default function Card ( { roomItem } : { roomItem:RoomItem } ) {
                 className='object-cover rounded-t-lg'
                 />
             </div> }
-            <div className='w-full h-[100px] text-center text-black bg-white rounded-b-lg p-3'>
+            <div className='w-full h-[100px] text-center text-black bg-white rounded-b-lg p-3 shadow-md'>
                 <h3>Room No.{roomItem.number}</h3>
                 
                 <h3>{roomItem.type} room</h3>
