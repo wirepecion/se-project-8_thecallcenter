@@ -6,6 +6,7 @@ import { getPayments } from "@/libs/Payment/getPayments";
 import PaymentCard from "@/components/PaymentCard";
 import { useSession } from "next-auth/react";
 import getBookings from "@/libs/Booking/getBookings";
+import PaymentTable from "@/components/PaymentTable";
 
 export default function Payment() {
     const { data: session } = useSession();
@@ -20,7 +21,7 @@ export default function Payment() {
             
             const profile = await getUserProfile(session.user.token);
             setUserProfile(profile.data);
-            if (profile.data.role === "hotelManager") {
+            if (profile.data.role === "hotelManager" || profile.data.role === "admin") {
                 const bookingJson = await getBookings(session.user.token);
                 setBookings(bookingJson.data);
             } else {
@@ -75,6 +76,15 @@ export default function Payment() {
                                 ))}
                             </div>
                         ))}
+                    </div>
+                ) : (
+                    <p className="text-center text-gray-500">No payments found.</p>
+                )
+            ) :
+            userProfile?.role === "admin" ? (
+                bookings.length > 0 ? (
+                    <div>
+                        <PaymentTable bookings ={bookings}/>
                     </div>
                 ) : (
                     <p className="text-center text-gray-500">No payments found.</p>
