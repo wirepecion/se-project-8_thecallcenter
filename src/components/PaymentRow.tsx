@@ -27,6 +27,8 @@ export default function PaymentRow({ payment, booking }: { payment: PaymentItem,
             {payment.status || 'N/A'}
           </span>
         </td>
+
+        <td className="p-3 px-10">{booking.user.name || 'N/A'}</td>
         <td className="p-3 text-right">
           <button
             type="button"

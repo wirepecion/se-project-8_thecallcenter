@@ -7,7 +7,15 @@ interface BookingItem {
   payments: PaymentItem[],
   user: UserItem,
   status: string,
+
+  payments: PaymentItem[];
 }
+
+interface PaymentCurrencyAmount {
+  amount: number;  
+  currency: string;
+}
+
   
 interface BookingJson {
   success: boolean,
