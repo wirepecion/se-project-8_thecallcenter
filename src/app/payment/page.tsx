@@ -7,6 +7,7 @@ import PaymentCard from "@/components/PaymentCard";
 import { useSession } from "next-auth/react";
 import getBookings from "@/libs/Booking/getBookings";
 import PaymentTable from "@/components/PaymentTable";
+import HeroSection from "@/components/HeroSection";
 
 export default function Payment() {
     const { data: session } = useSession();
@@ -67,13 +68,17 @@ export default function Payment() {
 
     return (
         <main className="w-full min-h-screen flex flex-col items-center">
+            <HeroSection 
+                title={
+                    <>
+                      Payments <br /> Dashboard
+                    </>
+                  }
+                description="View and manage payment transactions here." 
+                imageSrc={"/img/Card.png"} />
             <div className="max-w-4xl w-full p-8 rounded-lg">
-                {/* Title */}
-                {userProfile?.role === "admin" || userProfile?.role === "hotelManager" ? (
-                    <h1 className="text-3xl font-semibold text-center text-whie mb-6">All Payments</h1>
-                ) : (
-                    <h1 className="text-3xl font-semibold text-center text-white mb-6">My Payments</h1>
-                )}
+                
+
                 {userProfile?.role === "hotelManager" && (
                     <div className="max-w-4xl w-full p-4 text-right text-lg font-medium text-green-600">
                         <span className="font-medium bg-green-100 p-2 rounded-lg">Total Earnings: ${earning.toFixed(2)}</span>
