@@ -10,7 +10,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ title, description, imageSrc, imageAlt = "Hero Image" }: HeroSectionProps) {
   return (
-    <section className="max-w-screen-xl px-6 sm:px-10 md:px-16 mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 pt-20 md:pt-36 pb-10">
+    <section className="max-w-screen-xl px-6 sm:px-10 md:px-16 mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 pt-20 md:pt-36 pb-10 items-center">
       {/* Left Content */}
       <div className="md:col-span-1"></div>
       <div className="md:col-span-6 space-y-6 text-center md:text-left">
