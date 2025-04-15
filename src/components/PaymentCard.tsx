@@ -42,6 +42,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
             if (status) updatedData.status = status;
             if (method) updatedData.method = method;
             if (amount) updatedData.amount = amount;
+            if (status) onStatusChange(paymentData._id, status); // Notify the parent   
     
             await updatePayment(paymentData._id, updatedData, session?.user.token);
     
