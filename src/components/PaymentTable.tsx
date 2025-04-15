@@ -11,6 +11,7 @@ export default function PaymentTable({ bookings } : {bookings: BookingItem[]}) {
               <th className="p-3 px-10 font-medium">Method</th>
               <th className="p-3 px-10 font-medium">Date</th>
               <th className="p-3 px-10 font-medium">Status</th>
+              <th className="p-3 px-10 font-medium">User</th>
               <th className="p-3 px-10 w-3 font-medium"></th>
             </tr>
           </thead>
