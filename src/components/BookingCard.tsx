@@ -20,26 +20,10 @@ export default function BookingCard({
     onRefundClick: (booking: BookingItem) => void;
     onDeleteClick: (booking: BookingItem) => void;
 }) {
-    const { data: session } = useSession();
-    const [payments, setPayments] = useState<PaymentItem[]>([]);
+    const [payments, setPayments] = useState<PaymentItem[]>(bookingData.payments || []);
     const [loading, setLoading] = useState(true);
     const [userProfile, setUserProfile] = useState<UserItem | null>(null);
-
-    useEffect(() => {
-        async function fetchData() {
-            if (!session?.user?.token) return;
-
-            const profile = await getUserProfile(session.user.token);
-            setUserProfile(profile.data);
-
-            const paymentJson: PaymentJson = await getPayments(session.user.token);
-            setPayments(paymentJson.data);
-
-            setLoading(false);
-        }
-
-        fetchData();
-    }, [session]);
+    console.log("BookingCard", bookingData, userProfile);
 
     const handleRefund = () => {
         if (window.confirm("Are you sure you want to refund this booking?")) {
