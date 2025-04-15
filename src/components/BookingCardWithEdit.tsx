@@ -2,11 +2,10 @@
 
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
-import { useRouter } from 'next/navigation'; 
 import Swal from "sweetalert2";
 
 
-export default function BookingCard({
+export default function BookingCard2({
     bookingData,
     setBookings,
     onEditClick,  // New prop to trigger edit
@@ -19,29 +18,27 @@ export default function BookingCard({
 }) {
     const handleDelete = () => {
         Swal.fire({
-            title: "Do you want to delete?",
-            showDenyButton: true,
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Delete",
-            denyButtonText: `Don't delete`
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
           }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-              Swal.fire("DELETE!", "", "success");
-            } else if (result.isDenied) {
-              Swal.fire("Changes are not delete", "", "info");
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
             }
           });
     };
 
-    const router = useRouter();
-
-    const handleView = () => {
-        router.push(`/mybooking/${bookingData._id}`);
-    }
 
     return (
-        <div className="rounded-2xl bg-white flex flex-col justify-between shadow-md h-full p-6">
+        <div className="rounded-2xl bg-white flex flex-col justify-between shadow-md h-full p-6 text-blue-900">
             <p><span className="font-semibold">Customer: </span>{bookingData.user.name || "Unknown"}</p>
             <p><span className="font-semibold">Room No. </span>{bookingData.room.number || "Unknown"}</p>
             <p><span className="font-semibold">Hotel: </span>{bookingData.hotel?.name || "Unknown"}</p>
@@ -50,8 +47,13 @@ export default function BookingCard({
 
             <div className="flex space-x-3 items-center justify-end">
                 {/* Edit Button */}
-                <Button variant="contained" color="success" onClick={handleView}>
-                    SEE ALL
+                <Button variant="contained" color="success" onClick={() => onEditClick(bookingData)}>
+                    Edit
+                </Button>
+
+                {/* Delete Button */}
+                <Button variant="contained" color="error" onClick={handleDelete}>
+                    Delete
                 </Button>
             </div>
         </div>

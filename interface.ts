@@ -4,8 +4,16 @@ interface BookingItem {
   checkOutDate: string,
   room: RoomItem,
   hotel: HotelItem,
-  user: UserItem
+  payments: PaymentItem[],
+  user: UserItem,
+  status: string,
 }
+
+interface PaymentCurrencyAmount {
+  amount: number;  
+  currency: string;
+}
+
   
 interface BookingJson {
   success: boolean,
