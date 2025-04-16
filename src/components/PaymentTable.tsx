@@ -150,7 +150,13 @@ export default function PaymentTable({ bookings }: { bookings: BookingItem[] }) 
           <tbody>
             {bookings.flatMap((bookingItem: any) =>
               filterPayments(bookingItem.payments).map((paymentItem: PaymentItem) => (
-                <PaymentRow key={paymentItem._id} payment={paymentItem} booking={bookingItem} />
+                <PaymentRow 
+                payment={paymentItem}
+                booking={bookingItem}
+                onStatusChange={(id, newStatus) => {/* อัปเดต state */}}
+                onDelete={(id) => {/* ลบออกจากตาราง */}}
+              />
+
               ))
             )}
           </tbody>
