@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from 'next/navigation'; 
@@ -9,15 +10,29 @@ import Swal from "sweetalert2";
 export default function BookingCard({
     bookingData,
     setBookings,
-    onEditClick,  // New prop to trigger edit
-    onDeleteClick,  // New prop to trigger delete
+    onEditClick,
+    onRefundClick,
+    onDeleteClick,
 }: {
     bookingData: BookingItem;
     setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
-    onEditClick: (booking: BookingItem) => void;  // Prop type for the edit click handler
-    onDeleteClick: (booking: BookingItem) => void;  // Prop type for the delete click handler
+    onEditClick: (booking: BookingItem) => void;
+    onRefundClick: (booking: BookingItem) => void;
+    onDeleteClick: (booking: BookingItem) => void;
 }) {
+    const [payments, setPayments] = useState<PaymentItem[]>(bookingData.payments || []);
+    const [payments, setPayments] = useState<PaymentItem[]>(bookingData.payments || []);
+    const [loading, setLoading] = useState(true);
+    const [userProfile, setUserProfile] = useState<UserItem | null>(null);
+
+    const handleRefund = () => {
+        if (window.confirm("Are you sure you want to refund this booking?")) {
+            onRefundClick(bookingData);
+        }
+    };
+
     const handleDelete = () => {
+
         Swal.fire({
             title: "Do you want to delete?",
             showDenyButton: true,
@@ -52,6 +67,7 @@ export default function BookingCard({
                 {/* Edit Button */}
                 <Button variant="contained" color="success" onClick={handleView}>
                     SEE ALL
+
                 </Button>
             </div>
         </div>
