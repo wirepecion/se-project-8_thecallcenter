@@ -15,21 +15,25 @@ export default function PaymentRow({ payment, booking, onStatusChange, onDelete 
 }) {
   const { data: session } = useSession();
   const [updateOpen, setUpdateOpen] = useState(false);
-  const [status, setStatus] = useState(payment.status);
-  const [method, setMethod] = useState(payment.method);
+  const [status, setStatus] = useState<string | undefined>(payment.status);
+  const [method, setMethod] = useState<string | undefined>(payment.method);
+  const [amount, setAmount] = useState<number | undefined>(Number(payment.amount));
+  const [statusForChoose, setStatusForChoose] = useState<string | undefined>(payment.status);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleUpdate = async () => {
     try {
-      
-
-      const re = await updatePayment(payment._id, { status, method }, session?.user.token);
+      const updatedStatus = statusForChoose ?? undefined;
+      const re = await updatePayment(payment._id, { status: updatedStatus, method, amount }, session?.user.token);
       console.log(re);
+      if (updatedStatus) {
+        setStatus(updatedStatus);
+      }
       setSnackbarMessage("Payment updated successfully");
       setSnackbarOpen(true);
       setUpdateOpen(false);
-      onStatusChange(payment._id, status);
+      onStatusChange(payment._id, status || payment.status);
     } catch (err) {
       setSnackbarMessage("Failed to update payment");
       setSnackbarOpen(true);
@@ -94,21 +98,40 @@ export default function PaymentRow({ payment, booking, onStatusChange, onDelete 
         <DialogContent>
           <div className="my-4">
             <label className="block mb-1 font-medium">Status:</label>
-            <Select fullWidth value={status} onChange={(e) => setStatus(e.target.value)}>
-              <MenuItem value="unpaid">Unpaid</MenuItem>
-              <MenuItem value="pending">Pending</MenuItem>
-              <MenuItem value="completed">Completed</MenuItem>
-              <MenuItem value="failed">Failed</MenuItem>
-              <MenuItem value="canceled">Canceled</MenuItem>
-            </Select>
+            <div className="flex flex-row gap-4 items-center">
+              <Select fullWidth value={statusForChoose} onChange={(e) => setStatusForChoose(e.target.value)}>
+                <MenuItem value="unpaid">Unpaid</MenuItem>
+                <MenuItem value="pending">Pending</MenuItem>
+                <MenuItem value="completed">Completed</MenuItem>
+                <MenuItem value="failed">Failed</MenuItem>
+                <MenuItem value="canceled">Canceled</MenuItem>
+              </Select>
+              <Button onClick={() => setStatusForChoose(undefined)} variant="contained" color="primary" className="">Clear</Button>
+            </div>
           </div>
           <div className="my-4">
             <label className="block mb-1 font-medium">Method:</label>
-            <Select fullWidth value={method} onChange={(e) => setMethod(e.target.value)}>
-              <MenuItem value="Card">Card</MenuItem>
-              <MenuItem value="Bank">Bank</MenuItem>
-              <MenuItem value="ThaiQR">ThaiQR</MenuItem>
-            </Select>
+            <div className="flex flex-row gap-4 items-center">
+              <Select fullWidth value={method} onChange={(e) => setMethod(e.target.value)}>
+                <MenuItem value="Card">Card</MenuItem>
+                <MenuItem value="Bank">Bank</MenuItem>
+                <MenuItem value="ThaiQR">ThaiQR</MenuItem>
+              </Select>
+              <Button onClick={() => setMethod(undefined)} variant="contained" color="primary" className="">Clear</Button>
+            </div>
+          </div>
+          <div className="my-4">
+            <label className="block mb-1 font-medium">Amount:</label>
+            <div className="flex flex-row gap-4 items-center">
+              <input
+                type="number"
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={amount ?? ""}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                placeholder="Enter new amount"
+              />
+              <Button onClick={() => setAmount(undefined)} variant="contained" color="primary" className="w-10px">Clear</Button>
+            </div>
           </div>
         </DialogContent>
 

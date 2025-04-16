@@ -87,30 +87,18 @@ export default function Payment() {
 
 
             {userProfile?.role === "hotelManager" ? (
-                bookings.length > 0 ? (
-                    <div>
-                        {bookings.map((bookingItem: any) => (
-                            <div key={bookingItem._id}>
-                                {bookingItem.payments.map((paymentItem: PaymentItem) => (
-                                    <PaymentCard 
-                                        key={paymentItem._id} 
-                                        paymentData={paymentItem} 
-                                        onStatusChange={handlePaymentUpdate}
-                                        onDelete={handleDeletePayment} 
-                                        role={userProfile?.role || 'user'}
-                                    />
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-center text-gray-500">No payments found.</p>
-                )
+               bookings.length > 0 ? (
+                <div>
+                    <PaymentTable bookings ={bookings} onStatusChange={handlePaymentUpdate} onDelete={handleDeletePayment}/>
+                </div>
+            ) : (
+                <p className="text-center text-gray-500">No payments found.</p>
+            )
             ) :
             userProfile?.role === "admin" ? (
                 bookings.length > 0 ? (
                     <div>
-                        <PaymentTable bookings ={bookings}/>
+                        <PaymentTable bookings ={bookings} onStatusChange={handlePaymentUpdate} onDelete={handleDeletePayment}/>
                     </div>
                 ) : (
                     <p className="text-center text-gray-500">No payments found.</p>

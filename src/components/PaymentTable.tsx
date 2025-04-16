@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PaymentRow from './PaymentRow';
 
-export default function PaymentTable({ bookings }: { bookings: BookingItem[] }) {
+export default function PaymentTable({ bookings, onStatusChange, onDelete }: { bookings: BookingItem[]; onStatusChange: (id: string, newStatus: string) => void; onDelete: (paymentId: string) => void }) {
   const [minPrice, setMinPrice] = useState<number | string>('');
   const [maxPrice, setMaxPrice] = useState<number | string>('');
   const [startDate, setStartDate] = useState<string>('');
@@ -153,8 +153,8 @@ export default function PaymentTable({ bookings }: { bookings: BookingItem[] }) 
                 <PaymentRow 
                 payment={paymentItem}
                 booking={bookingItem}
-                onStatusChange={(id, newStatus) => {/* อัปเดต state */}}
-                onDelete={(id) => {/* ลบออกจากตาราง */}}
+                onStatusChange={onStatusChange}
+                onDelete={onDelete}
               />
 
               ))
