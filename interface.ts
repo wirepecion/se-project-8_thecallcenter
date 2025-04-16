@@ -4,6 +4,7 @@ interface BookingItem {
   checkOutDate: string,
   room: RoomItem,
   hotel: HotelItem,
+  payments: PaymentItem[],
   user: UserItem,
   status: string,
 

@@ -21,9 +21,9 @@ export default function BookingCard({
     onDeleteClick: (booking: BookingItem) => void;
 }) {
     const [payments, setPayments] = useState<PaymentItem[]>(bookingData.payments || []);
+    const [payments, setPayments] = useState<PaymentItem[]>(bookingData.payments || []);
     const [loading, setLoading] = useState(true);
     const [userProfile, setUserProfile] = useState<UserItem | null>(null);
-    console.log("BookingCard", bookingData, userProfile);
 
     const handleRefund = () => {
         if (window.confirm("Are you sure you want to refund this booking?")) {
