@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
-import { useSession } from "next-auth/react";
-import { getPayments } from "@/libs/Payment/getPayments";
-import getUserProfile from "@/libs/Auth/getUserProfile";
+import { useRouter } from 'next/navigation'; 
+import Swal from "sweetalert2";
+
 
 export default function BookingCard({
     bookingData,
@@ -32,51 +32,42 @@ export default function BookingCard({
     };
 
     const handleDelete = () => {
-        if (window.confirm("Are you sure you want to delete this booking?")) {
-            onDeleteClick(bookingData);
-        }
+
+        Swal.fire({
+            title: "Do you want to delete?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't delete`
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire("DELETE!", "", "success");
+            } else if (result.isDenied) {
+              Swal.fire("Changes are not delete", "", "info");
+            }
+          });
     };
 
-    const handlePaymentUpdate = (paymentId: string, newStatus: string) => {
-        setPayments((prevPayments) =>
-            prevPayments.map((payment) =>
-                payment._id === paymentId ? { ...payment, status: newStatus } : payment
-            )
-        );
-    };
+    const router = useRouter();
 
-    const statusColor = bookingData.status === "confirmed"
-        ? "bg-green-100 text-green-800"
-        : bookingData.status === "pending"
-            ? "bg-yellow-100 text-yellow-800"
-            : "bg-red-100 text-red-800";
+    const handleView = () => {
+        router.push(`/mybooking/${bookingData._id}`);
+    }
 
     return (
-        <div className="rounded-2xl bg-white shadow-md h-full p-6 space-y-4 border border-gray-200">
-            <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-sky-800">Booking Summary</h2>
-                <span className={`text-sm font-medium px-3 py-1 rounded-full ${statusColor}`}>
-                    {bookingData.status.charAt(0).toUpperCase() + bookingData.status.slice(1)}
-                </span>
-            </div>
+        <div className="rounded-2xl bg-white flex flex-col justify-between shadow-md h-full p-6">
+            <p><span className="font-semibold">Customer: </span>{bookingData.user.name || "Unknown"}</p>
+            <p><span className="font-semibold">Room No. </span>{bookingData.room.number || "Unknown"}</p>
+            <p><span className="font-semibold">Hotel: </span>{bookingData.hotel?.name || "Unknown"}</p>
+            <p><span className="font-semibold">Check-In Date: </span>{dayjs(bookingData.checkInDate).format("MMMM D, YYYY")}</p>
+            <p><span className="font-semibold">Check-Out Date: </span>{dayjs(bookingData.checkOutDate).format("MMMM D, YYYY")}</p>
 
-            <div className="space-y-1 text-sm text-gray-700">
-                <div><span className="font-medium">Customer:</span> {bookingData.user.name || "Unknown"}</div>
-                <div><span className="font-medium">Room No.:</span> {bookingData.room.number || "Unknown"}</div>
-                <div><span className="font-medium">Hotel:</span> {bookingData.hotel?.name || "Unknown"}</div>
-                <div><span className="font-medium">Check-In Date:</span> {dayjs(bookingData.checkInDate).format("MMMM D, YYYY")}</div>
-                <div><span className="font-medium">Check-Out Date:</span> {dayjs(bookingData.checkOutDate).format("MMMM D, YYYY")}</div>
-            </div>
+            <div className="flex space-x-3 items-center justify-end">
+                {/* Edit Button */}
+                <Button variant="contained" color="success" onClick={handleView}>
+                    SEE ALL
 
-            <div className="flex space-x-3 items-center justify-end pt-3">
-                <Button variant="contained" color="success" onClick={() => onEditClick(bookingData)}>
-                    Edit
-                </Button>
-                <Button variant="contained" color="warning" onClick={handleRefund}>
-                    Refund
-                </Button>
-                <Button variant="contained" color="error" onClick={handleDelete}>
-                    Delete
                 </Button>
             </div>
         </div>

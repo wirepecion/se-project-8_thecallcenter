@@ -8,7 +8,6 @@ interface BookingItem {
   user: UserItem,
   status: string,
 
-  payments: PaymentItem[];
 }
 
 interface PaymentCurrencyAmount {
