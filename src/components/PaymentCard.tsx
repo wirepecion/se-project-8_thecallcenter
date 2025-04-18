@@ -4,7 +4,7 @@ import { updatePayment } from "@/libs/Payment/updatePayment";
 import { cancelPayment } from "@/libs/Payment/cancelPayment";
 import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert, Select, MenuItem} from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert, Select, MenuItem } from "@mui/material";
 import { useRouter } from 'next/navigation';
 
 export default function PaymentCard({ paymentData, onStatusChange, role, onDelete }: { paymentData: PaymentItem; onStatusChange: (id: string, newStatus: string) => void; role: string; onDelete: (paymentId: string) => void; }) {
@@ -26,14 +26,14 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
     const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    
+
     const isAdmin = role === "admin";
 
     const handlePay = async () => {
         try {
             await updatePayment(paymentData._id, { status: "pending" }, session?.user.token);
             setStatus("pending");
-            onStatusChange(paymentData._id, "pending"); // Notify the parent
+            onStatusChange(paymentData._id, "pending"); 
             setSnackbarMessage("Payment is now pending.");
             setSnackbarOpen(true);
         } catch (error) {
@@ -48,14 +48,14 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
             if (status) updatedData.status = status;
             if (method) updatedData.method = method;
             if (amount) updatedData.amount = amount;
-            if (status) onStatusChange(paymentData._id, status); // Notify the parent   
-    
+            if (status) onStatusChange(paymentData._id, status); 
+
             await updatePayment(paymentData._id, updatedData, session?.user.token);
-    
+
             if (status) setStatus(status);
             if (method) setMethod(method);
             if (amount) setAmount(amount);
-    
+
             setSnackbarMessage("Payment updated successfully.");
             setSnackbarOpen(true);
             setUpdateOpen(false);
@@ -64,13 +64,13 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
             setSnackbarOpen(true);
         }
     };
-    
+
 
     const handleCancelConfirm = async () => {
         try {
             await cancelPayment(paymentData._id, session?.user.token);
             setStatus("canceled");
-            onStatusChange(paymentData._id, "canceled"); // Notify the parent
+            onStatusChange(paymentData._id, "canceled"); 
             setSnackbarMessage("Payment has been canceled.");
             setSnackbarOpen(true);
             setCancelOpen(false);
@@ -82,87 +82,86 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
 
     const handleDeleteConfirm = async () => {
         try {
-            await deletePayment(paymentData._id, session?.user.token); // Call API function
-    
+            await deletePayment(paymentData._id, session?.user.token); 
+
             onDelete(paymentData._id);
 
             setSnackbarMessage("Payment deleted successfully.");
             setSnackbarOpen(true);
-            setDeleteOpen(false); // Close dialog
+            setDeleteOpen(false); 
         } catch (error) {
             setSnackbarMessage(error instanceof Error ? error.message : "Failed to delete payment.");
             setSnackbarOpen(true);
         }
-    };    
+    };
 
-     const router = useRouter();
+    const router = useRouter();
 
     const handleBooking = async () => {
-            try {
-    
-                console.log("check1");
-                router.push(`/checkout/${paymentData._id}`);
-                
-    
-            } catch (error: any) {
-                setAlertType("error");
-                setErrorMessage(error.message || "An error occurred during booking.");
-                setShowAlert(true);
-                setTimeout(() => setShowAlert(false), 3000);
-            }
-        };
+        try {
+
+            console.log("check1");
+            router.push(`/checkout/${paymentData._id}`);
+
+
+        } catch (error: any) {
+            setAlertType("error");
+            setErrorMessage(error.message || "An error occurred during booking.");
+            setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 3000);
+        }
+    };
 
     return (
         <div>
             <div className="flex flex-col text-black bg-white p-6 rounded-xl shadow-lg my-5 relative z-10">
                 <p><span className="font-semibold">Amount: </span> {amount}</p>
                 <p><span className="font-semibold">Method: </span> {method}</p>
-                <p><span className="font-semibold">Status: </span> 
-                    <span className={`px-2 py-1 rounded-md ${ 
-                        status === "pending" ? "bg-yellow-200 text-yellow-700" :
-                        status === "completed" ? "bg-green-200 text-green-700" :
-                        status === "failed" ? "bg-red-200 text-red-700" :
-                        status === "canceled" ? "bg-red-200 text-red-700" :
-                        "bg-gray-200 text-gray-700"}`}>
+                <p><span className="font-semibold">Status: </span>
+                    <span className={`px-2 py-1 rounded-md ${status === "pending" ? "bg-yellow-200 text-yellow-700" :
+                            status === "completed" ? "bg-green-200 text-green-700" :
+                                status === "failed" ? "bg-red-200 text-red-700" :
+                                    status === "canceled" ? "bg-red-200 text-red-700" :
+                                        "bg-gray-200 text-gray-700"}`}>
                         {status}
                     </span>
                 </p>
                 <p><span className="font-semibold">Payment Date: </span> {dayjs(paymentData.paymentDate).format("MMMM D, YYYY")}</p>
-                
+
                 <div className="absolute top-6 right-6 flex space-x-3">
-                    
+
                     <Button
-                                        onClick={handleBooking}
-                                        variant="contained"
-                                        
-                        color="success" 
+                        onClick={handleBooking}
+                        variant="contained"
+
+                        color="success"
                         disabled={status !== "unpaid"}
-                                        className="w-full sm:w-1/2 lg:w-1/4 bg-[#F2814D] hover:bg-[#e27035] text-white px-6 py-3 rounded-lg font-bold shadow-md transition duration-300 ease-in-out"
-                                    >
-                                        {status !== "unpaid" ? "Paid" : "Pay"}
-                                    </Button>
-                    
-                    
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
+                        className="w-full sm:w-1/2 lg:w-1/4 bg-[#F2814D] hover:bg-[#e27035] text-white px-6 py-3 rounded-lg font-bold shadow-md transition duration-300 ease-in-out"
+                    >
+                        {status !== "unpaid" ? "Paid" : "Pay"}
+                    </Button>
+
+
+                    <Button
+                        variant="contained"
+                        color="primary"
                         onClick={() => setUpdateOpen(true)}
                     >
                         Update
                     </Button>
 
-                    <Button 
-                        variant="contained" 
-                        color="warning" 
+                    <Button
+                        variant="contained"
+                        color="warning"
                         onClick={() => setCancelOpen(true)}
                         disabled={status === "canceled" || status === "failed"}
                     >
                         Cancel
                     </Button>
 
-                    <Button 
-                        variant="contained" 
-                        color="error" 
+                    <Button
+                        variant="contained"
+                        color="error"
                         onClick={() => setDeleteOpen(true)}
                     >
                         Delete
@@ -170,7 +169,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                 </div>
             </div>
 
-            { /* Cancel Dialog */ }
+           
             <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)}>
                 <DialogTitle>Are you sure you want to cancel this payment?</DialogTitle>
                 <DialogContent>
@@ -246,7 +245,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                         </div>
                     </div>
 
-                    {/* Payment Method */}
+                   
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method:</label>
                         <div className="flex items-center gap-2">
@@ -287,9 +286,9 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
             </Dialog>
 
             {/* Snackbar Alert */}
-            <Snackbar 
-                open={snackbarOpen} 
-                autoHideDuration={3000} 
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3000}
                 onClose={() => setSnackbarOpen(false)}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
