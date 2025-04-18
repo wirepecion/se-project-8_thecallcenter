@@ -24,6 +24,7 @@ export default function MyBookingPage({
     const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [refundStatus, setRefundStatus] = useState<string>('');
     const userProfile = initialUserProfile;
 
     const handleEditClick = (booking: BookingItem) => {
@@ -68,6 +69,28 @@ export default function MyBookingPage({
         }
     };
 
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        if (name === 'refundStatus') setRefundStatus(value);
+    };
+    
+    const filterBookings = (bookings: BookingItem[]) => {
+        if (!refundStatus) return bookings;
+        return bookings.filter(booking => {
+            const latestPayment = booking.payments[booking.payments.length - 1]
+            if (refundStatus === "refundable") {
+                if (latestPayment.status !== "completed") return false;
+                if (booking.status !== "confirmed" && booking.status !== "checkedIn") return false;
+            }
+            if (refundStatus === "nonrefundable") {
+                if ((booking.status === "confirmed" || booking.status === "checkedIn") && latestPayment.status === "completed") {
+                    return false;
+                }
+            }
+            return true;
+        })
+    };
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             {showAlert && alertType && (
@@ -87,9 +110,22 @@ export default function MyBookingPage({
                         {userProfile?.role === "admin" ? "Bookings" : "My Bookings"}
                     </h1>
 
-                    {bookings.length > 0 ? (
+                    <div className="w-full max-w-xs mb-10">
+                        <select
+                            name="refundStatus"
+                            value={refundStatus}
+                            onChange={handleFilterChange}
+                            className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+                        >
+                            <option value="">All</option>
+                            <option value="refundable">Refundable</option>
+                            <option value="nonrefundable">Non-Refundable</option>
+                        </select>
+                    </div>
+
+                    {filterBookings(bookings).length > 0 ? (
                         <div className="w-full space-y-4">
-                            {bookings.map((bookingItem) => (
+                            {filterBookings(bookings).map((bookingItem) => (
                                 <BookingCard
                                     key={bookingItem._id}
                                     bookingData={bookingItem}
@@ -100,7 +136,13 @@ export default function MyBookingPage({
                             ))}
                         </div>
                     ) : (
-                        <p className="text-center text-gray-500">No bookings found.</p>
+                        <p className="text-center text-gray-500">
+                            {refundStatus === "refundable"
+                                ? "No refundable bookings found."
+                                : refundStatus === "nonrefundable"
+                                ? "No non-refundable bookings found."
+                                : "No bookings found."}
+                        </p>
                     )}
                 </div>
 
