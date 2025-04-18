@@ -23,7 +23,7 @@ export default async function View({ params }: { params: { bid: string } }) {
         <BookingClientView
             bookingItem={bookingJson.data}
             paymentList={paymentList}
-            initialBookings={bookingJson.data}
+            // initialBookings={bookingJson.data}
             sessionToken={session.user.token}
             userRole={userProfile?.role || "user"}
         />

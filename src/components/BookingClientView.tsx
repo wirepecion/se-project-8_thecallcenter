@@ -7,13 +7,12 @@ import updateBooking from "@/libs/Booking/updateBooking";
 import EditBookingModal from "./EditBookingModal";
 import Swal from "sweetalert2";
 import { refundCalculation } from "@/libs/libs/refundCalculation";
-import { Alert } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 
 type Props = {
     bookingItem: BookingItem;
     paymentList: PaymentItem[];
-    initialBookings: BookingItem[];
     sessionToken: string;
     userRole: string;
 };
@@ -21,13 +20,13 @@ type Props = {
 export default function BookingClientView({
     bookingItem,
     paymentList,
-    initialBookings,
     sessionToken,
     userRole,
 }: Props) {
-    const [bookings, setBookings] = useState<BookingItem[]>(initialBookings);
     const [selectedBooking, setSelectedBooking] = useState<BookingItem | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter();
+
     const amount = refundCalculation(bookingItem, Number(paymentList[0].amount))
 
     const handleEditClick = (booking: BookingItem) => {
@@ -66,7 +65,9 @@ export default function BookingClientView({
         try {
             
             await deleteBooking(booking._id, sessionToken);
-            setBookings((prev) => prev.filter((b) => b._id !== booking._id));
+            // setBookings((prev) => prev.filter((b) => b._id !== booking._id));
+            router.push("/mybooking");
+            router.refresh();
             
         } catch (error) {
             console.error("Error deleting booking:", error);
@@ -79,7 +80,7 @@ export default function BookingClientView({
             <BookingCard2
                 key={bookingItem._id}
                 bookingData={bookingItem}
-                setBookings={setBookings}
+                // setBookings={setBookings}
                 onEditClick={handleEditClick}
                 onRefundClick={handleRefundBooking}
                 onDeleteClick={handleDeleteBooking}
@@ -97,14 +98,14 @@ export default function BookingClientView({
             ))}
 
             {isModalOpen && selectedBooking && (
-                                <EditBookingModal
-                                    booking={selectedBooking}
-                                    onClose={handleModalClose}
-                                    sessionToken={sessionToken}
-                                    userRole={userRole}
-                                    setBookings={setBookings}
-                                />
-                            )}
+                <EditBookingModal
+                    booking={selectedBooking}
+                    onClose={handleModalClose}
+                    sessionToken={sessionToken}
+                    userRole={userRole}
+                    // setBookings={setBookings}
+                />
+            )}
 
         
         </main>

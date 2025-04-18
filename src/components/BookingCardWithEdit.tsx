@@ -7,14 +7,14 @@ import { refundCalculation } from "@/libs/libs/refundCalculation";
 
 export default function BookingCard2({
     bookingData,
-    setBookings,
+    // setBookings,
     onEditClick,  // New prop to trigger edit
     onRefundClick,
     onDeleteClick,  // New prop to trigger delete
     amount,
 }: {
     bookingData: BookingItem;
-    setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
+    // setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
     onEditClick: (booking: BookingItem) => void;  // Prop type for the edit click handler
     onRefundClick: (booking: BookingItem) => void;
     onDeleteClick: (booking: BookingItem) => void;  // Prop type for the delete click handler
@@ -29,15 +29,17 @@ export default function BookingCard2({
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
+                onDeleteClick(bookingData);
+
+                Swal.fire({
                 title: "Deleted!",
                 text: "Your file has been deleted.",
                 icon: "success"
-              });
+                });
             }
-          });
+        });
     };
 
     const handleRefund = async () => {

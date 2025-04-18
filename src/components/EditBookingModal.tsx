@@ -4,23 +4,26 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, CircularProg
 import DateReserve from "@/components/DateReserve"; // Import the DateReserve component
 import { useState, useEffect } from "react";
 import updateBooking from "@/libs/Booking/updateBooking";
+import { useRouter } from "next/navigation";
 
 export default function EditBookingModal({
     booking,
     onClose,
     sessionToken,
     userRole,
-    setBookings,
+    // setBookings,
 }: {
     booking: BookingItem;
     onClose: () => void;
     sessionToken: string;
     userRole: string
-    setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
+    // setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
 }) {
     const [checkInDate, setCheckInDate] = useState<Date | null>(null);
     const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
     const [loading, setLoading] = useState(false);  // Add loading state
+
+    const router = useRouter(); 
 
     // Initialize dates from the selected booking
     useEffect(() => {
@@ -41,7 +44,7 @@ export default function EditBookingModal({
 
         // Create updated booking object
         const updatedBooking = {
-            ...booking,
+            // ...booking,
             checkInDate: checkInDate.toISOString(),
             checkOutDate: checkOutDate.toISOString(),
         };
@@ -52,17 +55,19 @@ export default function EditBookingModal({
         updateBooking(booking._id, updatedBooking, sessionToken)
             .then(() => {
                 setLoading(false);  // Set loading to false once the API call is complete
-                setBookings((prevBookings) =>
-                    prevBookings.map((b) =>
-                        b._id === booking._id ? updatedBooking : b
-                    )
-                );
+                // setBookings((prevBookings) =>
+                //     prevBookings.map((b) =>
+                //         b._id === booking._id ? updatedBooking : b
+                //     )
+                // );
                 onClose();  // Close the modal after saving
             })
             .catch((err) => {
                 console.error(err);
                 setLoading(false);  // Set loading to false if there's an error
             });
+        
+        router.refresh();
     };
 
     return (
