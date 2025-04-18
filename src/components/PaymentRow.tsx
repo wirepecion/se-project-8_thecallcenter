@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { updatePayment } from "@/libs/Payment/updatePayment";
-import { cancelPayment } from "@/libs/Payment/cancelPayment";
 import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
 import {
@@ -20,6 +19,7 @@ import Swal from "sweetalert2";
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Tooltip, IconButton } from '@mui/material';
 
 
@@ -108,17 +108,31 @@ export default function PaymentRow({
     }
   };
 
-  const handleCancel = async () => {
+  const handleComplete = async () => {
     try {
-      await cancelPayment(payment._id, session?.user.token);
-      setSnackbarMessage("Payment canceled");
+      await updatePayment(
+        payment._id,
+        { status: "completed" },
+        session?.user.token
+      );
+
+      setSnackbarMessage("Payment updated successfully");
       setSnackbarOpen(true);
-      onStatusChange(payment._id, "canceled");
+      setUpdateOpen(false);
+
+
+      Swal.fire({
+        title: "Success!",
+        text: "The payment method has been updated successfully.",
+        icon: "success"
+      });
     } catch (err) {
-      setSnackbarMessage("Failed to cancel payment");
+      setSnackbarMessage("Failed to update payment");
       setSnackbarOpen(true);
     }
   };
+
+
 
   const handleDelete = async () => {
     try {
@@ -171,9 +185,9 @@ export default function PaymentRow({
               </IconButton>
             </Tooltip>
 
-            <Tooltip title="Cancel">
-              <IconButton onClick={handleCancel} color="warning" size="small">
-                <CancelIcon fontSize="small" />
+            <Tooltip title="Complete">
+              <IconButton onClick={handleComplete} color="success" size="small">
+              <CheckCircleIcon fontSize="small" />
               </IconButton>
             </Tooltip>
 
@@ -199,7 +213,6 @@ export default function PaymentRow({
                 <MenuItem value="pending">Pending</MenuItem>
                 <MenuItem value="completed">Completed</MenuItem>
                 <MenuItem value="failed">Failed</MenuItem>
-                <MenuItem value="canceled">Canceled</MenuItem>
               </Select>
               {/* <Button onClick={() => setStatusForChoose(undefined)} variant="contained" color="primary">
                 Clear

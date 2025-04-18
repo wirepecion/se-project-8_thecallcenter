@@ -1,7 +1,6 @@
 import { useState } from "react";
 import dayjs from "dayjs";
 import { updatePayment } from "@/libs/Payment/updatePayment";
-import { cancelPayment } from "@/libs/Payment/cancelPayment";
 import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert, Select, MenuItem} from "@mui/material";
@@ -66,19 +65,19 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
     };
     
 
-    const handleCancelConfirm = async () => {
-        try {
-            await cancelPayment(paymentData._id, session?.user.token);
-            setStatus("canceled");
-            onStatusChange(paymentData._id, "canceled"); // Notify the parent
-            setSnackbarMessage("Payment has been canceled.");
-            setSnackbarOpen(true);
-            setCancelOpen(false);
-        } catch (error) {
-            setSnackbarMessage(error instanceof Error ? error.message : "Failed to cancel payment.");
-            setSnackbarOpen(true);
-        }
-    };
+    // const handleCancelConfirm = async () => {
+    //     try {
+    //         await cancelPayment(paymentData._id, session?.user.token);
+    //         setStatus("canceled");
+    //         onStatusChange(paymentData._id, "canceled"); // Notify the parent
+    //         setSnackbarMessage("Payment has been canceled.");
+    //         setSnackbarOpen(true);
+    //         setCancelOpen(false);
+    //     } catch (error) {
+    //         setSnackbarMessage(error instanceof Error ? error.message : "Failed to cancel payment.");
+    //         setSnackbarOpen(true);
+    //     }
+    // };
 
     const handleDeleteConfirm = async () => {
         try {
@@ -171,7 +170,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
             </div>
 
             { /* Cancel Dialog */ }
-            <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)}>
+            {/* <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)}>
                 <DialogTitle>Are you sure you want to cancel this payment?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Canceling a payment cannot be undone.</DialogContentText>
@@ -180,7 +179,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                     <Button onClick={() => setCancelOpen(false)} color="primary">Back</Button>
                     <Button onClick={handleCancelConfirm} color="error" autoFocus>Confirm Cancel</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
 
             {/* Delete Dialog */}
             <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
