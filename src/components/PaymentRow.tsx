@@ -5,35 +5,54 @@ import { updatePayment } from "@/libs/Payment/updatePayment";
 import { cancelPayment } from "@/libs/Payment/cancelPayment";
 import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Alert, Button, Select, MenuItem } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Snackbar,
+  Alert,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
-export default function PaymentRow({ payment, booking, onStatusChange, onDelete }: {
+export default function PaymentRow({
+  payment,
+  booking,
+  onStatusChange,
+  onDelete,
+}: {
   payment: PaymentItem;
   booking: BookingItem;
   onStatusChange: (id: string, newStatus: string) => void;
   onDelete: (id: string) => void;
 }) {
   const { data: session } = useSession();
+
   const [updateOpen, setUpdateOpen] = useState(false);
-  const [status, setStatus] = useState<string | undefined>(payment.status);
+  const [statusForChoose, setStatusForChoose] = useState<string | undefined>(payment.status);
   const [method, setMethod] = useState<string | undefined>(payment.method);
   const [amount, setAmount] = useState<number | undefined>(Number(payment.amount));
-  const [statusForChoose, setStatusForChoose] = useState<string | undefined>(payment.status);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleUpdate = async () => {
     try {
       const updatedStatus = statusForChoose ?? undefined;
-      const re = await updatePayment(payment._id, { status: updatedStatus, method, amount }, session?.user.token);
-      console.log(re);
-      if (updatedStatus) {
-        setStatus(updatedStatus);
-      }
+      await updatePayment(
+        payment._id,
+        { status: updatedStatus, method, amount },
+        session?.user.token
+      );
+
       setSnackbarMessage("Payment updated successfully");
       setSnackbarOpen(true);
       setUpdateOpen(false);
-      onStatusChange(payment._id, status || payment.status);
+
+      if (updatedStatus) {
+        onStatusChange(payment._id, updatedStatus);
+      }
     } catch (err) {
       setSnackbarMessage("Failed to update payment");
       setSnackbarOpen(true);
@@ -43,7 +62,6 @@ export default function PaymentRow({ payment, booking, onStatusChange, onDelete 
   const handleCancel = async () => {
     try {
       await cancelPayment(payment._id, session?.user.token);
-      setStatus("canceled");
       setSnackbarMessage("Payment canceled");
       setSnackbarOpen(true);
       onStatusChange(payment._id, "canceled");
@@ -65,30 +83,47 @@ export default function PaymentRow({ payment, booking, onStatusChange, onDelete 
     }
   };
 
+  const getStatusStyle = (status: string | undefined) => {
+    switch (status) {
+      case "pending":
+        return "text-yellow-500 bg-yellow-100";
+      case "completed":
+        return "text-green-500 bg-green-100";
+      case "failed":
+        return "text-red-500 bg-red-100";
+      case "canceled":
+        return "text-red-800 bg-red-100";
+      default:
+        return "text-gray-500 bg-gray-200";
+    }
+  };
+
   return (
     <>
       <tr className="border-t border-gray-200 bg-gray-50">
         <td className="p-3 px-10">{payment.amount ? String(payment.amount) : 'N/A'}</td>
-        <td className="p-3 px-10">{payment.method || 'N/A'}</td>
-        <td className="p-3 px-10">{payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString() : 'N/A'}</td>
+        <td className="p-3 px-10">{payment.method || "N/A"}</td>
         <td className="p-3 px-10">
-          <span
-            className={`rounded-xl p-1 px-2 ${
-              status === 'pending' ? 'text-yellow-500 bg-yellow-100' :
-              status === 'completed' ? 'text-green-500 bg-green-100' :
-              status === 'failed' ? 'text-red-500 bg-red-100' :
-              status === 'canceled' ? 'text-red-800 bg-red-100' :
-              'text-gray-500 bg-gray-200'
-            }`}
-          >
-            {status}
+          {payment.paymentDate
+            ? new Date(payment.paymentDate).toLocaleDateString()
+            : "N/A"}
+        </td>
+        <td className="p-3 px-10">
+          <span className={`rounded-xl p-1 px-2 ${getStatusStyle(payment.status)}`}>
+            {payment.status}
           </span>
         </td>
-        <td className="p-3 px-10">{booking.user.name || 'N/A'}</td>
+        <td className="p-3 px-10">{booking.user.name || "N/A"}</td>
         <td className="p-3 text-right space-x-2">
-          <button onClick={() => setUpdateOpen(true)} className="text-blue-600 font-semibold">Update</button>
-          <button onClick={handleCancel} className="text-yellow-600 font-semibold">Cancel</button>
-          <button onClick={handleDelete} className="text-red-600 font-semibold">Delete</button>
+          <button onClick={() => setUpdateOpen(true)} className="text-blue-600 font-semibold">
+            Update
+          </button>
+          <button onClick={handleCancel} className="text-yellow-600 font-semibold">
+            Cancel
+          </button>
+          <button onClick={handleDelete} className="text-red-600 font-semibold">
+            Delete
+          </button>
         </td>
       </tr>
 
@@ -106,9 +141,12 @@ export default function PaymentRow({ payment, booking, onStatusChange, onDelete 
                 <MenuItem value="failed">Failed</MenuItem>
                 <MenuItem value="canceled">Canceled</MenuItem>
               </Select>
-              <Button onClick={() => setStatusForChoose(undefined)} variant="contained" color="primary" className="">Clear</Button>
+              <Button onClick={() => setStatusForChoose(undefined)} variant="contained" color="primary">
+                Clear
+              </Button>
             </div>
           </div>
+
           <div className="my-4">
             <label className="block mb-1 font-medium">Method:</label>
             <div className="flex flex-row gap-4 items-center">
@@ -117,9 +155,12 @@ export default function PaymentRow({ payment, booking, onStatusChange, onDelete 
                 <MenuItem value="Bank">Bank</MenuItem>
                 <MenuItem value="ThaiQR">ThaiQR</MenuItem>
               </Select>
-              <Button onClick={() => setMethod(undefined)} variant="contained" color="primary" className="">Clear</Button>
+              <Button onClick={() => setMethod(undefined)} variant="contained" color="primary">
+                Clear
+              </Button>
             </div>
           </div>
+
           <div className="my-4">
             <label className="block mb-1 font-medium">Amount:</label>
             <div className="flex flex-row gap-4 items-center">
@@ -130,15 +171,20 @@ export default function PaymentRow({ payment, booking, onStatusChange, onDelete 
                 onChange={(e) => setAmount(Number(e.target.value))}
                 placeholder="Enter new amount"
               />
-              <Button onClick={() => setAmount(undefined)} variant="contained" color="primary" className="w-10px">Clear</Button>
+              <Button onClick={() => setAmount(undefined)} variant="contained" color="primary">
+                Clear
+              </Button>
             </div>
           </div>
         </DialogContent>
 
-
         <DialogActions>
-          <Button onClick={() => setUpdateOpen(false)} color="secondary">Cancel</Button>
-          <Button onClick={handleUpdate} variant="contained" color="primary">Update</Button>
+          <Button onClick={() => setUpdateOpen(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleUpdate} variant="contained" color="primary">
+            Update
+          </Button>
         </DialogActions>
       </Dialog>
 
