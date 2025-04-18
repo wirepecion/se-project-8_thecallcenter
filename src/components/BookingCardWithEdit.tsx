@@ -71,9 +71,13 @@ export default function BookingCard2({
                     Edit
                 </Button>
 
-                <Button variant="contained" color="success" onClick={handleRefund}>
-                    Refund
-                </Button>
+                { 
+                    bookingData.status !== "canceled" ? 
+                        <Button variant="contained" color="success" onClick={handleRefund}>
+                            Refund
+                        </Button>
+                    : ""
+                }
 
                 {/* Delete Button */}
                 <Button variant="contained" color="error" onClick={handleDelete}>
