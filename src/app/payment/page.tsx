@@ -47,18 +47,31 @@ export default function Payment() {
 
     // Callback function to update payment status in the state
     const handlePaymentUpdate = (paymentId: string, newStatus: string) => {
-        setPayments((prevPayments) =>
-            prevPayments.map((payment) =>
-                payment._id === paymentId ? { ...payment, status: newStatus } : payment
-            )
+        // Update the payment status inside the bookings state
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) => ({
+            ...booking,
+            payments: booking.payments.map((payment: PaymentItem) =>
+              payment._id === paymentId
+                ? { ...payment, status: newStatus }
+                : payment
+            ),
+          }))
+        );
+        triggerRefresh(); // Re-fetch or re-render if necessary
+    };
+      
+
+    const handleDeletePayment = (paymentId: string) => {
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) => ({
+            ...booking,
+            payments: booking.payments.filter((payment: PaymentItem) => payment._id !== paymentId),
+          }))
         );
         triggerRefresh();
     };
-
-    const handleDeletePayment = (paymentId: string) => {
-        setPayments((prevPayments) => prevPayments.filter((payment) => payment._id !== paymentId));
-        triggerRefresh();
-    }; 
+      
     
     const triggerRefresh = () => {
         setRefreshKey(prev => prev + 1);
