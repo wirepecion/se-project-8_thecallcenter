@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert, Select, MenuItem } from "@mui/material";
 import { useRouter } from 'next/navigation';
 
-export default function PaymentCard({ paymentData, onStatusChange, role, onDelete }: { paymentData: PaymentItem; onStatusChange: (id: string, newStatus: string) => void; role: string; onDelete: (paymentId: string) => void; }) {
+export default function UserPaymentCard({ paymentData, onStatusChange, role, onDelete }: { paymentData: PaymentItem; onStatusChange: (id: string, newStatus: string) => void; role: string; onDelete: (paymentId: string) => void; }) {
     const [cancelOpen, setCancelOpen] = useState(false);
     const [updateOpen, setUpdateOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -63,22 +63,6 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
             setSnackbarOpen(true);
         }
     };
-
-
-    // const handleCancelConfirm = async () => {
-    //     try {
-    //         await cancelPayment(paymentData._id, session?.user.token);
-    //         setStatus("canceled");
-    //         onStatusChange(paymentData._id, "canceled"); // Notify the parent
-    //         setSnackbarMessage("Payment has been canceled.");
-    //         setSnackbarOpen(true);
-    //         setCancelOpen(false);
-    //     } catch (error) {
-    //         setSnackbarMessage(error instanceof Error ? error.message : "Failed to cancel payment.");
-    //         setSnackbarOpen(true);
-    //     }
-    // };
-
 
     const handleDeleteConfirm = async () => {
         try {
@@ -142,22 +126,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                     </Button>
 
 
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => setUpdateOpen(true)}
-                    >
-                        Update
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        color="warning"
-                        onClick={() => setCancelOpen(true)}
-                        disabled={status === "canceled" || status === "failed"}
-                    >
-                        Cancel
-                    </Button>
+                  
 
                     <Button
                         variant="contained"
@@ -169,18 +138,17 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                 </div>
             </div>
 
-            { /* Cancel Dialog */ }
-            {/* <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)}>
-
+           
+            <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)}>
                 <DialogTitle>Are you sure you want to cancel this payment?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Canceling a payment cannot be undone.</DialogContentText>
                 </DialogContent>
-                <DialogActions>
+                {/* <DialogActions>
                     <Button onClick={() => setCancelOpen(false)} color="primary">Back</Button>
                     <Button onClick={handleCancelConfirm} color="error" autoFocus>Confirm Cancel</Button>
-                </DialogActions>
-            </Dialog> */}
+                </DialogActions> */}
+            </Dialog>
 
             {/* Delete Dialog */}
             <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>

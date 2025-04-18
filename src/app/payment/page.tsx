@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 import getBookings from "@/libs/Booking/getBookings";
 import PaymentTable from "@/components/PaymentTable";
 import HeroSection from "@/components/HeroSection";
-import UserPaymentCard from "@/components/UserPaymentCard";
 
 export default function Payment() {
     const { data: session } = useSession();
@@ -134,7 +133,7 @@ export default function Payment() {
                                     return status === filterStatus;
                                 })
                                 .map((paymentItem) => (
-                                    <UserPaymentCard
+                                    <PaymentCard
                                         key={paymentItem._id}
                                         paymentData={paymentItem}
                                         onStatusChange={handlePaymentUpdate}
