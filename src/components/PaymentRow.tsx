@@ -17,6 +17,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import Swal from "sweetalert2";
+import EditIcon from '@mui/icons-material/Edit';
+import CancelIcon from '@mui/icons-material/Cancel';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Tooltip, IconButton } from '@mui/material';
+
 
 export default function PaymentRow({
   payment,
@@ -57,15 +62,15 @@ export default function PaymentRow({
               { status: updatedStatus, method, amount },
               session?.user.token
             );
-  
+
             setSnackbarMessage("Payment updated successfully");
             setSnackbarOpen(true);
             setUpdateOpen(false);
-  
+
             if (updatedStatus) {
               onStatusChange(payment._id, updatedStatus);
             }
-  
+
             Swal.fire({
               title: "Success!",
               text: "The status has been changed to FAILED.",
@@ -84,13 +89,13 @@ export default function PaymentRow({
           { status: statusForChoose, method, amount },
           session?.user.token
         );
-  
+
         setSnackbarMessage("Payment updated successfully");
         setSnackbarOpen(true);
         setUpdateOpen(false);
-  
+
         onStatusChange(payment._id, statusForChoose || payment.status);
-  
+
         Swal.fire({
           title: "Success!",
           text: "The payment method has been updated successfully.",
@@ -102,7 +107,7 @@ export default function PaymentRow({
       }
     }
   };
-  
+
   const handleCancel = async () => {
     try {
       await cancelPayment(payment._id, session?.user.token);
@@ -145,30 +150,41 @@ export default function PaymentRow({
   return (
     <>
       <tr className="border-t border-gray-200 bg-gray-50">
-        <td className="p-3 px-10">{payment.amount ? String(payment.amount) : 'N/A'}</td>
-        <td className="p-3 px-10">{payment.method || "N/A"}</td>
-        <td className="p-3 px-10">
+        <td className="p-3 text-center px-10">{payment.amount ? String(payment.amount) : 'N/A'}</td>
+        <td className="p-3 text-center px-10">{payment.method || "N/A"}</td>
+        <td className="p-3 text-center px-10">
           {payment.paymentDate
             ? new Date(payment.paymentDate).toLocaleDateString()
             : "N/A"}
         </td>
-        <td className="p-3 px-10">
+        <td className="p-4 text-center px-5">
           <span className={`rounded-xl p-1 px-2 ${getStatusStyle(payment.status)}`}>
             {payment.status}
           </span>
         </td>
-        <td className="p-3 px-10">{booking.user.name || "N/A"}</td>
-        <td className="p-3 text-right space-x-2">
-          <button onClick={() => setUpdateOpen(true)} className="text-blue-600 font-semibold">
-            Update
-          </button>
-          <button onClick={handleCancel} className="text-yellow-600 font-semibold">
-            Cancel
-          </button>
-          <button onClick={handleDelete} className="text-red-600 font-semibold">
-            Delete
-          </button>
+        <td className="p-5 text-center px-5">{booking.user.name || "N/A"}</td>
+        <td className="p-5 text-center">
+          <div className="inline-flex items-center gap-1">
+            <Tooltip title="Update">
+              <IconButton onClick={() => setUpdateOpen(true)} color="primary" size="small">
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Cancel">
+              <IconButton onClick={handleCancel} color="warning" size="small">
+                <CancelIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Delete">
+              <IconButton onClick={handleDelete} color="error" size="small">
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </div>
         </td>
+
       </tr>
 
       {/* Update Dialog */}
@@ -185,9 +201,9 @@ export default function PaymentRow({
                 <MenuItem value="failed">Failed</MenuItem>
                 <MenuItem value="canceled">Canceled</MenuItem>
               </Select>
-              <Button onClick={() => setStatusForChoose(undefined)} variant="contained" color="primary">
+              {/* <Button onClick={() => setStatusForChoose(undefined)} variant="contained" color="primary">
                 Clear
-              </Button>
+              </Button> */}
             </div>
           </div>
 
@@ -199,9 +215,9 @@ export default function PaymentRow({
                 <MenuItem value="Bank">Bank</MenuItem>
                 <MenuItem value="ThaiQR">ThaiQR</MenuItem>
               </Select>
-              <Button onClick={() => setMethod(undefined)} variant="contained" color="primary">
+              {/* <Button onClick={() => setMethod(undefined)} variant="contained" color="primary">
                 Clear
-              </Button>
+              </Button> */}
             </div>
           </div>
 
@@ -215,9 +231,9 @@ export default function PaymentRow({
                 onChange={(e) => setAmount(Number(e.target.value))}
                 placeholder="Enter new amount"
               />
-              <Button onClick={() => setAmount(undefined)} variant="contained" color="primary">
+              {/* <Button onClick={() => setAmount(undefined)} variant="contained" color="primary">
                 Clear
-              </Button>
+              </Button> */}
             </div>
           </div>
         </DialogContent>
