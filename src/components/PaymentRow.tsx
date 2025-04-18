@@ -16,6 +16,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import Swal from "sweetalert2";
 
 export default function PaymentRow({
   payment,
@@ -38,27 +39,70 @@ export default function PaymentRow({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleUpdate = async () => {
-    try {
-      const updatedStatus = statusForChoose ?? undefined;
-      await updatePayment(
-        payment._id,
-        { status: updatedStatus, method, amount },
-        session?.user.token
-      );
-
-      setSnackbarMessage("Payment updated successfully");
-      setSnackbarOpen(true);
-      setUpdateOpen(false);
-
-      if (updatedStatus) {
-        onStatusChange(payment._id, updatedStatus);
+    if (statusForChoose === "failed") {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You are about to change the status to FAILED!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, change it!"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const updatedStatus = statusForChoose ?? undefined;
+            await updatePayment(
+              payment._id,
+              { status: updatedStatus, method, amount },
+              session?.user.token
+            );
+  
+            setSnackbarMessage("Payment updated successfully");
+            setSnackbarOpen(true);
+            setUpdateOpen(false);
+  
+            if (updatedStatus) {
+              onStatusChange(payment._id, updatedStatus);
+            }
+  
+            Swal.fire({
+              title: "Success!",
+              text: "The status has been changed to FAILED.",
+              icon: "success"
+            });
+          } catch (err) {
+            setSnackbarMessage("Failed to update payment");
+            setSnackbarOpen(true);
+          }
+        }
+      });
+    } else if (method) {
+      try {
+        await updatePayment(
+          payment._id,
+          { status: statusForChoose, method, amount },
+          session?.user.token
+        );
+  
+        setSnackbarMessage("Payment updated successfully");
+        setSnackbarOpen(true);
+        setUpdateOpen(false);
+  
+        onStatusChange(payment._id, statusForChoose || payment.status);
+  
+        Swal.fire({
+          title: "Success!",
+          text: "The payment method has been updated successfully.",
+          icon: "success"
+        });
+      } catch (err) {
+        setSnackbarMessage("Failed to update payment");
+        setSnackbarOpen(true);
       }
-    } catch (err) {
-      setSnackbarMessage("Failed to update payment");
-      setSnackbarOpen(true);
     }
   };
-
+  
   const handleCancel = async () => {
     try {
       await cancelPayment(payment._id, session?.user.token);
