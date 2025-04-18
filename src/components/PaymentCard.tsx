@@ -5,6 +5,7 @@ import { cancelPayment } from "@/libs/Payment/cancelPayment";
 import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert, Select, MenuItem} from "@mui/material";
+import { useRouter } from 'next/navigation';
 
 export default function PaymentCard({ paymentData, onStatusChange, role, onDelete }: { paymentData: PaymentItem; onStatusChange: (id: string, newStatus: string) => void; role: string; onDelete: (paymentId: string) => void; }) {
     const [cancelOpen, setCancelOpen] = useState(false);
@@ -21,6 +22,11 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
     const [method, setMethod] = useState(paymentData.method);
     const [updateMethod, setUpdateMethod] = useState<string | undefined>(paymentData.method);
 
+
+    const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    
     const isAdmin = role === "admin";
 
     const handlePay = async () => {
@@ -89,6 +95,23 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
         }
     };    
 
+     const router = useRouter();
+
+    const handleBooking = async () => {
+            try {
+    
+                console.log("check1");
+                router.push(`/checkout/${paymentData._id}`);
+                
+    
+            } catch (error: any) {
+                setAlertType("error");
+                setErrorMessage(error.message || "An error occurred during booking.");
+                setShowAlert(true);
+                setTimeout(() => setShowAlert(false), 3000);
+            }
+        };
+
     return (
         <div>
             <div className="flex flex-col text-black bg-white p-6 rounded-xl shadow-lg my-5 relative z-10">
@@ -108,14 +131,17 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
                 
                 <div className="absolute top-6 right-6 flex space-x-3">
                     
-                    <Button 
-                        variant="contained" 
+                    <Button
+                                        onClick={handleBooking}
+                                        variant="contained"
+                                        
                         color="success" 
-                        onClick={handlePay} 
                         disabled={status !== "unpaid"}
-                    >
-                        {status !== "unpaid" ? "Paid" : "Pay"}
-                    </Button>
+                                        className="w-full sm:w-1/2 lg:w-1/4 bg-[#F2814D] hover:bg-[#e27035] text-white px-6 py-3 rounded-lg font-bold shadow-md transition duration-300 ease-in-out"
+                                    >
+                                        {status !== "unpaid" ? "Paid" : "Pay"}
+                                    </Button>
+                    
                     
                     <Button 
                         variant="contained" 
