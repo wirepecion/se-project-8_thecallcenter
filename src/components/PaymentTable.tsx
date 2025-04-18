@@ -90,7 +90,7 @@ export default function PaymentTable({ bookings, onStatusChange, onDelete }: { b
         </div>
       )}
 
-      {/* Date Filter */}
+    
       {showDateInputs && (
         <div className="mt-4 border border-green-200 bg-green-50 p-4 rounded-xl shadow-sm">
           <h3 className="text-lg font-semibold mb-3 text-green-600">📅 Date Range</h3>
