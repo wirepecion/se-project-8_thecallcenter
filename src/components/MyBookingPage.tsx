@@ -95,7 +95,6 @@ export default function MyBookingPage({
                                     bookingData={bookingItem}
                                     setBookings={setBookings}
                                     onEditClick={handleEditClick}
-                                    onRefundClick = {handleRefundBooking}
                                     onDeleteClick={handleDeleteBooking}
                                 />
                             ))}

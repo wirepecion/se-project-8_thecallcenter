@@ -3,18 +3,22 @@
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
-
+import { refundCalculation } from "@/libs/libs/refundCalculation";
 
 export default function BookingCard2({
     bookingData,
     setBookings,
     onEditClick,  // New prop to trigger edit
+    onRefundClick,
     onDeleteClick,  // New prop to trigger delete
+    amount,
 }: {
     bookingData: BookingItem;
     setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
     onEditClick: (booking: BookingItem) => void;  // Prop type for the edit click handler
+    onRefundClick: (booking: BookingItem) => void;
     onDeleteClick: (booking: BookingItem) => void;  // Prop type for the delete click handler
+    amount: number;
 }) {
     const handleDelete = () => {
         Swal.fire({
@@ -36,6 +40,22 @@ export default function BookingCard2({
           });
     };
 
+    const handleRefund = async () => {
+        Swal.fire({
+            title: "Are you sure to refund?",
+            text: `Your Refund amount : ${amount}`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, refund it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                onRefundClick(bookingData);
+            }
+          });
+    };
+
 
     return (
         <div className="rounded-2xl bg-white flex flex-col justify-between shadow-md h-full p-6 text-blue-900">
@@ -49,6 +69,10 @@ export default function BookingCard2({
                 {/* Edit Button */}
                 <Button variant="contained" color="success" onClick={() => onEditClick(bookingData)}>
                     Edit
+                </Button>
+
+                <Button variant="contained" color="success" onClick={handleRefund}>
+                    Refund
                 </Button>
 
                 {/* Delete Button */}
