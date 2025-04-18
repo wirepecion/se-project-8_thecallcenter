@@ -79,6 +79,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
     //     }
     // };
 
+
     const handleDeleteConfirm = async () => {
         try {
             await deletePayment(paymentData._id, session?.user.token); 
@@ -170,6 +171,7 @@ export default function PaymentCard({ paymentData, onStatusChange, role, onDelet
 
             { /* Cancel Dialog */ }
             {/* <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)}>
+
                 <DialogTitle>Are you sure you want to cancel this payment?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Canceling a payment cannot be undone.</DialogContentText>
