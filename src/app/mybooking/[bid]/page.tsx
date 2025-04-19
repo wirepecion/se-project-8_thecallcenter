@@ -12,10 +12,7 @@ export default async function View({ params }: { params: { bid: string } }) {
     const userProfile = await getUserProfile(session.user.token);
     const bookingJson = await getBooking(params.bid, session.user.token);
 
-
     const paymentList = bookingJson.data.payments;
-
-    console.log("Booking Itemtest:", bookingJson.data);
 
     return (
         <main className="p-7 h-[1200px] text-white min-h-screen">

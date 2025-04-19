@@ -98,27 +98,8 @@ interface UsersData {
   success: boolean,
   data: UserItem
 }
+
 interface PaymentItem {
-  _id: string;
-  booking: string; 
-  user: string; 
-  // @ts-ignore
-  amount: number;
-  status: string;
-  method: string;
-  paymentDate?: Date;
-  canceledAt?: Date | null;
-}
-
-
-interface PaymentJson {
-  success: boolean,
-  count: number,
-  pagination: Object,
-  data: PaymentItem[]
-}
-
-interface PaymentItem2 {
   _id: string;
   booking: BookingItemforPayment; 
   user: UserItem; 
@@ -128,6 +109,20 @@ interface PaymentItem2 {
   method: string;
   paymentDate?: Date;
   canceledAt?: Date | null;
+}
+
+interface PaymentJson {
+  success: boolean,
+  count: number,
+  pagination: Object,
+  data: PaymentItem[]
+}
+
+interface PaymentJsonOne {
+  success: boolean,
+  count: number,
+  pagination: Object,
+  data: PaymentItem
 }
 
 interface BookingItemforPayment {
