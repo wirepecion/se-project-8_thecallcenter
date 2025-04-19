@@ -12,13 +12,11 @@ export default function EditBookingModal({
     onClose,
     sessionToken,
     userRole,
-    // setBookings,
 }: {
     booking: BookingItem;
     onClose: () => void;
     sessionToken: string;
     userRole: string
-    // setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
 }) {
     const [checkInDate, setCheckInDate] = useState<Date | null>(null);
     const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
