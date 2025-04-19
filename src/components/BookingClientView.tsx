@@ -106,6 +106,7 @@ export default function BookingClientView({
                 onRefundClick={handleRefundBooking}
                 onDeleteClick={handleDeleteBooking}
                 amount={refundCalculation(bookingItem, paymentList[0].amount)}
+                role={userRole}
             />
 
             {paymentList.map((payment) => (

@@ -13,6 +13,7 @@ export default async function MyBooking() {
     // Fetch user profile & bookings on the server
     const profile = await getUserProfile(session.user.token);
     const bookingJson: BookingJson = await getBookings(session.user.token);
+    console.log("Role from myBooking page: " + profile.name)
 
     return (
         <MyBookingPage 

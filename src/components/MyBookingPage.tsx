@@ -152,7 +152,7 @@ export default function MyBookingPage({
                         onClose={handleModalClose}
                         sessionToken={sessionToken}
                         userRole={initialUserProfile.role}
-                        setBookings={setBookings}
+                        // setBookings={setBookings}
                     />
                 )}
             </main>
