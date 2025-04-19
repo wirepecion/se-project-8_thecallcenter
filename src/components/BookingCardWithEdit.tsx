@@ -83,7 +83,7 @@ export default function BookingCard2({
                         </div>
             <div className="flex space-x-3 items-center justify-end">
                 {/* Edit Button */}
-                <Button variant="contained" color="success" onClick={() => onEditClick(bookingData)}>
+                <Button variant="contained" color="primary" onClick={() => onEditClick(bookingData)}>
                     Edit
                 </Button>
 

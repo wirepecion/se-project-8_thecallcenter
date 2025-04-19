@@ -110,6 +110,7 @@ export default function MyBookingPage({
                         {userProfile?.role === "admin" ? "Bookings" : "My Bookings"}
                     </h1>
 
+                    {userProfile?.role === "user" && (
                     <div className="w-full max-w-xs mb-10">
                         <select
                             name="refundStatus"
@@ -122,6 +123,7 @@ export default function MyBookingPage({
                             <option value="nonrefundable">Non-Refundable</option>
                         </select>
                     </div>
+                    )}
 
                     {filterBookings(bookings).length > 0 ? (
                         <div className="w-full space-y-4">
