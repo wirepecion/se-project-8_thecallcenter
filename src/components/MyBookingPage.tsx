@@ -8,6 +8,7 @@ import EditBookingModal from "./EditBookingModal";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import updateBooking from "@/libs/Booking/updateBooking";
 import { Alert } from "@mui/material";
+import { stat } from "fs";
 
 export default function MyBookingPage({
     initialBookings,
@@ -25,6 +26,7 @@ export default function MyBookingPage({
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [refundStatus, setRefundStatus] = useState<string>('');
+    const [status, setStatus] = useState<string>('');
     const userProfile = initialUserProfile;
 
     const handleEditClick = (booking: BookingItem) => {
@@ -60,6 +62,7 @@ export default function MyBookingPage({
         }
     };
 
+
     const handleDeleteBooking = async (booking: BookingItem) => {
         try {
             await deleteBooking(booking._id, sessionToken);
@@ -73,23 +76,35 @@ export default function MyBookingPage({
         const { name, value } = e.target;
         if (name === 'refundStatus') setRefundStatus(value);
     };
+
+    const handleFilterStatusChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        if (name === 'status') setStatus(value);
+    };
     
     const filterBookings = (bookings: BookingItem[]) => {
-        if (!refundStatus) return bookings;
-        return bookings.filter(booking => {
-            const latestPayment = booking.payments[booking.payments.length - 1]
+        return bookings.filter((booking) => {
+            const latestPayment = booking.payments[booking.payments.length - 1];
+    
             if (refundStatus === "refundable") {
                 if (latestPayment.status !== "completed") return false;
                 if (booking.status !== "confirmed" && booking.status !== "checkedIn") return false;
             }
+    
             if (refundStatus === "nonrefundable") {
                 if ((booking.status === "confirmed" || booking.status === "checkedIn") && latestPayment.status === "completed") {
                     return false;
                 }
             }
+    
+            if (status && booking.status !== status) {
+                return false;
+            }
+    
             return true;
-        })
+        });
     };
+    
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -123,6 +138,25 @@ export default function MyBookingPage({
                             <option value="nonrefundable">Non-Refundable</option>
                         </select>
                     </div>
+                    )}
+
+                    {userProfile?.role === "hotelManager" || userProfile?.role === "admin" && (
+                        <div className="mb-4 flex justify-end">
+                            <select
+                                name="status"
+                                value={status}
+                                onChange={handleFilterStatusChange}
+                                className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+                            >
+                                <option value="">All Status</option>
+                                <option value="pending" >Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="failed">Failed</option>
+                                <option value="canceled">Canceled</option>
+                                <option value="checkedIn">Checked In</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
                     )}
 
                     {filterBookings(bookings).length > 0 ? (
