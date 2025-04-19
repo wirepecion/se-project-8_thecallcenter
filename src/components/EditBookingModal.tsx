@@ -5,6 +5,7 @@ import DateReserve from "@/components/DateReserve"; // Import the DateReserve co
 import { useState, useEffect } from "react";
 import updateBooking from "@/libs/Booking/updateBooking";
 import { useRouter } from "next/navigation";
+import DateReserveForUpdate from "./DateReserveForUpdate";
 
 export default function EditBookingModal({
     booking,
@@ -80,9 +81,10 @@ export default function EditBookingModal({
                     <p><strong>Hotel:</strong> {booking.hotel?.name}</p>
 
                     {/* Date Reserve Component */}
-                    <DateReserve
+                    <DateReserveForUpdate
                         onDateChange={handleDateChange}
                         role={userRole} // You can adjust this based on role logic
+                        booking={booking}
                     />
                 </div>
             </DialogContent>
