@@ -23,7 +23,7 @@ export default function DateReserve({
   const handleCheckInChange = (date: Dayjs | null) => {
     setCheckInDate(date);
     if (date) {
-      const newCheckOut = date.add(1, "day");
+      const newCheckOut = date.add(numOfNights, "day");
       setCheckOutDate(newCheckOut);
       onDateChange([date.toDate(), newCheckOut.toDate()]);
     } else {
