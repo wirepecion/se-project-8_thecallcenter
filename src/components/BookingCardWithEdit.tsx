@@ -32,12 +32,6 @@ export default function BookingCard2({
         }).then((result) => {
             if (result.isConfirmed) {
                 onDeleteClick(bookingData);
-
-                Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-                });
             }
         });
     };

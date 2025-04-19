@@ -58,7 +58,7 @@ export default function BookingClientView({
             console.error("Error occurred during refunding:", error);
             Swal.fire({
                 title: "Error!",
-                text: "Unable to update booking!.",
+                text: "Sorry, unable to update booking!.",
                 icon: "error"
             });    
         }
@@ -89,7 +89,7 @@ export default function BookingClientView({
             console.error("Error deleting booking:", error);
             Swal.fire({
                 title: "Error!",
-                text: "Unable to update booking!.",
+                text: "Sorry, unable to update booking!.",
                 icon: "error"
             });  
         }
