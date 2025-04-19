@@ -21,7 +21,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Tooltip, IconButton } from '@mui/material';
-import { useRouter } from "next/navigation";
 
 
 export default function PaymentRow({
@@ -36,7 +35,6 @@ export default function PaymentRow({
   onDelete: (id: string) => void;
 }) {
   const { data: session } = useSession();
-  const router = useRouter();
   const [updateOpen, setUpdateOpen] = useState(false);
   const [statusForChoose, setStatusForChoose] = useState<string | undefined>(payment.status);
   const [method, setMethod] = useState<string | undefined>(payment.method);
@@ -78,7 +76,7 @@ export default function PaymentRow({
               text: "The status has been changed to FAILED.",
               icon: "success"
             });
-            router.refresh(); // ✅ refresh หน้า
+            
           } catch (err) {
             setSnackbarMessage("Failed to update payment");
             setSnackbarOpen(true);
@@ -118,12 +116,12 @@ export default function PaymentRow({
         { status: "completed" },
         session?.user.token
       );
-
+             
       setSnackbarMessage("Payment updated successfully");
       setSnackbarOpen(true);
       setUpdateOpen(false);
-
-
+      onStatusChange(payment._id , 'completed' );
+      
       Swal.fire({
         title: "Success!",
         text: "The payment method has been updated successfully.",
