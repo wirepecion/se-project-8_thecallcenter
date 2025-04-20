@@ -120,6 +120,7 @@ export default function MyBookingPage({
                 </div>
             )}
             <main className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] py-20 text-black">
+0eade0f (fix: update layout and styling for registration, login, and logout pages; adjust NavBar link for consistency)
                 <div className="col-span-12 w-full rounded-lg">
                     <h1 className="text-3xl font-outfit font-semibold text-left mb-6">
                         {userProfile?.role === "admin" ? "Bookings" : "My Bookings"}
@@ -140,8 +141,8 @@ export default function MyBookingPage({
                     </div>
                     )}
 
-                    {userProfile?.role === "hotelManager" || userProfile?.role === "admin" && (
-                        <div className="mb-4 flex justify-end">
+                    {(userProfile?.role === "hotelManager" || userProfile?.role === "admin") && (
+                        <div className="w-full max-w-xs mb-10">
                             <select
                                 name="status"
                                 value={status}
@@ -172,7 +173,7 @@ export default function MyBookingPage({
                             ))}
                         </div>
                     ) : (
-                        <p className="text-center text-gray-500">
+                        <p className="text-center text-gray-500 h-screen">
                             {refundStatus === "refundable"
                                 ? "No refundable bookings found."
                                 : refundStatus === "nonrefundable"

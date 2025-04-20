@@ -49,7 +49,7 @@ export default async function NavBar() {
                         <UserLink profile={profile.data} />
                     ) : (
                         <Link
-                            href="/register"
+                            href="/signin"
                             className="border p-2 rounded-lg text-black font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap"
                         >
                             Sign-In / Register
