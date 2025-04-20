@@ -52,7 +52,7 @@ export default function AboutUs() {
       },
       {
         name: "Worachart Poungtabtim",
-        role: "Full Stack Dev",
+        role: "Full-stack Developer",
         desc: "Involved in the development process, focusing on writing code and designing components to enhance the overall functionality of the project.",
         img: "/assets/member2.jpg",
       },
@@ -64,7 +64,7 @@ export default function AboutUs() {
       },
       {
         name: "Nattarat Samartkit",
-        role: "Developer and Front-end Testerr",
+        role: "Developer and Front-end Tester",
         desc: "Contributing to the development of the project by writing code and designing components, ensuring a seamless user experience.",
         img: "/assets/member4.jpg",
       },
@@ -76,19 +76,19 @@ export default function AboutUs() {
       },
       {
         name: "Worrapong Tongkundam",
-        role: "Developer",
+        role: "Lead of Front-end",
         desc: "Contributing to the development of the project by writing code and designing components, ensuring a seamless user experience.",
         img: "/assets/member6.png",
       },
       {
         name: "Titiporn Somboon",
-        role: "Back-end Tester and Developer",
+        role: "Developer and Back-end Tester",
         desc: "Responsible for testing the back-end components of the project, ensuring all server-side logic and database interactions function correctly.",
         img : "/assets/member7.jpg",
       },
       {
         name: "Patcharapon Srisuwan",
-        role: "full-stack Developer",
+        role: "Full-stack Developer",
         desc: "Involved in the development process, focusing on writing code and designing components to enhance the overall functionality of the project.",
         img : "/assets/member8.jpg",
       },
