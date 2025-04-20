@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function CheckoutSummary({
     paymentData,
     subtotal,
@@ -12,12 +14,16 @@ export default function CheckoutSummary({
     total: number
 }) {
 
+    const hotelpic = paymentData.booking.hotel.picture;
+
+    console.log(hotelpic)
+
     return (
         <div className="w-1/2 bg-gray-100 p-12 flex flex-col">
             <h1 className="text-3xl font-semibold mb-8 text-black">Order Summary</h1>
             <hr className="mb-4" />
             <div className="flex items-center mb-6">
-                <img src={paymentData.booking.hotel.picture} alt="hotel item" className="w-14 h-14 mr-4 rounded-lg" />
+                <Image src={hotelpic || "/img/fallback-image.jpg"} alt="hotel item" width={56} height={56} className="w-14 h-14 mr-4 rounded-lg" />
                 <div>
                 <p className="font-medium text-black text-xl">{paymentData.booking.hotel.name}</p>
                 <p className="text-sm text-gray-600 font-semibold">Number {paymentData.booking.room.number}</p>
