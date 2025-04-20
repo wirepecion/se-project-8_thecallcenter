@@ -50,7 +50,7 @@ export default async function NavBar() {
                     ) : (
                         <Link
                             href="/signin"
-                            className="border p-2 rounded-lg text-black font-sans font-semibold hover:bg-blue-300 hover:text-black whitespace-nowrap"
+                            className="border p-2 rounded-lg text-black font-sans font-semibold hover:bg-black hover:text-white whitespace-nowrap"
                         >
                             Sign-In / Register
                         </Link>
