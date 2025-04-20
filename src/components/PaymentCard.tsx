@@ -5,11 +5,22 @@ import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert, Select, MenuItem } from "@mui/material";
 import { useRouter } from 'next/navigation';
+import Swal from "sweetalert2";
 
-export default function UserPaymentCard({ paymentData, onStatusChange, role, onDelete }: { paymentData: PaymentItem; onStatusChange: (id: string, newStatus: string) => void; role: string; onDelete: (paymentId: string) => void; }) {
+export default function UserPaymentCard({ 
+    paymentData, 
+    onStatusChange, 
+    role, 
+    onDelete 
+}: { 
+    paymentData: PaymentItem; 
+    onStatusChange: (id: string, newStatus: string) => void; 
+    role: string; 
+    onDelete: (paymentId: string) => void; 
+}) {
     const [cancelOpen, setCancelOpen] = useState(false);
     const [updateOpen, setUpdateOpen] = useState(false);
-    const [deleteOpen, setDeleteOpen] = useState(false);
+    // const [deleteOpen, setDeleteOpen] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const { data: session } = useSession();
@@ -22,9 +33,9 @@ export default function UserPaymentCard({ paymentData, onStatusChange, role, onD
     const [updateMethod, setUpdateMethod] = useState<string | undefined>(paymentData.method);
 
 
-    const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
-    const [showAlert, setShowAlert] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    // const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
+    // const [showAlert, setShowAlert] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState("");
 
     const isAdmin = role === "admin";
 
@@ -64,18 +75,26 @@ export default function UserPaymentCard({ paymentData, onStatusChange, role, onD
         }
     };
 
-    const handleDeleteConfirm = async () => {
+    const handleDeletePayment = async () => {
         try {
-            await deletePayment(paymentData._id, session?.user.token); 
 
-            onDelete(paymentData._id);
+            Swal.fire({
+                title: "Confirm?",
+                text: "Are you sure to delete this payment?",
+                icon: "question"
+            }).then( async (result) => {
+                if(result.isConfirmed) {
+                    onDelete(paymentData._id)
+                }
+            })
 
-            setSnackbarMessage("Payment deleted successfully.");
-            setSnackbarOpen(true);
-            setDeleteOpen(false); 
         } catch (error) {
             setSnackbarMessage(error instanceof Error ? error.message : "Failed to delete payment.");
-            setSnackbarOpen(true);
+            Swal.fire({
+                title: "Error!",
+                text: "Sorry, failed to delete this payment!",
+                icon: "error"
+            })
         }
     };
 
@@ -89,10 +108,11 @@ export default function UserPaymentCard({ paymentData, onStatusChange, role, onD
 
 
         } catch (error: any) {
-            setAlertType("error");
-            setErrorMessage(error.message || "An error occurred during booking.");
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
+            Swal.fire({
+                title: "Error!",
+                text: "Sorry, unable to update this payment!",
+                icon: "error"
+            })
         }
     };
 
@@ -131,7 +151,7 @@ export default function UserPaymentCard({ paymentData, onStatusChange, role, onD
                     <Button
                         variant="contained"
                         color="error"
-                        onClick={() => setDeleteOpen(true)}
+                        onClick={() => handleDeletePayment()}
                     >
                         Delete
                     </Button>
@@ -151,7 +171,7 @@ export default function UserPaymentCard({ paymentData, onStatusChange, role, onD
             </Dialog>
 
             {/* Delete Dialog */}
-            <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
+            {/* <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
                 <DialogTitle>Are you sure you want to delete this payment?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Deleting a payment is permanent and cannot be undone.</DialogContentText>
@@ -160,7 +180,7 @@ export default function UserPaymentCard({ paymentData, onStatusChange, role, onD
                     <Button onClick={() => setDeleteOpen(false)} color="primary">Back</Button>
                     <Button onClick={handleDeleteConfirm} color="error" autoFocus>Confirm Delete</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
 
             {/* Update Status Dialog */}
             <Dialog open={updateOpen} onClose={() => setUpdateOpen(false)}>

@@ -8,7 +8,7 @@ export async function deletePayment(paymentId: string, token: string | undefined
             Authorization: `Bearer ${token}`,
         },
     });
-
+    
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Failed to delete payment");
 
