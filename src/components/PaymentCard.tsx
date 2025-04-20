@@ -81,7 +81,11 @@ export default function UserPaymentCard({
             Swal.fire({
                 title: "Confirm?",
                 text: "Are you sure to delete this payment?",
-                icon: "question"
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
             }).then( async (result) => {
                 if(result.isConfirmed) {
                     onDelete(paymentData._id)
