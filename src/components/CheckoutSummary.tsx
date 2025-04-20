@@ -13,7 +13,7 @@ export default function CheckoutSummary({
 }) {
 
     return (
-        <div className="w-1/2 bg-gray-100 p-12 flex flex-col">
+        <div className="w-1/2 bg-gray-100 p-12 flex flex-col py-20">
             <h1 className="text-3xl font-semibold mb-8 text-black">Order Summary</h1>
             <hr className="mb-4" />
             <div className="flex items-center mb-6">
@@ -23,7 +23,7 @@ export default function CheckoutSummary({
                 <p className="text-sm text-gray-600 font-semibold">Number {paymentData.booking.room.number}</p>
                 </div>
                 <div className="ml-auto text-right">
-                <p className="font-semibold text-black text-xl">${subtotal.toFixed(2)}</p>
+                <p className="font-semibold text-black text-xl">฿{subtotal.toFixed(2)}</p>
 
                 </div>
             </div>
@@ -40,18 +40,18 @@ export default function CheckoutSummary({
             <div className="border-t pt-4 space-y-5 text-sm text-gray-700">
                 <div className="flex justify-between font-medium text-lg">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>฿{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-medium text-lg">
                     <span>Membership discount</span>
-                    <span className="text-red-500">- ${discount.toFixed(2)}</span>
+                    <span className="text-red-500">- ฿{discount.toFixed(2)}</span>
                 </div>
                     <hr />
                 <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>฿{total.toFixed(2)}</span>
                 </div>
-                <p className="text-xs text-gray-400">Including your $21.4 tax</p>
+                <p className="text-xs text-gray-400">Including your ฿21.4 tax</p>
             </div>
         </div>
     )

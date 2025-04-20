@@ -7,7 +7,7 @@ export default function HotelDetailPage({ params }: { params: { hid: string } })
     const hotelDetail = getHotel(params.hid);
 
     return (
-        <main className="text-center p-5">
+        <main className="text-center p-5 py-20">
             <Suspense fallback={ <p className="text-center">Loading...<LinearProgress/></p> }>
                 <HotelPage hotelDetail={hotelDetail}/>
             </Suspense>

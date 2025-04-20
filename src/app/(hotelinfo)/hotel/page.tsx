@@ -9,7 +9,7 @@ export default function hotel() {
 const hotels = getHotels()
 
     return (
-        <div className="h-[1200px] min-h-screen">
+        <div className="h-full min-h-screen">
             
             <HeroSection
                     title={

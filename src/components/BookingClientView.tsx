@@ -97,7 +97,7 @@ export default function BookingClientView({
 
 
     return (
-        <main>
+        <main className="py-20">
             <BookingCard2
                 key={bookingItem._id}
                 bookingData={bookingItem}

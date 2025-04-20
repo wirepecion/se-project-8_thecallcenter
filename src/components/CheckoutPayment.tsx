@@ -44,7 +44,7 @@ export default function CheckoutPayment({
     };
 
     return (
-        <div className="w-1/2 bg-white p-12 flex flex-col">
+        <div className="w-1/2 bg-white p-12 flex flex-col py-20">
             <h1 className="text-3xl font-semibold mb-8 text-black">Payment</h1>
             <hr className="mb-4" />
 

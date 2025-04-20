@@ -119,7 +119,7 @@ export default function MyBookingPage({
                     </div>
                 </div>
             )}
-            <main className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] pt-6 pb-16 text-black">
+            <main className="w-[1065px] mx-auto grid grid-cols-12 gap-[15px] py-20 text-black">
                 <div className="col-span-12 w-full rounded-lg">
                     <h1 className="text-3xl font-outfit font-semibold text-left mb-6">
                         {userProfile?.role === "admin" ? "Bookings" : "My Bookings"}

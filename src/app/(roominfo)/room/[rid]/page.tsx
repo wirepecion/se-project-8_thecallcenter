@@ -12,7 +12,7 @@ export default async function RoomDetailPage({ params }: { params: { rid: string
     else imgSrc = "https://drive.google.com/uc?id=1lZvDpg5gaXv-RPhk3MdPKga9YqDeT92d"
 
     return (
-        <main className="text-center p-5 align-middle flex flex-col items-center justify-center">
+        <main className="text-center p-5 align-middle flex flex-col items-center justify-center py-20">
             <h1 className="text-lg font-bold">Room {roomDetail.data.number}</h1>
             <h1 className="text-md ">{roomDetail.data.hotel.name} Hotel</h1>
            
