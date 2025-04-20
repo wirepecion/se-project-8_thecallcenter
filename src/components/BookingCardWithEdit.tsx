@@ -89,7 +89,7 @@ export default function BookingCard2({
 
 
                 { 
-                    (bookingData.status !== "canceled" && role === "user") ? 
+                    (bookingData.status !== "canceled" && role === "user" && amount != 0) ? 
                         <Button variant="contained" color="success" onClick={handleRefund}>
                             Refund
                         </Button>
