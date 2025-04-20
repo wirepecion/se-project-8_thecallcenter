@@ -4,11 +4,11 @@ import BookingCard2 from "@/components/BookingCardWithEdit";
 import PaymentCard from "@/components/PaymentCard";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import updateBooking from "@/libs/Booking/updateBooking";
+import { deletePayment } from "@/libs/Payment/deletePayment";
 import EditBookingModal from "./EditBookingModal";
 import Swal from "sweetalert2";
 import { refundCalculation } from "@/libs/libs/refundCalculation";
 import { useRouter } from "next/navigation";
-
 
 type Props = {
     bookingItem: BookingItem;
@@ -27,7 +27,7 @@ export default function BookingClientView({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter();
 
-    const amount = refundCalculation(bookingItem, Number(paymentList[0].amount))
+    const amount = refundCalculation(bookingItem, paymentList[0] ? Number(paymentList[0].amount) : 0)
 
     const handleEditClick = (booking: BookingItem) => {
         setSelectedBooking(booking);
@@ -76,7 +76,7 @@ export default function BookingClientView({
             // setBookings((prev) => prev.filter((b) => b._id !== booking._id));
             Swal.fire({
                 title: "Delete!",
-                text: "Your booking have been deleted succesfully!.",
+                text: "Your booking has been deleted successfully!.",
                 icon: "success"
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -95,6 +95,30 @@ export default function BookingClientView({
         }
     };
 
+    const handleDeletePayment = async (paymentId: string) => {
+        try {
+            await deletePayment(paymentId, sessionToken);
+            // setBookings((prev) => prev.filter((b) => b._id !== booking._id));
+            Swal.fire({
+                title: "Delete!",
+                text: "Your payment has been deleted successfully!",
+                icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload()
+                }
+            }); 
+            
+        } catch (error) {
+            console.error("Error deleting payment:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Sorry, failed to delete this payment!",
+                icon: "error"
+            });  
+        }
+    };
+
 
     return (
         <main className="py-20">
@@ -105,17 +129,16 @@ export default function BookingClientView({
                 onEditClick={handleEditClick}
                 onRefundClick={handleRefundBooking}
                 onDeleteClick={handleDeleteBooking}
-                amount={refundCalculation(bookingItem, paymentList[0].amount)}
+                amount={amount}
                 role={userRole}
             />
 
             {paymentList.map((payment) => (
                 <PaymentCard
-                    key={payment._id}
                     paymentData={payment}
                     onStatusChange={() => console.log("Status updated")}
-                    onDelete={() => console.log("Payment deleted")}
                     role={userRole}
+                    onDelete={handleDeletePayment}
                 />
             ))}
 
