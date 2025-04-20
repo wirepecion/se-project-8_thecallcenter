@@ -67,7 +67,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <main className="h-[80vh] flex items-center justify-center bg-[#000235] text-black">
+        <main className="h-[95svh] flex items-center justify-center text-black">
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
                 <h2 className="text-2xl font-bold text-center mb-6">Create an Account</h2>
 

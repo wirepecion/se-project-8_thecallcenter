@@ -16,25 +16,25 @@ export default function LoginPage() {
     const result = await signIn("credentials", {
       email,
       password,
-      redirect: false, // Prevent auto redirect
+      redirect: false,
     });
 
     if (result?.error) {
       setError("Invalid email or password");
     } else {
-      router.push("/"); // Redirect after login
-      router.refresh()
+      router.push("/");
+      router.refresh();
     }
   };
 
   return (
-    <div className="flex items-center justify-center text-black">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-[350px] mt-20">
+    <div className="flex items-center justify-center text-black h-[95vh] overflow-hidden">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-[90%] max-w-[350px]">
         <h2 className="text-2xl font-bold text-gray-800 text-center">Login</h2>
 
         {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="mt-6">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
             <label className="block text-gray-600">Email</label>
             <input
@@ -48,7 +48,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="mt-4">
+          <div>
             <label className="block text-gray-600">Password</label>
             <input
               type="password"
@@ -61,7 +61,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="w-full bg-orange-500 text-white py-3 rounded-lg mt-5 hover:bg-orange-600 transition">
+          <button type="submit" className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition">
             Sign In
           </button>
         </form>
