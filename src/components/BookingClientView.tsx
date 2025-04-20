@@ -49,10 +49,18 @@ export default function BookingClientView({
                 title: "Refund!",
                 text: "Your refund has been approved!.",
                 icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
             });    
         } catch (error: any) {
             console.error("Error occurred during refunding:", error);
-            alert("Unable to update booking!")
+            Swal.fire({
+                title: "Error!",
+                text: "Sorry, unable to update booking!.",
+                icon: "error"
+            });    
         }
     };
 
@@ -66,11 +74,24 @@ export default function BookingClientView({
             
             await deleteBooking(booking._id, sessionToken);
             // setBookings((prev) => prev.filter((b) => b._id !== booking._id));
-            router.push("/mybooking");
-            router.refresh();
+            Swal.fire({
+                title: "Delete!",
+                text: "Your booking have been deleted succesfully!.",
+                icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    router.push("/mybooking");
+                    router.refresh();
+                }
+            }); 
             
         } catch (error) {
             console.error("Error deleting booking:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Sorry, unable to update booking!.",
+                icon: "error"
+            });  
         }
     };
 
@@ -85,6 +106,7 @@ export default function BookingClientView({
                 onRefundClick={handleRefundBooking}
                 onDeleteClick={handleDeleteBooking}
                 amount={refundCalculation(bookingItem, paymentList[0].amount)}
+                role={userRole}
             />
 
             {paymentList.map((payment) => (

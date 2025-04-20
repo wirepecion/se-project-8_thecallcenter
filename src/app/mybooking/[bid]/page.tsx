@@ -22,7 +22,7 @@ export default async function View({ params }: { params: { bid: string } }) {
             paymentList={paymentList}
             // initialBookings={bookingJson.data}
             sessionToken={session.user.token}
-            userRole={userProfile?.role || "user"}
+            userRole={userProfile.data.role || "user"}
         />
         </main>
     );

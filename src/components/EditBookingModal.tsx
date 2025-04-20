@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import updateBooking from "@/libs/Booking/updateBooking";
 import { useRouter } from "next/navigation";
 import DateReserveForUpdate from "./DateReserveForUpdate";
+import Swal from "sweetalert2";
 
 export default function EditBookingModal({
     booking,
@@ -39,34 +40,57 @@ export default function EditBookingModal({
     };
 
     const handleSave = () => {
-        if (!checkInDate || !checkOutDate) return;
+        onClose();  // Close the modal after saving
+        Swal.fire({
+            title: "Confirm?",
+            text: "Are you sure to update your booking?",
+            icon: "question",
+            confirmButtonText: "Yes, update!",
+            
+        }).then((result) => {
+            if(result.isConfirmed){
+                
+                if (!checkInDate || !checkOutDate) return;
 
-        // Create updated booking object
-        const updatedBooking = {
-            // ...booking,
-            checkInDate: checkInDate.toISOString(),
-            checkOutDate: checkOutDate.toISOString(),
-        };
+                // Create updated booking object
+                const updatedBooking = {
+                    // ...booking,
+                    checkInDate: checkInDate.toISOString(),
+                    checkOutDate: checkOutDate.toISOString(),
+                };
 
-        setLoading(true); // Set loading to true to indicate the operation is in progress
+                setLoading(true); // Set loading to true to indicate the operation is in progress
 
-        // Update the booking (example: API call to update the booking)
-        updateBooking(booking._id, updatedBooking, sessionToken)
-            .then(() => {
-                setLoading(false);  // Set loading to false once the API call is complete
-                // setBookings((prevBookings) =>
-                //     prevBookings.map((b) =>
-                //         b._id === booking._id ? updatedBooking : b
-                //     )
-                // );
-                onClose();  // Close the modal after saving
-            })
-            .catch((err) => {
-                console.error(err);
-                setLoading(false);  // Set loading to false if there's an error
-            });
-        
-        router.refresh();
+                // Update the booking (example: API call to update the booking)
+                updateBooking(booking._id, updatedBooking, sessionToken)
+                    .then(() => {
+                        // setLoading(false);  // Set loading to false once the API call is complete
+                        // setBookings((prevBookings) =>
+                        //     prevBookings.map((b) =>
+                        //         b._id === booking._id ? updatedBooking : b
+                        //     )
+                        // );
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        setLoading(false);  // Set loading to false if there's an error
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Sorry, unable to update booking!.",
+                            icon: "error"
+                        })
+                    });
+                Swal.fire({
+                    title: "Update!",
+                    text: "Your booking have been update succesfully!.",
+                    icon: "success"
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        router.refresh();
+                    }
+                })
+            }
+        });
     };
 
     return (

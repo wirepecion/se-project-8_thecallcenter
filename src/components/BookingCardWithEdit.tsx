@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@mui/material";
+import { Button } from "@mui/material"
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
 import { refundCalculation } from "@/libs/libs/refundCalculation";
@@ -12,6 +12,7 @@ export default function BookingCard2({
     onRefundClick,
     onDeleteClick,  // New prop to trigger delete
     amount,
+    role
 }: {
     bookingData: BookingItem;
     // setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
@@ -19,7 +20,11 @@ export default function BookingCard2({
     onRefundClick: (booking: BookingItem) => void;
     onDeleteClick: (booking: BookingItem) => void;  // Prop type for the delete click handler
     amount: number;
+    role: string;
 }) {
+
+    console.log("Role from bookingCard: " + role)
+
     const handleDelete = () => {
         Swal.fire({
             title: "Are you sure?",
@@ -32,12 +37,6 @@ export default function BookingCard2({
         }).then((result) => {
             if (result.isConfirmed) {
                 onDeleteClick(bookingData);
-
-                Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-                });
             }
         });
     };
@@ -83,12 +82,14 @@ export default function BookingCard2({
                         </div>
             <div className="flex space-x-3 items-center justify-end">
                 {/* Edit Button */}
+
                 <Button variant="contained" color="primary" onClick={() => onEditClick(bookingData)}>
                     Edit
                 </Button>
 
+
                 { 
-                    bookingData.status !== "canceled" ? 
+                    (bookingData.status !== "canceled" && role === "user") ? 
                         <Button variant="contained" color="success" onClick={handleRefund}>
                             Refund
                         </Button>
