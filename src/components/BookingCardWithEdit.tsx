@@ -82,13 +82,11 @@ export default function BookingCard2({
                         </div>
             <div className="flex space-x-3 items-center justify-end">
                 {/* Edit Button */}
-                {
-                    bookingData.status !== "canceled" ?
-                    <Button variant="contained" color="success" onClick={() => onEditClick(bookingData)}>
-                        Edit
-                    </Button>
-                    : ""
-                }   
+
+                <Button variant="contained" color="primary" onClick={() => onEditClick(bookingData)}>
+                    Edit
+                </Button>
+
 
                 { 
                     (bookingData.status !== "canceled" && role === "user") ? 

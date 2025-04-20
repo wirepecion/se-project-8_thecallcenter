@@ -52,15 +52,51 @@ export default function AboutUs() {
       },
       {
         name: "Worachart Poungtabtim",
-        role: "Main Developer",
-        desc: "Serving as the lead developer, taking on a pivotal role in designing the logic and writing the core code for our project.",
+        role: "Full-stack Developer",
+        desc: "Involved in the development process, focusing on writing code and designing components to enhance the overall functionality of the project.",
         img: "/assets/member2.jpg",
       },
       {
         name: "Patcharapon Ongkakul",
-        role: "Assistant Developer",
+        role: "Developer and Front-end Tester",
         desc: "Assisting in code development, designing components, and performing thorough testing to ensure the program runs smoothly.",
         img: "/assets/member3.jpg",
+      },
+      {
+        name: "Nattarat Samartkit",
+        role: "Developer and Front-end Tester",
+        desc: "Contributing to the development of the project by writing code and designing components, ensuring a seamless user experience.",
+        img: "/assets/member4.jpg",
+      },
+      {
+        name: "Jedsada Meesuk",
+        role: "Lead of Back-end",
+        desc: "The back-end development, focusing on server-side logic and database management to ensure a robust and efficient system.",
+        img : "/assets/member5.jpg",
+      },
+      {
+        name: "Worrapong Tongkundam",
+        role: "Lead of Front-end",
+        desc: "Contributing to the development of the project by writing code and designing components, ensuring a seamless user experience.",
+        img: "/assets/member6.png",
+      },
+      {
+        name: "Titiporn Somboon",
+        role: "Developer and Back-end Tester",
+        desc: "Responsible for testing the back-end components of the project, ensuring all server-side logic and database interactions function correctly.",
+        img : "/assets/member7.jpg",
+      },
+      {
+        name: "Patcharapon Srisuwan",
+        role: "Full-stack Developer",
+        desc: "Involved in the development process, focusing on writing code and designing components to enhance the overall functionality of the project.",
+        img : "/assets/member8.jpg",
+      },
+      {
+        name: "Patthadon Phengpinij",
+        role: "Main Tester",
+        desc: "Responsible for testing the project to ensure all components function correctly and meet the required standards.",
+        img: "/assets/member9.jpg",
       },
     ];
   

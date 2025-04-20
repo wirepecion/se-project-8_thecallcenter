@@ -37,12 +37,22 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${outfit.variable} ${roboto.variable}`}>
-      <body className="bg-white text-black font-roboto">
-        <NextAuthProvider session={ nextAuthSession }>
-          <NavBar/>
-          {children}
-        </NextAuthProvider>
-      </body>
+      <body className="relative bg-white text-black font-roboto overflow-hidden">
+
+  <div className="pointer-events-none absolute top-[-200px] left-[00px] w-[500px] h-[500px] bg-orange-200 rounded-full blur-[150px] z-0"></div>
+  <div className="pointer-events-none absolute top-[200px] right-[-150px] w-[400px] h-[400px] bg-orange-100 rounded-full blur-[130px] z-0"></div>
+
+  
+  <NextAuthProvider session={nextAuthSession}>
+    <div className="relative z-20">
+      <NavBar />
+      <div className="p-4"></div>
+      {children}
+    </div>
+  </NextAuthProvider>
+</body>
+
+
     </html>
   );
 }

@@ -35,15 +35,15 @@ export default function PaymentRow({
   onDelete: (id: string) => void;
 }) {
   const { data: session } = useSession();
-
   const [updateOpen, setUpdateOpen] = useState(false);
   const [statusForChoose, setStatusForChoose] = useState<string | undefined>(payment.status);
   const [method, setMethod] = useState<string | undefined>(payment.method);
   const [amount, setAmount] = useState<number | undefined>(Number(payment.amount));
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
+  
   const handleUpdate = async () => {
+    //console.log(payment._id, statusForChoose, method, amount);
     if (statusForChoose === "failed") {
       Swal.fire({
         title: "Are you sure?",
@@ -76,6 +76,7 @@ export default function PaymentRow({
               text: "The status has been changed to FAILED.",
               icon: "success"
             });
+            
           } catch (err) {
             setSnackbarMessage("Failed to update payment");
             setSnackbarOpen(true);
@@ -115,12 +116,12 @@ export default function PaymentRow({
         { status: "completed" },
         session?.user.token
       );
-
+             
       setSnackbarMessage("Payment updated successfully");
       setSnackbarOpen(true);
       setUpdateOpen(false);
-
-
+      onStatusChange(payment._id , 'completed' );
+      
       Swal.fire({
         title: "Success!",
         text: "The payment method has been updated successfully.",
@@ -160,12 +161,13 @@ export default function PaymentRow({
         return "text-gray-500 bg-gray-200";
     }
   };
+  console.log("check:", payment);
 
   return (
     <>
       <tr className="border-t border-gray-200 bg-gray-50">
         <td className="p-3 text-center px-10">{payment.amount ? String(payment.amount) : 'N/A'}</td>
-        <td className="p-3 text-center px-10">{payment.method || "N/A"}</td>
+        <td className="p-3 text-center px-10">{payment?.method?.trim?.() ? payment.method : "N/A"}</td>
         <td className="p-3 text-center px-10">
           {payment.paymentDate
             ? new Date(payment.paymentDate).toLocaleDateString()
@@ -187,7 +189,7 @@ export default function PaymentRow({
 
             <Tooltip title="Complete">
               <IconButton onClick={handleComplete} color="success" size="small">
-              <CheckCircleIcon fontSize="small" />
+                <CheckCircleIcon fontSize="small" />
               </IconButton>
             </Tooltip>
 
@@ -207,47 +209,17 @@ export default function PaymentRow({
         <DialogContent>
           <div className="my-4">
             <label className="block mb-1 font-medium">Status:</label>
-            <div className="flex flex-row gap-4 items-center">
-              <Select fullWidth value={statusForChoose} onChange={(e) => setStatusForChoose(e.target.value)}>
-                <MenuItem value="unpaid">Unpaid</MenuItem>
-                <MenuItem value="pending">Pending</MenuItem>
-                <MenuItem value="completed">Completed</MenuItem>
-                <MenuItem value="failed">Failed</MenuItem>
-              </Select>
-              {/* <Button onClick={() => setStatusForChoose(undefined)} variant="contained" color="primary">
-                Clear
-              </Button> */}
-            </div>
-          </div>
-
-          <div className="my-4">
-            <label className="block mb-1 font-medium">Method:</label>
-            <div className="flex flex-row gap-4 items-center">
-              <Select fullWidth value={method} onChange={(e) => setMethod(e.target.value)}>
-                <MenuItem value="Card">Card</MenuItem>
-                <MenuItem value="Bank">Bank</MenuItem>
-                <MenuItem value="ThaiQR">ThaiQR</MenuItem>
-              </Select>
-              {/* <Button onClick={() => setMethod(undefined)} variant="contained" color="primary">
-                Clear
-              </Button> */}
-            </div>
-          </div>
-
-          <div className="my-4">
-            <label className="block mb-1 font-medium">Amount:</label>
-            <div className="flex flex-row gap-4 items-center">
-              <input
-                type="number"
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={amount ?? ""}
-                onChange={(e) => setAmount(Number(e.target.value))}
-                placeholder="Enter new amount"
-              />
-              {/* <Button onClick={() => setAmount(undefined)} variant="contained" color="primary">
-                Clear
-              </Button> */}
-            </div>
+            <select
+              value={statusForChoose}
+              onChange={(e) => setStatusForChoose(e.target.value)}
+              className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+            >
+              <option value="unpaid">Unpaid</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="failed">Failed</option>
+              <option value="canceled">Canceled</option>
+            </select>
           </div>
         </DialogContent>
 
@@ -260,6 +232,7 @@ export default function PaymentRow({
           </Button>
         </DialogActions>
       </Dialog>
+
 
       {/* Snackbar */}
       <Snackbar

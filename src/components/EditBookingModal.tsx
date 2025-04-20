@@ -5,6 +5,7 @@ import DateReserve from "@/components/DateReserve"; // Import the DateReserve co
 import { useState, useEffect } from "react";
 import updateBooking from "@/libs/Booking/updateBooking";
 import { useRouter } from "next/navigation";
+import DateReserveForUpdate from "./DateReserveForUpdate";
 import Swal from "sweetalert2";
 
 export default function EditBookingModal({
@@ -12,13 +13,11 @@ export default function EditBookingModal({
     onClose,
     sessionToken,
     userRole,
-    // setBookings,
 }: {
     booking: BookingItem;
     onClose: () => void;
     sessionToken: string;
     userRole: string
-    // setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
 }) {
     const [checkInDate, setCheckInDate] = useState<Date | null>(null);
     const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
@@ -104,9 +103,10 @@ export default function EditBookingModal({
                     <p><strong>Hotel:</strong> {booking.hotel?.name}</p>
 
                     {/* Date Reserve Component */}
-                    <DateReserve
+                    <DateReserveForUpdate
                         onDateChange={handleDateChange}
                         role={userRole} // You can adjust this based on role logic
+                        booking={booking}
                     />
                 </div>
             </DialogContent>

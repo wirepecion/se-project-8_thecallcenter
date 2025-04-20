@@ -26,12 +26,12 @@ export default function CardForm({
       return;
     }
 
-    setCardValidated(true); // เปลี่ยนไปหน้ากรอก PIN
+    setCardValidated(true); 
   };
 
   const handlePinChange = (index: number, value: string) => {
     const newPin = [...pin];
-    newPin[index] = value.slice(0, 1); // รับได้แค่ 1 ตัวเลข
+    newPin[index] = value.slice(0, 1); 
     setPin(newPin);
   };
 
@@ -45,7 +45,7 @@ export default function CardForm({
       return;
     }
 
-    onSuccess(total); // ส่งค่าให้ component แม่ (CheckoutCard)
+    onSuccess(total);
   };
 
   return (
