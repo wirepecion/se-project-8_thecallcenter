@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updatePayment } from "@/libs/Payment/updatePayment";
 import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
@@ -21,6 +21,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Tooltip, IconButton } from '@mui/material';
+import getUserProfile from "@/libs/Auth/getUserProfile";
 
 
 export default function PaymentRow({
@@ -41,9 +42,19 @@ export default function PaymentRow({
   const [amount, setAmount] = useState<number | undefined>(Number(payment.amount));
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  
+  const [userProfile, setUserProfile] = useState<UserItem | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!session?.user?.token) return;
+      const profile = await getUserProfile(session.user.token);
+      setUserProfile(profile.data);
+    }
+    fetchData();
+  }, [session]);
+
   const handleUpdate = async () => {
-    //console.log(payment._id, statusForChoose, method, amount);
+    //console.log(payment._id, statusForChoose, method, amount); 
     if (statusForChoose === "failed") {
       Swal.fire({
         title: "Are you sure?",
@@ -111,6 +122,7 @@ export default function PaymentRow({
 
   const handleComplete = async () => {
     try {
+      if (userProfile?.role === "hotelManager" && payment.status !== "pending") throw new Error("Hotel Manager can only complete pending payments");
       await updatePayment(
         payment._id,
         { status: "completed" },
@@ -182,7 +194,12 @@ export default function PaymentRow({
         <td className="p-5 text-center">
           <div className="inline-flex items-center gap-1">
             <Tooltip title="Update">
-              <IconButton onClick={() => setUpdateOpen(true)} color="primary" size="small">
+              <IconButton onClick={() => {
+                userProfile?.role === "hotelManager" && payment.status !== "pending" ? (
+                  setSnackbarMessage("Hotel Manager can only update pending payments"),
+                  setSnackbarOpen(true)
+                ) : setUpdateOpen(true)
+              }} color="primary" size="small">
                 <EditIcon fontSize="small" />
               </IconButton>
             </Tooltip>
@@ -209,17 +226,29 @@ export default function PaymentRow({
         <DialogContent>
           <div className="my-4">
             <label className="block mb-1 font-medium">Status:</label>
-            <select
+            { userProfile?.role === "admin" && (
+              <select
+                value={statusForChoose}
+                onChange={(e) => setStatusForChoose(e.target.value)}
+                className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+              >
+                <option value="unpaid">Unpaid</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+                <option value="failed">Failed</option>
+                <option value="canceled">Canceled</option>
+              </select>
+            )}
+            { userProfile?.role === "hotelManager" && (
+              <select
               value={statusForChoose}
               onChange={(e) => setStatusForChoose(e.target.value)}
               className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
             >
-              <option value="unpaid">Unpaid</option>
-              <option value="pending">Pending</option>
               <option value="completed">Completed</option>
               <option value="failed">Failed</option>
-              <option value="canceled">Canceled</option>
             </select>
+          )}
           </div>
         </DialogContent>
 

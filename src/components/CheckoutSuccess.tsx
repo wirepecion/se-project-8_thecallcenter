@@ -30,7 +30,7 @@ export default function CheckoutSuccess({
             </h2>
 
             <Link href="/mybooking" className="text-gray-400 font-medium mb-4">
-                <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded mb-4">See Your Payment</button>
+                <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded mb-4">See Your Booking</button>
             </Link>
 
             <button
