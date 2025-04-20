@@ -12,19 +12,57 @@ export default async function Booking() {
   const profile = await getUserProfile(session.user.token);
   const hotelJson: HotelJson = await getHotels();
 
+  const role = profile.data.role;
+
+  console.log("User Profile:", role);
+
   return (
     <main className="h-auto min-h-screen">
-      <HeroSection
-        title={
-          <>
-            Booking <br /> Your Stay
-          </>
-        }
-        description="The most seamless and secure way to book unique hotel experiences around the world."
-        imageSrc="/assets/room.png"
-      />
-      {/* <BookingHero /> */}
-      <BookingForm hotels={hotelJson.data} userProfile={profile} />
+      {role === "user" && (
+        <>
+          <HeroSection
+            title={
+              <>
+                Booking <br /> Your Stay
+              </>
+            }
+            description="The most seamless and secure way to book unique hotel experiences around the world."
+            imageSrc="/assets/room.png"
+          />
+          {/* <BookingHero /> */}
+          <BookingForm hotels={hotelJson.data} userProfile={profile} />
+        </>
+      )}
+      {role === "admin" && (
+        <>
+         <>
+          <HeroSection
+            title={
+              <>
+                Your role <br /> is Admin
+              </>
+            }
+            description="You are logged in as an admin. Please log in as a user to book hotels."
+            imageSrc="/assets/room.png"
+          />
+        </>
+        </>
+      )}
+      {role === "hotelManager" && (
+        <>
+        <>
+         <HeroSection
+           title={
+             <>
+               Your role <br /> is Hotel manager
+             </>
+           }
+           description="You are logged in as an hotel manager. Please log in as a user to book hotels."
+           imageSrc="/assets/room.png"
+         />
+       </>
+       </>
+      )}
     </main>
   );
 }

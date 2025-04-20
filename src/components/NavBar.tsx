@@ -11,7 +11,9 @@ export default async function NavBar() {
     const profile = session ? await getUserProfile(session?.user.token) : null;
 
     return (
-        <nav className="flex justify-between items-center w-full px-6 py-4 bg-transparent">
+        <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-white bg-opacity-30 backdrop-blur-md shadow-sm">
+
+            
             {/* Logo */}
             <div className="text-lg font-bold hover:text-[#0A4EB1]">
                 <a href="/">HOTELIO</a>
