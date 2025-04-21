@@ -18,7 +18,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* Login with user account */
   await page.getByRole('link', { name: 'Sign-In / Register' }).click();
   await page.getByRole('textbox', { name: 'Enter your email' }).click();
-  await page.getByRole('textbox', { name: 'Enter your email' }).fill('croissant@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('patthadon.1807@gmail.com');
   await page.getByRole('textbox', { name: 'Enter your password' }).click();
   await page.getByRole('textbox', { name: 'Enter your password' }).fill('123456');
   await page.getByRole('button', { name: 'Sign In' }).click();
@@ -111,7 +111,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Log Out */
-  await page.getByRole('link', { name: 'user Teresa Kutch croissant@' }).click();
+  await page.getByRole('link', { name: 'user Patthadon Phengpinij patthadon.1807@' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
 
   /* --------------------------------------------------------------------------------------------------- */
@@ -131,7 +131,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   await page.getByRole('navigation').locator('div').nth(3).click();
   await page.getByRole('link', { name: 'All Payments' }).click();
   await page.evaluate(() => {
-    window.scrollBy(0, 200); // Scroll down by 1000 pixels
+    window.scrollBy(0, 400); // Scroll down by 1000 pixels
   });
 
   /* --------------------------------------------------------------------------------------------------- */
@@ -139,7 +139,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Complete Payment */
-  await page.getByRole('row', { name: '14250 Card 4/20/2025 pending' }).getByLabel('Complete').click();
+  await page.getByRole('row', { name: '14250 Card 4/21/2025 pending' }).getByLabel('Complete').click();
   
   await page.waitForTimeout(1500);
   await page.getByRole('button', { name: 'OK' }).click();
@@ -159,7 +159,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* Login with user account */
   await page.getByRole('link', { name: 'Sign-In / Register' }).click();
   await page.getByRole('textbox', { name: 'Enter your email' }).click();
-  await page.getByRole('textbox', { name: 'Enter your email' }).fill('croissant@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('patthadon.1807@gmail.com');
   await page.getByRole('textbox', { name: 'Enter your password' }).click();
   await page.getByRole('textbox', { name: 'Enter your password' }).fill('123456');
   await page.getByRole('button', { name: 'Sign In' }).click();
@@ -191,7 +191,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Log Out */
-  await page.getByRole('link', { name: 'user Teresa Kutch croissant@' }).click();
+  await page.getByRole('link', { name: 'user Patthadon Phengpinij patthadon.1807@' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
 
   /* --------------------------------------------------------------------------------------------------- */
@@ -214,15 +214,12 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.getByRole('link', { name: 'All Payments' }).click();
   await page.evaluate(() => {
-    window.scrollBy(0, 200); // Scroll down by 200 pixels
+    window.scrollBy(0, 400); // Scroll down by 200 pixels
   });
   
   /* View all payments (play with price filter) */
   await page.waitForTimeout(5000);
   await page.getByRole('button', { name: '💰 Filter by Price' }).click();
-  await page.evaluate(() => {
-    window.scrollBy(0, 400); // Scroll down by 400 pixels
-  });
 
   await page.waitForTimeout(1000);
   await page.getByPlaceholder('Min Price').click();
@@ -239,8 +236,15 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* View all payments (play with payment method filter) */
   await page.waitForTimeout(5000);
   await page.locator('select[name="paymentMethod"]').selectOption('Card');
+
+  await page.waitForTimeout(2000);
   await page.locator('select[name="status"]').selectOption('pending');
+
+  await page.waitForTimeout(2000);
   await page.locator('select[name="status"]').selectOption('completed');
+
+  await page.waitForTimeout(2000);
+  await page.locator('select[name="status"]').selectOption('All Status');
 
   /* --------------------------------------------------------------------------------------------------- */
   await page.pause();
@@ -248,7 +252,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
 
   /* View all payments (play with update status feature) */
   await page.waitForTimeout(1500);
-  await page.getByRole('button', { name: 'Update' }).click();
+  await page.getByRole('row', { name: '14250 Card 4/21/2025 canceled' }).getByLabel('Update').click();
   await page.getByRole('combobox').selectOption('failed');
 
   await page.waitForTimeout(5000);
@@ -285,7 +289,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* Login with user account */
   await page.getByRole('link', { name: 'Sign-In / Register' }).click();
   await page.getByRole('textbox', { name: 'Enter your email' }).dblclick();
-  await page.getByRole('textbox', { name: 'Enter your email' }).fill('croissant@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('patthadon.1807@gmail.com');
   await page.getByRole('textbox', { name: 'Enter your email' }).press('Tab');
   await page.getByRole('textbox', { name: 'Enter your password' }).fill('123456');
   await page.getByRole('button', { name: 'Sign In' }).click();
