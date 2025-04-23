@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import BookingCard from "@/components/BookingCard";
@@ -8,18 +8,20 @@ import EditBookingModal from "./EditBookingModal";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import updateBooking from "@/libs/Booking/updateBooking";
 import { Alert } from "@mui/material";
+import getBookings from "@/libs/Booking/getBookings";
 import { stat } from "fs";
+import PageBar from "./pageBar";
 
 export default function MyBookingPage({
-    initialBookings,
+
+
     initialUserProfile,
     sessionToken,
 }: {
-    initialBookings: BookingItem[];
     initialUserProfile: UserItem;
     sessionToken: string;
 }) {
-    const [bookings, setBookings] = useState<BookingItem[]>(initialBookings);
+    const [bookings, setBookings] = useState<BookingItem[]>([]);
     const [selectedBooking, setSelectedBooking] = useState<BookingItem | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
@@ -28,6 +30,24 @@ export default function MyBookingPage({
     const [refundStatus, setRefundStatus] = useState<string>('');
     const [status, setStatus] = useState<string>('');
     const userProfile = initialUserProfile;
+
+    const initialPage = new URLSearchParams(window.location.search).get("page");
+    const [page, setPage] = useState<number>(initialPage ? parseInt(initialPage, 10) : 1);
+    const [totalPages, setTotalPages] = useState<number>(0);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const updatedBookings = await getBookings(sessionToken, page ? page.toString() : undefined);
+                setTotalPages(updatedBookings.totalPages);
+                setBookings(updatedBookings.data);
+            } catch (error) {
+                console.error("Error fetching bookings:", error);
+            }
+        };
+
+        fetchData();
+    }, [page]);
 
     const handleEditClick = (booking: BookingItem) => {
         setSelectedBooking(booking);
@@ -104,6 +124,7 @@ export default function MyBookingPage({
             return true;
         });
     };
+
     
 
     return (
@@ -159,6 +180,13 @@ export default function MyBookingPage({
                         </div>
                     )}
 
+                    
+                    <PageBar
+                        allPage={totalPages}
+                        handlePageChange={(newPage: number) => setPage(newPage)}
+                    />
+
+
                     {filterBookings(bookings).length > 0 ? (
                         <div className="w-full space-y-4">
                             {filterBookings(bookings).map((bookingItem) => (
@@ -181,6 +209,8 @@ export default function MyBookingPage({
                         </p>
                     )}
                 </div>
+
+                
 
                 {isModalOpen && selectedBooking && (
                     <EditBookingModal
