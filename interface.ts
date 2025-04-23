@@ -141,3 +141,15 @@ interface PaymentItemPopulate {
   status: string;
   paymentDate?: Date;
 }
+
+interface userProfile {
+  _id: string,
+  name: string,
+  email: string,
+  tel: string,
+  role: string,
+  credit: number,
+  membershipTier: string,
+  membershipPoints: number,
+  createdAt: string
+}
