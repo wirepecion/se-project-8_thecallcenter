@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState, Dispatch, SetStateAction, useEffect, use } from "react";
 import { updatePayment } from "@/libs/Payment/updatePayment";
-import reduceUserCredit from "@/libs/Auth/reduceUserCredit";    
-import CardForm from '@/components/Cardform'; 
-import BankForm from '@/components/BankForm'; 
+import reduceUserCredit from "@/libs/Auth/reduceUserCredit";
+import CardForm from '@/components/Cardform';
+import BankForm from '@/components/BankForm';
 import CountdownTimer from "./CountdownTimer";
 import { esES } from "@mui/x-date-pickers/locales";
 
@@ -17,7 +17,7 @@ export default function CheckoutPayment({
     usedCredit,
     handleSuccess,
     handleUseCredit
-} : {
+}: {
     token: string
     paymentData: PaymentItem
     total: number
@@ -35,9 +35,9 @@ export default function CheckoutPayment({
 
     const handleUpdate = async () => {
 
-        let creditReduce = 0 ;
+        let creditReduce = 0;
         console.log(total)
-        if(useCredit) {
+        if (useCredit) {
             const responseReduceCredit = await reduceUserCredit(usedCredit, token);
             console.log(responseReduceCredit);
             console.log("total paid", total);
@@ -55,37 +55,49 @@ export default function CheckoutPayment({
             <hr className="mb-4" />
 
             <div>
-                <label className="flex items-center space-x-2">
-                    <input
-                        type="checkbox"
-                        className="form-checkbox"
-                        checked={useCredit}
-                        onChange={(e) =>{ setUseCredit(e.target.checked); 
-                                        handleUseCredit(e.target.checked); }}
-                    />
-                    <span className="text-black">Use credit</span>
-                    <span className="text-gray-500">({currentCredit} credits available)</span>
-                    
-                </label>
+
+                <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-gray-200 shadow-sm">
+                    <label className="flex items-center gap-2 text-sm text-gray-700">
+                        <input
+                            type="checkbox"
+                            className="w-4 h-4 rounded accent-green-500 transition-all duration-200"
+                            checked={useCredit}
+                            onChange={(e) => {
+                                setUseCredit(e.target.checked);
+                                handleUseCredit(e.target.checked);
+                            }}
+                        />
+                        <span className="text-sm font-semibold">Use Credit</span>
+                    </label>
+                    <span className="text-xs text-gray-400 italic">{currentCredit} credits available</span>
+                </div>
+
+
+
+
+            </div>
+
+            <div className="p-2">
+
             </div>
 
             <div className="mb-6">
                 <label className="block font-medium mb-2 text-black">Pay With:</label>
                 <div className="flex items-center space-x-6">
-                {['Card', 'Bank', 'ThaiQR'].map((method) => (
-                    <label key={method} className="flex items-center text-gray-500 font-semibold space-x-1">
-                    <input
-                        type="radio"
-                        name="payment"
-                        checked={paymentMethod === method}
-                        onChange={() => {
-                        setPaymentMethod(method);
-                        setSelectedBank('');
-                        }}
-                    />
-                    <span className="capitalize">{method}</span>
-                    </label>
-                ))}
+                    {['Card', 'Bank', 'ThaiQR'].map((method) => (
+                        <label key={method} className="flex items-center text-gray-500 font-semibold space-x-1">
+                            <input
+                                type="radio"
+                                name="payment"
+                                checked={paymentMethod === method}
+                                onChange={() => {
+                                    setPaymentMethod(method);
+                                    setSelectedBank('');
+                                }}
+                            />
+                            <span className="capitalize">{method}</span>
+                        </label>
+                    ))}
                 </div>
             </div>
 
@@ -93,42 +105,42 @@ export default function CheckoutPayment({
 
             {paymentMethod === 'Card' && (
                 <CardForm
-                total={total}
-                onSuccess={(amount) => {
-                    handleUpdate()
-                    handleSuccess(true);
-                }}
+                    total={total}
+                    onSuccess={(amount) => {
+                        handleUpdate()
+                        handleSuccess(true);
+                    }}
                 />
             )}
 
             {paymentMethod === 'Bank' && (
                 <BankForm
-                total={total}
-                onSuccess={(amount, bank) => {
-                    handleUpdate()
-                    setSelectedBank(bank);
-                    handleSuccess(true);
-                }}
+                    total={total}
+                    onSuccess={(amount, bank) => {
+                        handleUpdate()
+                        setSelectedBank(bank);
+                        handleSuccess(true);
+                    }}
                 />
             )}
 
             {paymentMethod === 'ThaiQR' && (
                 <div className="mb-6 flex flex-col items-center text-center">
-                <p className="text-gray-400 mb-6 text-lg">thaiqr USD ${total} to:</p>
-                <p className="text-black font-semibold text-2xl">Polaris Bank</p>
-                <p className="text-black font-bold text-3xl">0123456781</p>
-                <div className="mt-6">
-                    <CountdownTimer duration={600} />
-                </div>
-                <button
-                    onClick={() => {
-                        handleUpdate()
-                        handleSuccess(true);
-                    }}
-                    className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold"
-                >
-                    Confirm Payment
-                </button>
+                    <p className="text-gray-400 mb-6 text-lg">thaiqr USD ${total} to:</p>
+                    <p className="text-black font-semibold text-2xl">Polaris Bank</p>
+                    <p className="text-black font-bold text-3xl">0123456781</p>
+                    <div className="mt-6">
+                        <CountdownTimer duration={600} />
+                    </div>
+                    <button
+                        onClick={() => {
+                            handleUpdate()
+                            handleSuccess(true);
+                        }}
+                        className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded font-semibold"
+                    >
+                        Confirm Payment
+                    </button>
                 </div>
             )}
 
