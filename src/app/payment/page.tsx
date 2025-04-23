@@ -32,6 +32,7 @@ export default function Payment() {
 
             const profile = await getUserProfile(session.user.token);
             setUserProfile(profile.data);
+            setLoading(true)
 
             if (profile.data.role === "hotelManager" || profile.data.role === "admin") {
                 const bookingJson = await getBookings(session.user.token , page ? page.toString() : undefined);
@@ -96,7 +97,10 @@ export default function Payment() {
                 imageSrc={"/img/Card.png"}
             />
             <div className="max-w-4xl w-full p-8 rounded-lg">
-
+                { loading ? (
+                    <p className="text-center text-gray-500">Loading payments...</p>
+                ) : (
+                <div>
                 {userProfile?.role === "hotelManager" && (
                     <div className="max-w-4xl w-full p-4 text-right text-lg font-medium text-green-600">
                         <span className="font-medium bg-green-100 p-2 rounded-lg">
@@ -158,7 +162,8 @@ export default function Payment() {
                         <p className="text-center text-gray-500">No payments found.</p>
                     )
                 )}
-
+                </div>)
+                }
                 <PageBar
                             allPage={totalPages}
                             handlePageChange={(newPage: number) => setPage(newPage)}

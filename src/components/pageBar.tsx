@@ -39,7 +39,7 @@ export default function PageBar({
             )}
 
             <div className="mx-10">
-                <p>{currentPage}</p>
+                <p>{currentPage}/{allPage}</p>
             </div>
 
             {currentPage < allPage && (
