@@ -1,13 +1,29 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/authOptions";
+import getUserProfile from "@/libs/Auth/getUserProfile";
 import ProfileUserCard from '@/components/ProfileUserCard';
+import MemberShipCard from "@/components/MembershipCard";
+import MembershipCard from "@/components/MembershipCard";
 
-export default function ProfilePage({ params }: { params: { uid: string } }) {
+export default async function ProfilePage({ params }: { params: { uid: string } }) {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user.token) return null;
+
+    const userProfile = await getUserProfile(session.user.token);
+
+    const user = userProfile.data;
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
-            <h1 className="text-2xl font-bold mb-4">Profile Page</h1>
-            <p className="text-lg">User ID: {params.uid}</p>
 
+        
+        <div className="p-3 h-auto text-white min-h-screen w-[95%]">
+            
+            <div className="flex items-center justify-center min-h-screen">
             <ProfileUserCard uid={params.uid} />
-            {/* Add more profile details here */}
+
+            <MembershipCard uid={params.uid} />
+        </div>
+
         </div>
     );
 }
