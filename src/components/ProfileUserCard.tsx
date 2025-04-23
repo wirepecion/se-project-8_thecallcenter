@@ -17,7 +17,7 @@ export default async function ProfileUserCard({ uid }: { uid: string }): Promise
                 <p className="text-base leading-relaxed">
                     The Most Seamless And Secure Way To Book Unique Hotel Experiences Around The World.
                 </p>
-                <span className="bg-white text-[#4361ee] font-semibold text-sm py-1 px-4 rounded-full w-fit">
+                <span className="bg-white text-[#4361ee] font-semibold text-sm py-1 px-4 rounded-md w-fit">
                     {user.membershipTier || "No rank available"}
                 </span>
             </div>
