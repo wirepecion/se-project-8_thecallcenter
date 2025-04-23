@@ -1,8 +1,9 @@
 import BACKEND_URL from "../config";
 
-export async function getPayments(token: string | undefined) {
-    
-    const response = await fetch(`${BACKEND_URL}/api/v1/payments`, {
+export async function getPayments(token: string | undefined,  pageQuery?: string) {
+    let page = pageQuery ? `page=${pageQuery}` : '';
+
+    const response = await fetch(`${BACKEND_URL}/api/v1/payments?${page}`, {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`,

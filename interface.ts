@@ -147,6 +147,7 @@ interface UserItem {
   membershipTier?: string,
   membershipPoints?: number,
   responsibleHotel?: string,
+  createdAt: string
 }
 
 interface StatisticItem {
@@ -164,5 +165,10 @@ interface UsersJson {
 interface UserJson {
   success: boolean,
   data: UserItem
+}
+
+interface FacilityItem {
+  name: string,
+  rank: string
 }
 //---------------------------------------------------------------------------------
