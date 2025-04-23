@@ -72,6 +72,9 @@ interface HotelItem {
   rooms: RoomItem[],
   picture: string,
   id: string
+  facilities: FacilityItem[],
+  subscriptionRank: number,
+  viewStatistics: number
 }
   
 interface HotelJson {
@@ -92,6 +95,7 @@ interface UserItem {
   tel: string
   email: string
   role: string
+  membershipTier: string
 }
 
 interface UsersData {
@@ -152,4 +156,8 @@ interface userProfile {
   membershipTier: string,
   membershipPoints: number,
   createdAt: string
+}
+interface FacilityItem {
+  name: string,
+  rank: string
 }
