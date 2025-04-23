@@ -34,11 +34,13 @@ export default function MyBookingPage({
     const initialPage = new URLSearchParams(window.location.search).get("page");
     const [page, setPage] = useState<number>(initialPage ? parseInt(initialPage, 10) : 1);
     const [totalPages, setTotalPages] = useState<number>(0);
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const updatedBookings = await getBookings(sessionToken, page ? page.toString() : undefined);
+                setLoading(false);
                 setTotalPages(updatedBookings.totalPages);
                 setBookings(updatedBookings.data);
             } catch (error) {
@@ -186,7 +188,14 @@ export default function MyBookingPage({
                         handlePageChange={(newPage: number) => setPage(newPage)}
                     />
 
+                    {
+                        loading?( 
+                            <div className="flex justify-center items-center">
+                                <div className="text-gray-500 text-lg">Loading...</div>
+                            </div>
+                        ):(
 
+                    <div>
                     {filterBookings(bookings).length > 0 ? (
                         <div className="w-full space-y-4">
                             {filterBookings(bookings).map((bookingItem) => (
@@ -208,7 +217,11 @@ export default function MyBookingPage({
                                 : "No bookings found."}
                         </p>
                     )}
+                    </div>
+                    )
+                }
                 </div>
+                        
 
                 
 
