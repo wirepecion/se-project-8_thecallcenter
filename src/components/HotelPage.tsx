@@ -1,6 +1,7 @@
 import RoomCatalog from "./RoomCatalog";
 import Image from "next/image";
 import HotelCard from "./HotelCard";
+import FacilityCatalog from "./FacilityCatalog";
 
 export default async function HotelPage({ hotelDetail }: { hotelDetail: Promise<HotelResponse> }) {
 
@@ -40,8 +41,15 @@ export default async function HotelPage({ hotelDetail }: { hotelDetail: Promise<
             </div>
 
             <div className="mt-12">
+                <h1 className="text-5xl font-semibold mb-6 text-left">Rooms</h1>
                 <RoomCatalog rooms={hotel.rooms} />
             </div>
+
+            <div className="mt-12">
+                <h1 className="text-5xl font-semibold mb-6 text-left">Facilities</h1>
+                <FacilityCatalog facilities={hotel.facilities} />
+            </div>
+
         </div>
     );
 }
