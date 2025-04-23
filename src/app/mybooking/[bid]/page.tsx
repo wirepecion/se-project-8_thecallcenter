@@ -16,6 +16,7 @@ export default async function View({ params }: { params: { bid: string } }) {
 
     return (
         <main className="p-7 h-[1200px] text-white min-h-screen">
+         
             
         <BookingClientView
             bookingItem={bookingJson.data}
