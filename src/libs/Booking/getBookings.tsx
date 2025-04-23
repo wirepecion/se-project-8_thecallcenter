@@ -1,8 +1,9 @@
 import BACKEND_URL from "../config";
 
-export default async function getBookings(token: string | undefined) {
+export default async function getBookings(token: string | undefined, pageQuery?: string) {
+    let page = pageQuery ? `page=${pageQuery}` : '';
     
-    const response = await fetch(`${BACKEND_URL}/api/v1/bookings`, {
+    const response = await fetch(`${BACKEND_URL}/api/v1/bookings?${page}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
