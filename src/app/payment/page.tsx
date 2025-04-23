@@ -45,7 +45,7 @@ export default function Payment() {
 
                 setEarning(earnings);
             } else {
-                const paymentJson = await getPayments(session.user.token);
+                const paymentJson = await getPayments(session.user.token , page ? page.toString() : undefined);
                 setPayments(paymentJson.data);
             }
             setLoading(false);
@@ -130,10 +130,7 @@ export default function Payment() {
                             onDelete={handleDeletePayment}
                         />
 
-                        <PageBar
-                            allPage={totalPages}
-                            handlePageChange={(newPage: number) => setPage(newPage)}
-                        />
+                        
                         </div>
                     ) : (
                         <p className="text-center text-gray-500">No payments found.</p>
@@ -161,6 +158,11 @@ export default function Payment() {
                         <p className="text-center text-gray-500">No payments found.</p>
                     )
                 )}
+
+                <PageBar
+                            allPage={totalPages}
+                            handlePageChange={(newPage: number) => setPage(newPage)}
+                        />
             </div>
         </main>
     );
