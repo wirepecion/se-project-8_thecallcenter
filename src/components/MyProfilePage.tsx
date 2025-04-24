@@ -2,6 +2,7 @@
 
 import getUsers from "@/libs/Auth/getUsers";
 import { useEffect, useState } from "react";
+import ProfileTable from "./ProfileTable";
 
 export default function MyProfilePage({
     sessionToken,
@@ -39,28 +40,7 @@ export default function MyProfilePage({
             </ul>
 
             <h2>All Users</h2>
-            <table cellPadding={10} style={{ borderCollapse: "collapse", width: "100%" }}>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Tel</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Credit</th>
-                </tr>
-                </thead>
-                <tbody>
-                {users?.map((user) => (
-                    <tr key={user._id}>
-                    <td>{user.name}</td>
-                    <td>{user.tel}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>{user.credit}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <ProfileTable users={users}/>
         </>
     );
 }
