@@ -60,7 +60,6 @@ export default function MyProfilePage({
     return (
         <>
             <div className="p-6 space-y-20 max-w-[80%] mx-auto">
-                {/* Top grid section */}
                 <div className="grid grid-cols-5 gap-8">
                     <div className="col-span-3">
                         <GreetingBox name={name} />
@@ -70,7 +69,6 @@ export default function MyProfilePage({
                     </div>
                 </div>
     
-                {/* Tier cards */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     {rank.map((currentRank) => (
                         <TierCountCard key={currentRank} data={statistics} tier={currentRank} />
@@ -81,7 +79,7 @@ export default function MyProfilePage({
                     <div className="w-full max-w-xs mb-10">
                         <select
                             value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
+                            onChange={(e) => { setFilter(e.target.value); setPage(1); }}
                             className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
                         >
                             <option value="">All Tier</option>
