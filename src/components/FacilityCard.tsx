@@ -56,9 +56,9 @@ export default function FacilityCard ( { facilityItem } : { facilityItem: Facili
           case "gold":
             return "text-yellow-500 bg-yellow-100";
           case "platinum":  
-            return "text-blue-500 bg-blue-100";
-          case "diamond":
             return "text-purple-500 bg-purple-100";
+          case "diamond":
+            return "text-blue-500 bg-blue-100";
           case "unavailable":
             return "text-red-500 bg-red-100";
           default:

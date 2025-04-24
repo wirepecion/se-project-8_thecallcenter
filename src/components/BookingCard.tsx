@@ -85,6 +85,23 @@ export default function BookingCard({
             ? "bg-purple-100 text-purple-800"
             : "bg-red-100 text-red-800";
 
+    const getTierStyle = (tier: string | undefined) => {
+        switch (tier) {
+            case "bronze":
+                return "text-orange-800 bg-orange-100";
+            case "silver":
+                return "text-gray-800 bg-gray-200";
+            case "gold":
+                return "text-yellow-500 bg-yellow-100";
+            case "platinum":  
+                return "text-purple-500 bg-purple-100";
+            case "diamond":
+                return "text-blue-500 bg-blue-100";
+            default:
+                return "text-white bg-gray-500";
+            }
+    };
+
     return (
         <div className="rounded-2xl bg-white shadow-md h-full p-6 space-y-4 border border-gray-200">
             <div className="flex justify-between items-center">
@@ -100,6 +117,10 @@ export default function BookingCard({
                 <div><span className="font-medium">Hotel:</span> {bookingData.hotel?.name || "Unknown"}</div>
                 <div><span className="font-medium">Check-In Date:</span> {dayjs(bookingData.checkInDate).format("MMMM D, YYYY")}</div>
                 <div><span className="font-medium">Check-Out Date:</span> {dayjs(bookingData.checkOutDate).format("MMMM D, YYYY")}</div>
+                <div>
+                    <span className="font-medium">Tier At Booking: </span> 
+                    <span className={`rounded-xl px-2 inline-block ${getTierStyle(bookingData.tierAtBooking)}`}>{bookingData.tierAtBooking || "Unknown"}</span>
+                </div>
             </div>
 
             <div className="flex space-x-3 items-center justify-end">
