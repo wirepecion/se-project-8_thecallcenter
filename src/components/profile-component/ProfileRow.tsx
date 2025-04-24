@@ -25,7 +25,7 @@ export default function ProfileRow({
 
     return (
         <>
-            <tr className="border-t border-gray-200 shadow-xl bg-gray-50 text-[#1A4F83]">
+            <tr className="border-t border-gray-200 shadow-md bg-gray-50 text-[#1A4F83]">
                 <td className="p-3 pl-10 pr-5 flex items-center gap-2 font-medium">
                     <Image
                         src="/img/userDark.png"

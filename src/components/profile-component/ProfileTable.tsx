@@ -6,7 +6,7 @@ export default function ProfileTable({
     users: UserItem[] | null
 }) {
     return (
-        <table className="mx-auto my-90 text-sm font-sans">
+        <table className="mx-auto text-sm font-sans">
             <thead>
             <tr className="bg-gray-100 text-[#1A4F83]">
                 <th className="p-4 pl-10 pr-5 font-semibold text-left">NAME</th>

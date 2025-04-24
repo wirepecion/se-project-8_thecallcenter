@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/authOptions";
+import { authOptions } from "../../api/auth/[...nextauth]/authOptions";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import MyProfilePage from "@/components/profile-component/MyProfilePage";
 
-export default async function AllProfile() {
+export default async function MyProfile() {
     const session = await getServerSession(authOptions);
     if (!session?.user?.token) {
         return <p className="text-center text-gray-500">Unauthorized. Please log in.</p>;
@@ -16,6 +16,6 @@ export default async function AllProfile() {
     }
 
     return (
-        <MyProfilePage sessionToken={session?.user?.token} name={profile.data.name}/>
+        <MyProfilePage sessionToken={session?.user?.token}/>
     );
 }
