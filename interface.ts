@@ -7,7 +7,7 @@ interface BookingItem {
   payments: PaymentItem[],
   user: UserItem,
   status: string,
-
+  tierAtBooking: string
 }
 
 interface PaymentCurrencyAmount {
