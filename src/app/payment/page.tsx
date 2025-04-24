@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import getBookings from "@/libs/Booking/getBookings";
 import PaymentTable from "@/components/PaymentTable";
 import HeroSection from "@/components/HeroSection";
+import PageBar from "@/components/pageBar";
 
 export default function Payment() {
     const { data: session } = useSession();
@@ -18,16 +19,24 @@ export default function Payment() {
     const [earning, setEarning] = useState(0);
     const [refreshKey, setRefreshKey] = useState(0);
     const [filterStatus, setFilterStatus] = useState("unpaid");
-
+    
+    const initialPage = typeof window !== "undefined" 
+        ? new URLSearchParams(window.location.search).get("page") 
+        : null;
+    const [page, setPage] = useState<number>(initialPage ? parseInt(initialPage, 10) : 1);
+    const [totalPages, setTotalPages] = useState<number>(0);
+    
     useEffect(() => {
         async function fetchData() {
             if (!session?.user?.token) return;
 
             const profile = await getUserProfile(session.user.token);
             setUserProfile(profile.data);
+            setLoading(true)
 
             if (profile.data.role === "hotelManager" || profile.data.role === "admin") {
-                const bookingJson = await getBookings(session.user.token);
+                const bookingJson = await getBookings(session.user.token , page ? page.toString() : undefined);
+                setTotalPages(bookingJson.totalPages);
                 setBookings(bookingJson.data);
 
                 const earnings = bookingJson.data
@@ -37,14 +46,14 @@ export default function Payment() {
 
                 setEarning(earnings);
             } else {
-                const paymentJson = await getPayments(session.user.token);
+                const paymentJson = await getPayments(session.user.token , page ? page.toString() : undefined);
                 setPayments(paymentJson.data);
             }
             setLoading(false);
         }
 
         fetchData();
-    }, [refreshKey]);
+    }, [refreshKey, page]);
 
     const handlePaymentUpdate = (paymentId: string, newStatus: string) => {
         setBookings((prevBookings) =>
@@ -88,7 +97,10 @@ export default function Payment() {
                 imageSrc={"/img/Card.png"}
             />
             <div className="max-w-4xl w-full p-8 rounded-lg">
-
+                { loading ? (
+                    <p className="text-center text-gray-500">Loading payments...</p>
+                ) : (
+                <div>
                 {userProfile?.role === "hotelManager" && (
                     <div className="max-w-4xl w-full p-4 text-right text-lg font-medium text-green-600">
                         <span className="font-medium bg-green-100 p-2 rounded-lg">
@@ -115,11 +127,15 @@ export default function Payment() {
                 {/* 🧾 Display for each role */}
                 {userProfile?.role === "hotelManager" || userProfile?.role === "admin" ? (
                     bookings.length > 0 ? (
+                        <div>
                         <PaymentTable
                             bookings={bookings}
                             onStatusChange={handlePaymentUpdate}
                             onDelete={handleDeletePayment}
                         />
+
+                        
+                        </div>
                     ) : (
                         <p className="text-center text-gray-500">No payments found.</p>
                     )
@@ -146,6 +162,12 @@ export default function Payment() {
                         <p className="text-center text-gray-500">No payments found.</p>
                     )
                 )}
+                </div>)
+                }
+                <PageBar
+                            allPage={totalPages}
+                            handlePageChange={(newPage: number) => setPage(newPage)}
+                        />
             </div>
         </main>
     );
