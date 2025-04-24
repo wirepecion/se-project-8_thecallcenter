@@ -12,7 +12,7 @@ export default async function CreditsCard({ uid }: { uid: string }): Promise<JSX
     const user = userProfile.data;
 
     return (
-        <div className="max-w-sm mx-auto w-108 h-[150px] p-6 bg-white rounded-2xl shadow-md flex items-center space-x-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+        <div className="max-w-sm mx-auto w-6/12 h-[150px] p-6 bg-white rounded-2xl shadow-md flex items-center space-x-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <div className="bg-blue-100 p-4 rounded-full ">
                 <Bitcoin className="w-8 h-8 text-blue-600" />
             </div>

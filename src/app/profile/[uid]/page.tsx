@@ -21,14 +21,12 @@ export default async function ProfilePage({ params }: { params: { uid: string } 
             
             <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
                 
-                <div className="p-2"/>
                 <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                     <ProfileUserCard uid={params.uid} />
                     <MembershipCard uid={params.uid} />
                 </div>
 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                    <div className="p-[1px]"/>
                     <RankCard uid={params.uid} />
                     <DiscountCard uid={params.uid} />
                     <CreditsCard uid={params.uid} />

@@ -26,11 +26,11 @@ export default async function DiscountCard({ uid }: { uid: string }): Promise<JS
         .find((r) => points >= r.point) || ranks[0];
 
     return (
-        <div className="bg-white rounded-xl shadow-md p-6 w-80 h-[150px] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+        <div className="bg-white rounded-xl shadow-md p-6 w-4/12 h-[150px] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <div className="flex justify-between items-start mb-2">
             <div className="flex flex-col items-start mb-1">
-            <p className="text-gray-800 font-semibold text-3xl leading-tight">Member</p>
-            <p className="text-gray-800 font-semibold text-3xl leading-tight">Discount</p>
+            <p className="text-gray-800 font-semibold text-2xl leading-tight">Member</p>
+            <p className="text-gray-800 font-semibold text-2xl leading-tight">Discount</p>
         </div>
                 <p className="text-green-400 text-7xl font-bold">
                     {rank.discount}<span className="text-3xl align-top">%</span>
