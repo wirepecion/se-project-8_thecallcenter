@@ -1,20 +1,47 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import getUserProfile from "@/libs/Auth/getUserProfile";
-import getHotels from "@/libs/Hotel/getHotels";
-import BookingForm from "@/components/BookingForm";
-import HeroSection from "@/components/HeroSection";
+'use client';
 
-export default async function Booking() {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user.token) return null;
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import getUserProfile from '@/libs/Auth/getUserProfile';
+import getHotels from '@/libs/Hotel/getHotels';
+import BookingForm from '@/components/BookingForm';
+import HeroSection from '@/components/HeroSection';
+import Loader from '@/components/Loader';
 
-  const profile = await getUserProfile(session.user.token);
-  const hotelJson: HotelJson = await getHotels();
+export default function Booking() {
+  const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<any>(null);
+  const [hotels, setHotels] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!session?.user?.token) return;
+
+      try {
+        const profileData = await getUserProfile(session.user.token);
+        const hotelsData = await getHotels();
+        setProfile(profileData);
+        setHotels(hotelsData);
+      } catch (err) {
+        console.error('Failed to load data', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [session]);
+
+  if (status === 'loading' || loading || !profile || !hotels) {
+    return (
+      <main className="h-auto min-h-screen flex items-center justify-center">
+        <Loader />
+      </main>
+    );
+  }
 
   const role = profile.data.role;
-
-  console.log("User Profile:", role);
 
   return (
     <main className="h-auto min-h-screen">
@@ -29,39 +56,30 @@ export default async function Booking() {
             description="The most seamless and secure way to book unique hotel experiences around the world."
             imageSrc="/assets/room.png"
           />
-          {/* <BookingHero /> */}
-          <BookingForm hotels={hotelJson.data} userProfile={profile} />
+          <BookingForm hotels={hotels.data} userProfile={profile} />
         </>
       )}
       {role === "admin" && (
-        <>
-         <>
-          <HeroSection
-            title={
-              <>
-                Your role <br /> is Admin
-              </>
-            }
-            description="You are logged in as an admin. Please log in as a user to book hotels."
-            imageSrc="/assets/room.png"
-          />
-        </>
-        </>
+        <HeroSection
+          title={
+            <>
+              Your role <br /> is Admin
+            </>
+          }
+          description="You are logged in as an admin. Please log in as a user to book hotels."
+          imageSrc="/assets/room.png"
+        />
       )}
       {role === "hotelManager" && (
-        <>
-        <>
-         <HeroSection
-           title={
-             <>
-               Your role <br /> is Hotel manager
-             </>
-           }
-           description="You are logged in as an hotel manager. Please log in as a user to book hotels."
-           imageSrc="/assets/room.png"
-         />
-       </>
-       </>
+        <HeroSection
+          title={
+            <>
+              Your role <br /> is Hotel manager
+            </>
+          }
+          description="You are logged in as a hotel manager. Please log in as a user to book hotels."
+          imageSrc="/assets/room.png"
+        />
       )}
     </main>
   );
