@@ -22,6 +22,7 @@ export default function MyProfilePage({
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [filter, setFilter] = useState<string>('');
+    const [loading, setLoading] = useState(true);
 
     const rank = ['bronze', 'silver', 'gold', 'platinum', 'diamond'];
 
@@ -45,7 +46,9 @@ export default function MyProfilePage({
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true)
                 const allUsers: UsersJson = await getUsers(sessionToken, page ? page.toString() : undefined, filter);
+                setLoading(false)
                 setUsers(allUsers.data);
                 setStatistic(allUsers.statistic);
                 setTotalPages(allUsers.totalPages);
@@ -98,7 +101,16 @@ export default function MyProfilePage({
                         handlePageChange={(newPage: number) => setPage(newPage)}
                     />
     
+                    {
+                        loading && ( 
+                            <div className="flex justify-center items-center">
+                                <div className="text-gray-500 text-lg">Loading...</div>
+                            </div>
+                        )
+                    }
+
                     <ProfileTable users={users} />
+
                 </div>
             </div>
         </>
