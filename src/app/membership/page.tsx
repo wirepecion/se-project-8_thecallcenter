@@ -1,29 +1,41 @@
-
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import HeroSection from "@/components/HeroSection";
-import DiscriptionMember from "@/components/DiscriptionMember";
+import DescriptionMember from "@/components/DescriptionMember";
+import MembershipTable from "@/components/MembershipTable"; 
+import MembershipCard from "@/components/MembershipCard";
 
-export default async function Membership() {
+export default async function Membership({ params }: { params: { uid: string } }) {
     const session = await getServerSession(authOptions);
-    if (!session || !session.user.token) return null;
 
-    const profile = await getUserProfile(session.user.token);
-    const role = profile.data.role;
+
+    let user: UserItem | null = null;
+    if (session?.user?.token) {
+        const userProfile: UserJson = await getUserProfile(session.user.token);
+        user = userProfile.data;
+    }
 
     return (
-        <main className="h-auto min-h-screen">
+        <main className="min-h-screen">
             <HeroSection
-                title={
-                    <>
-                        Membership<br /> Loyalty Program
-                    </>
-                }
+                title={<>Membership<br /> Loyalty Program</>}
                 description="Turn every stay into a rewarding experience."
                 imageSrc="/assets/girlinmember.png"
             />
-            <DiscriptionMember />
+            {
+                session ? (
+                    <div className="flex justify-center ">
+                    <MembershipCard uid={params.uid} />
+                    </div>
+                ): (
+                    <div className=" ">
+                        <DescriptionMember />
+                    </div>
+                )
+            }
+
+            <MembershipTable user={user} />
         </main>
     );
 }
