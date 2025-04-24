@@ -71,6 +71,7 @@ interface HotelItem {
   bookings: BookingItem[],
   rooms: RoomItem[],
   picture: string,
+  subscriptionRank: number,
   id: string
 }
   
