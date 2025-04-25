@@ -101,13 +101,15 @@ export default function MyProfilePage({
                         handlePageChange={(newPage: number) => setPage(newPage)}
                     />
     
-                    {
-                        loading && ( 
-                            <div className="flex justify-center items-center">
-                                <div className="text-gray-500 text-lg">Loading...</div>
-                            </div>
-                        )
-                    }
+                    <div className="h-5 flex justify-center items-center">
+                        {
+                            loading && ( 
+                                <div className="flex justify-center items-center">
+                                    <div className="text-gray-500 text-lg">Loading...</div>
+                                </div>
+                            )
+                        }
+                    </div>
 
                     <ProfileTable users={users} />
 

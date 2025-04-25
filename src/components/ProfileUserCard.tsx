@@ -1,13 +1,16 @@
 import Image from "next/image";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import getUser from "@/libs/Auth/getUser";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 
-export default async function ProfileUserCard({ uid }: { uid: string }): Promise<JSX.Element | null> {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user.token) return null;
+export default async function ProfileUserCard({ 
+    token,
+    uid 
+}: { 
+    token: string
+    uid?: string 
+}) {
 
-    const userProfile = await getUserProfile(session.user.token);
+    const userProfile = await (uid ? getUser(token, uid) : getUserProfile(token));
     const user = userProfile.data;
 
     return (

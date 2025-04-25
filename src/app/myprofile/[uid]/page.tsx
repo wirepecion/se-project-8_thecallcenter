@@ -16,6 +16,6 @@ export default async function MyProfile() {
     }
 
     return (
-        <MyProfilePage sessionToken={session?.user?.token}/>
+        <MyProfilePage sessionToken={session?.user?.token} name={profile.data.name}/>
     );
 }
