@@ -8,6 +8,8 @@ import DiscountCard from "@/components/DiscountCard";
 import RankCard from "@/components/RankCard";
 import TotalAmountCard from "@/components/TotalAmountCard";
 import TotalUserCard from "@/components/TotalUserCard";
+import SubscriptionCard from "@/components/SubscriptionCard";
+import TotalPendingCard from "@/components/TotalPendingCard";
 
 export default async function ProfilePage({ params }: { params: { uid: string } }) {
     const session = await getServerSession(authOptions);
@@ -42,14 +44,14 @@ export default async function ProfilePage({ params }: { params: { uid: string } 
                     <div className="p-2"/>
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                         <ProfileUserCard uid={params.uid} />
-                        <MembershipCard uid={params.uid} />
+                        <SubscriptionCard uid={params.uid} />
                     </div>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                         <div className="p-[1px]"/>
                         <TotalAmountCard uid={params.uid} />
                         <TotalUserCard uid={params.uid} />
-                        <RankCard uid={params.uid} />
+                        <TotalPendingCard uid={params.uid} />
                     </div>
                 </div>
             )}
