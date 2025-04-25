@@ -9,7 +9,7 @@ import EditBookingModal from "./EditBookingModal";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import { Alert } from "@mui/material";
 import getBookings from "@/libs/Booking/getBookings";
-import PageBar from "./PageBar";
+import PageBar from "@/components/PageBar";
 
 export default function MyBookingPage({
     initialUserProfile,

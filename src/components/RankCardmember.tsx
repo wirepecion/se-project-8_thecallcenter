@@ -33,7 +33,7 @@ export default function RankCardmember({
                 </div>
                 <div className=" w-14 h-14 relative">
                     <Image
-                        src={`/img/ranks/${rank.toLowerCase()}.png`}
+                        src={`/img/Membership_tier/${rank.toLowerCase()}.png`}
                         alt={`${rank} rank`}
                         fill
                         className="object-contain"
