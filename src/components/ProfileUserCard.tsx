@@ -11,6 +11,7 @@ export default async function ProfileUserCard({ uid }: { uid: string }): Promise
     const user = userProfile.data;
 
     return (
+
         <div className="flex items-center justify-between bg-[#4361ee] text-white rounded-2xl p-6 mx-0 shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl max-w-fit h-80">
             <div className="flex flex-col gap-4 max-w-md">
                 <h1 className="text-3xl font-bold">Hello, {user.name}!</h1>

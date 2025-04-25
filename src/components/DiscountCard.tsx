@@ -26,6 +26,7 @@ export default async function DiscountCard({ uid }: { uid: string }): Promise<JS
         .find((r) => points >= r.point) || ranks[0];
 
     return (
+
         <div className="bg-white rounded-xl shadow-md p-6 w-4/12 h-[150px] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <div className="flex justify-between items-start mb-2">
             <div className="flex flex-col items-start mb-1">

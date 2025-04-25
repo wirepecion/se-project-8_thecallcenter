@@ -31,6 +31,7 @@ export default async function MembershipCard({ uid }: { uid: string }): Promise<
     const percent = Math.min((points / nextGoal) * 100, 100);
 
     return (
+
         <div className="bg-white h-80 rounded-xl shadow-lg p-6 w-full max-w-sm text-center transition-transform duration-300 hover:scale-105 hover:shadow-xl mx-0">
             <h2 className="text-lg font-semibold mb-4 text-gray-700">Membership</h2>
 
