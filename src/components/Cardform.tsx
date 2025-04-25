@@ -25,8 +25,52 @@ export default function CardForm({
       });
       return;
     }
-
-    setCardValidated(true); 
+  
+    const plainCardNumber = cardNumber.replace(/\s+/g, '');
+    if (plainCardNumber.length !== 16 || !/^\d+$/.test(plainCardNumber)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Card Number',
+        text: 'Card number must be exactly 16 digits.',
+      });
+      return;
+    }
+  
+    const expRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    if (!expRegex.test(expirationDate)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Expiration Date',
+        text: 'Please enter a valid expiration date in MM/YY format.',
+      });
+      return;
+    }
+  
+    const [mm, yy] = expirationDate.split('/').map(Number);
+    const now = new Date();
+    const expYear = 2000 + yy;
+    const expMonth = mm - 1;
+    const expDate = new Date(expYear, expMonth + 1, 0); 
+  
+    if (expDate < now) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Card Expired',
+        text: 'Your card appears to be expired.',
+      });
+      return;
+    }
+  
+    if (!/^\d{3}$/.test(cvv)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid CVV',
+        text: 'CVV must be exactly 3 digits.',
+      });
+      return;
+    }
+  
+    setCardValidated(true);
   };
 
   const handlePinChange = (index: number, value: string) => {
