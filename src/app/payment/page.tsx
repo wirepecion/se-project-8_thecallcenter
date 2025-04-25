@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import getBookings from "@/libs/Booking/getBookings";
 import PaymentTable from "@/components/PaymentTable";
 import HeroSection from "@/components/HeroSection";
-import PageBar from "@/components/pageBar";
+import PageBar from "@/components/PageBar";
 
 export default function Payment() {
     const { data: session } = useSession();
@@ -114,7 +114,7 @@ export default function Payment() {
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="border border-gray-300 rounded px-4 py-2 text-gray-700"
+                            className="bg-white border border-gray-300 rounded px-4 py-2 text-gray-700"
                         >
                             
                             <option value="unpaid">Unpaid</option>
@@ -165,9 +165,10 @@ export default function Payment() {
                 </div>)
                 }
                 <PageBar
-                            allPage={totalPages}
-                            handlePageChange={(newPage: number) => setPage(newPage)}
-                        />
+                    currentPage={page}
+                    allPage={totalPages}
+                    handlePageChange={(newPage: number) => setPage(newPage)}
+                />
             </div>
         </main>
     );
