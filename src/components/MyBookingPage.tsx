@@ -1,25 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import BookingCard from "@/components/BookingCard";
 import EditBookingModal from "./EditBookingModal";
 import deleteBooking from "@/libs/Booking/deleteBooking";
-import updateBooking from "@/libs/Booking/updateBooking";
 import { Alert } from "@mui/material";
-import { stat } from "fs";
+import getBookings from "@/libs/Booking/getBookings";
+import PageBar from "./PageBar";
 
 export default function MyBookingPage({
-    initialBookings,
     initialUserProfile,
     sessionToken,
 }: {
-    initialBookings: BookingItem[];
     initialUserProfile: UserItem;
     sessionToken: string;
 }) {
-    const [bookings, setBookings] = useState<BookingItem[]>(initialBookings);
+    const [bookings, setBookings] = useState<BookingItem[]>([]);
     const [selectedBooking, setSelectedBooking] = useState<BookingItem | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
@@ -28,6 +27,26 @@ export default function MyBookingPage({
     const [refundStatus, setRefundStatus] = useState<string>('');
     const [status, setStatus] = useState<string>('');
     const userProfile = initialUserProfile;
+
+    const [page, setPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(0);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const updatedBookings = await getBookings(sessionToken, page ? page.toString() : undefined);
+                setLoading(false);
+                setTotalPages(updatedBookings.totalPages);
+                setBookings(updatedBookings.data);
+            } catch (error) {
+                console.error("Error fetching bookings:", error);
+            }
+        };
+
+        fetchData();
+    }, [page]);
 
     const handleEditClick = (booking: BookingItem) => {
         setSelectedBooking(booking);
@@ -38,30 +57,6 @@ export default function MyBookingPage({
         setIsModalOpen(false);
         setSelectedBooking(null);
     };
-
-    const handleRefundBooking = async (booking: BookingItem) => {
-        try {
-            // Create an update object with the new status
-            const updateData = {
-                status: "canceled"
-            };
-    
-            // Call API to update the booking
-            await updateBooking(booking._id, updateData, sessionToken);
-
-            setAlertType("success");
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
-    
-        } catch (error: any) {
-            console.error("Error occurred during refunding:", error);
-            setAlertType("error");
-            setErrorMessage(error.message || "An error occurred during refunding.");
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
-        }
-    };
-
 
     const handleDeleteBooking = async (booking: BookingItem) => {
         try {
@@ -104,6 +99,7 @@ export default function MyBookingPage({
             return true;
         });
     };
+
     
 
     return (
@@ -159,6 +155,21 @@ export default function MyBookingPage({
                         </div>
                     )}
 
+                    
+                    <PageBar
+                        currentPage={page}
+                        allPage={totalPages}
+                        handlePageChange={(newPage: number) => setPage(newPage)}
+                    />
+
+                    {
+                        loading?( 
+                            <div className="flex justify-center items-center">
+                                <div className="text-gray-500 text-lg">Loading...</div>
+                            </div>
+                        ):(
+
+                    <div>
                     {filterBookings(bookings).length > 0 ? (
                         <div className="w-full space-y-4">
                             {filterBookings(bookings).map((bookingItem) => (
@@ -180,7 +191,13 @@ export default function MyBookingPage({
                                 : "No bookings found."}
                         </p>
                     )}
+                    </div>
+                    )
+                }
                 </div>
+                        
+
+                
 
                 {isModalOpen && selectedBooking && (
                     <EditBookingModal

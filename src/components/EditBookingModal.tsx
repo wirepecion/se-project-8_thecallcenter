@@ -22,6 +22,8 @@ export default function EditBookingModal({
     const [checkInDate, setCheckInDate] = useState<Date | null>(null);
     const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
     const [loading, setLoading] = useState(false);  // Add loading state
+    const [status, setStatus] = useState<string>('');
+    
 
     const router = useRouter(); 
 
@@ -48,29 +50,26 @@ export default function EditBookingModal({
             confirmButtonText: "Yes, update!",
             
         }).then((result) => {
+            let updatedBooking = null; 
             if(result.isConfirmed){
-                
-                if (!checkInDate || !checkOutDate) return;
-
-                // Create updated booking object
-                const updatedBooking = {
-                    // ...booking,
+                if (status !== '') {
+                    updatedBooking = {
+                        status: status,
+                    };
+                } else if (!checkInDate || !checkOutDate) {
+                    return;
+                } else {
+                    updatedBooking = {
                     checkInDate: checkInDate.toISOString(),
                     checkOutDate: checkOutDate.toISOString(),
                 };
+                }
 
                 setLoading(true); // Set loading to true to indicate the operation is in progress
 
                 // Update the booking (example: API call to update the booking)
                 updateBooking(booking._id, updatedBooking, sessionToken)
-                    .then(() => {
-                        // setLoading(false);  // Set loading to false once the API call is complete
-                        // setBookings((prevBookings) =>
-                        //     prevBookings.map((b) =>
-                        //         b._id === booking._id ? updatedBooking : b
-                        //     )
-                        // );
-                    })
+
                     .catch((err) => {
                         console.error(err);
                         setLoading(false);  // Set loading to false if there's an error
@@ -101,6 +100,27 @@ export default function EditBookingModal({
                     <p><strong>Customer:</strong> {booking.user.name}</p>
                     <p><strong>Room No.:</strong> {booking.room.number}</p>
                     <p><strong>Hotel:</strong> {booking.hotel?.name}</p>
+
+                    {
+                        userRole !== "user" ? (
+                            <div className="w-full max-w-xs mb-10">
+                            <select
+                                name="status"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                                className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+                            >
+                                <option value="">All Status</option>
+                                <option value="pending" >Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="failed">Failed</option>
+                                <option value="canceled">Canceled</option>
+                                <option value="checkedIn">Checked In</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                        ) : null
+                    }
 
                     {/* Date Reserve Component */}
                     <DateReserveForUpdate
