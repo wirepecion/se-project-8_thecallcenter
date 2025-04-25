@@ -13,7 +13,7 @@ export default async function UserProfile({ params }: { params: { uid: string } 
 
     const userProfile: UserJson = await getUserProfile(session.user.token);
     const user = userProfile.data;
-    if (user.role !== "admin") return null;
+    if (user.role !== "admin") return <p className="text-center text-gray-500">Unauthorized. Only admin can access this path.</p>;
 
     return (
         <div className="min-h-screen w-full text-white py-10 px-4">
