@@ -157,8 +157,12 @@ interface StatisticItem {
 
 interface UsersJson {
   success: boolean,
-  count: number,
+  allUser: number,
   statistic: StatisticItem[]
+  count: number,
+  totalPages: number,
+  nowPage: number,
+  pagination: Object,
   data: UserItem[]
 }
 

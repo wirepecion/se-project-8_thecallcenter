@@ -1,20 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import BookingCard from "@/components/BookingCard";
 import EditBookingModal from "./EditBookingModal";
 import deleteBooking from "@/libs/Booking/deleteBooking";
-import updateBooking from "@/libs/Booking/updateBooking";
 import { Alert } from "@mui/material";
 import getBookings from "@/libs/Booking/getBookings";
-import { stat } from "fs";
-import PageBar from "./pageBar";
+import PageBar from "./PageBar";
 
 export default function MyBookingPage({
-
-
     initialUserProfile,
     sessionToken,
 }: {
@@ -31,10 +28,10 @@ export default function MyBookingPage({
     const [status, setStatus] = useState<string>('');
     const userProfile = initialUserProfile;
 
-    const initialPage = new URLSearchParams(window.location.search).get("page");
-    const [page, setPage] = useState<number>(initialPage ? parseInt(initialPage, 10) : 1);
+    const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -60,30 +57,6 @@ export default function MyBookingPage({
         setIsModalOpen(false);
         setSelectedBooking(null);
     };
-
-    const handleRefundBooking = async (booking: BookingItem) => {
-        try {
-            // Create an update object with the new status
-            const updateData = {
-                status: "canceled"
-            };
-    
-            // Call API to update the booking
-            await updateBooking(booking._id, updateData, sessionToken);
-
-            setAlertType("success");
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
-    
-        } catch (error: any) {
-            console.error("Error occurred during refunding:", error);
-            setAlertType("error");
-            setErrorMessage(error.message || "An error occurred during refunding.");
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
-        }
-    };
-
 
     const handleDeleteBooking = async (booking: BookingItem) => {
         try {
@@ -184,6 +157,7 @@ export default function MyBookingPage({
 
                     
                     <PageBar
+                        currentPage={page}
                         allPage={totalPages}
                         handlePageChange={(newPage: number) => setPage(newPage)}
                     />

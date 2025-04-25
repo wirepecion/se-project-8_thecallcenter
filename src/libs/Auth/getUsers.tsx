@@ -1,7 +1,12 @@
 import BACKEND_URL from "../config";
 
-export default async function getUsers(token:string) {
-    const response = await fetch(`${BACKEND_URL}/api/v1/auth/users`, {
+export default async function getUsers(token: string, pageQuery?: string, filter?: string) {
+    const queryParams = new URLSearchParams();
+    
+    if (pageQuery) queryParams.append("page", pageQuery);
+    if (filter) queryParams.append("filter", filter);
+
+    const response = await fetch(`${BACKEND_URL}/api/v1/auth/users?${queryParams.toString()}`, {
         method: "GET",
         headers: {
             authorization: `Bearer ${token}`,
