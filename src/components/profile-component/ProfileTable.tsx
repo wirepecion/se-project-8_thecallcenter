@@ -13,8 +13,8 @@ export default function ProfileTable({
                 <th className="p-4 w-[25%] font-semibold text-left">EMAIL</th>
                 <th className="p-4 w-[15%] font-semibold text-left">TELEPHONE</th>
                 <th className="p-4 w-[15%] font-semibold text-left">MEMBERSHIP POINT</th>
-                <th className="p-4 w-[10%] font-semibold text-left">TIER</th>
-                <th className="p-4 w-[10%] font-semibold text-left">CREDIT</th>
+                <th className="p-4 w-[13%] font-semibold text-left">TIER</th>
+                <th className="p-4 w-[7%] font-semibold text-left">CREDIT</th>
             </tr>
             </thead>
             <tbody>

@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 
 export default function ProfileRow({
@@ -5,6 +6,12 @@ export default function ProfileRow({
   }: {
     profile: UserItem
   }) {
+
+    const router = useRouter();
+
+    const handleClick = () => {
+      router.push(`/profile/${profile._id}`);
+    };
 
     const getStyle = (profile: UserItem) => {
       if (profile.membershipTier) {
@@ -23,14 +30,17 @@ export default function ProfileRow({
             return "bg-gray-300";
         }
       }
-      if (profile.role === 'admin') return "bg-gradient-to-b from-[#52BCEB] via-[#2F85C7] to-[#52BCEB]";
-      return "bg-gradient-to-b from-[#E2B3FC] via-[#C786EB] to-[#E2B3FC]";
+      if (profile.role === 'admin') return "bg-gradient-to-b from-[#B6FFA1] via-[#00FF9C] to-[#B6FFA1]";
+      return "bg-gradient-to-b from-[#FF8282] via-[#FF204E] to-[#FF8282]";
     };
 
     return (
         <>
-            <tr className="border-t border-gray-200 shadow-md bg-gray-50 text-[#1A4F83]">
-                <td className="p-3 flex items-center gap-2 font-medium">
+            <tr 
+              onClick={handleClick}
+              className="cursor-pointer border-t border-gray-200 shadow-md bg-gray-50 text-[#1A4F83] hover:scale-[1.01] hover:shadow-lg transition-transform duration-200"
+            >
+                <td className="p-4 flex items-center gap-2 font-medium">
                     <Image
                         src="/img/userDark.png"
                         alt="user"
@@ -40,15 +50,19 @@ export default function ProfileRow({
                     />
                     {profile.name}
                 </td>
-                <td className="p-3">{profile.email}</td>
-                <td className="p-3">{profile.tel}</td>
-                <td className="p-3">{profile.membershipTier ? profile.membershipPoints : "-"}</td>
-                <td className="p-3">
+                <td className="p-4">{profile.email}</td>
+                <td className="p-4">{profile.tel}</td>
+                <td className="p-4">{profile.membershipTier ? profile.membershipPoints : "-"}</td>
+                <td className="p-4">
                     <span className={`rounded-xl p-1 px-2 text-gray-100 ${getStyle(profile)}`}>
-                        { profile.membershipTier ? profile.membershipTier : profile.role }
+                        { profile.membershipTier ? profile.membershipTier : 
+                          (
+                            (profile.role === "admin" && "ADMIN") || (profile.role === "hotelManager" && "Hotel Manager")
+                          )
+                        }
                     </span>
                 </td>
-                <td className="p-3">{profile.credit}</td>
+                <td className="p-4">{profile.credit}</td>
             </tr>
         </>
     );

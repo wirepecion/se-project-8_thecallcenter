@@ -24,14 +24,14 @@ export default async function Profile() {
                     <div className="min-h-screen w-full text-white py-10 px-4">
                         <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
                             <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                                <ProfileUserCard uid={user._id} />
-                                <MembershipCard uid={user._id} />
+                                <ProfileUserCard token={session.user.token}/>
+                                <MembershipCard token={session.user.token}/>
                             </div>
 
                             <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                                <RankCard uid={user._id} />
-                                <DiscountCard uid={user._id} />
-                                <CreditsCard uid={user._id} />
+                                <RankCard token={session.user.token}/>
+                                <DiscountCard token={session.user.token}/>
+                                <CreditsCard token={session.user.token}/>
                             </div>
                         </div>
                     </div>

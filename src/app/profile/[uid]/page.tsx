@@ -19,14 +19,14 @@ export default async function UserProfile({ params }: { params: { uid: string } 
         <div className="min-h-screen w-full text-white py-10 px-4">
             <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                    <ProfileUserCard uid={params.uid} />
-                    <MembershipCard uid={params.uid} />
+                    <ProfileUserCard token={session.user.token} uid={params.uid} />
+                    <MembershipCard token={session.user.token} uid={params.uid} />
                 </div>
 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                    <RankCard uid={params.uid} />
-                    <DiscountCard uid={params.uid} />
-                    <CreditsCard uid={params.uid} />
+                    <RankCard token={session.user.token} uid={params.uid} />
+                    <DiscountCard token={session.user.token} uid={params.uid} />
+                    <CreditsCard token={session.user.token} uid={params.uid} />
                 </div>
             </div>
         </div>
