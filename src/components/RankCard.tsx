@@ -11,7 +11,7 @@ export default async function RankCard({ uid }: { uid: string }): Promise<JSX.El
     const user = userProfile.data;
 
     const tier = user.membershipTier?.toLowerCase() || "none";
-    const tierImage = `/img/ranks/${tier}.png`; 
+    const tierImage = `/img/Membership_tier/${tier}.png`; 
 
     return (
 
