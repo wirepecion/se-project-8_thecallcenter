@@ -11,10 +11,11 @@ export default async function RankCard({ uid }: { uid: string }): Promise<JSX.El
     const user = userProfile.data;
 
     const tier = user.membershipTier?.toLowerCase() || "none";
-    const tierImage = `/img/ranks/${tier}.png`; 
+    const tierImage = `/img/Membership_tier/${tier}.png`; 
 
     return (
-        <div className="bg-white rounded-xl shadow-md p-6 w-60 h-[150px] flex justify-between items-center w-full max-w-md transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+
+        <div className="bg-white rounded-xl shadow-md p-6 w-3/12 h-[150px] flex justify-between items-center max-w-md transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <div className="flex flex-col items-start">
                 <p className="text-gray-800 font-semibold text-2xl">Benefits</p>
                 <button className="text-sm font-semibold text-blue-500 mt-1 hover:underline">

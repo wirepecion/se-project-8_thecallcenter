@@ -1,18 +1,39 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function CheckoutSummary({
     paymentData,
     subtotal,
     discount,
-    total
+    total,
+    currentCredit,
+    useCredit
 }: { 
     paymentData: PaymentItem
     subtotal: number
     discount: number
     total: number
+    currentCredit: number
+    useCredit: boolean
 }) {
+
+    /*const [finalPrice, setFinalPrice] = useState(total);
+    const [finalUseCredit, setFinalUseCredit] = useState(currentCredit);
+    useEffect(() => {
+        if (useCredit) {
+            if (currentCredit > total) {
+                setFinalPrice(100);
+                setFinalUseCredit(total - 100);
+            } else {
+                setFinalPrice(total - currentCredit);
+            }
+        } else {
+            setFinalPrice(total);
+        }
+    }
+    , [useCredit, currentCredit, total]);*/
 
     const hotelpic = paymentData.booking.hotel.picture;
 
@@ -51,6 +72,10 @@ export default function CheckoutSummary({
                 <div className="flex justify-between font-medium text-lg">
                     <span>Membership discount</span>
                     <span className="text-red-500">- ฿{discount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between font-medium text-lg">
+                    <span>Use Credit</span>
+                    <span className="text-red-500">- ฿{useCredit ? currentCredit : 0}</span>
                 </div>
                     <hr />
                 <div className="flex justify-between text-lg font-bold">

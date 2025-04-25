@@ -1,3 +1,61 @@
+// Hotel --------------------------------------------------------------------------
+interface HotelItem {
+  _id: string,
+  name: string,
+  address: string,
+  tel: string,
+  bookings: BookingItem[],
+  rooms: RoomItem[],
+  picture: string,
+  subscriptionRank: number,
+  viewStatistics: number,
+  facilities: FacilityItem[],
+  id: string
+}
+  
+interface HotelJson {
+  success: boolean,
+  count: number,
+  pagination: Object,
+  data: HotelItem[]
+}
+
+interface HotelResponse {
+  success: boolean,
+  data: HotelItem
+}
+
+interface FacilityItem {
+  name: string,
+  rank: string
+}
+//---------------------------------------------------------------------------------
+
+// Room ---------------------------------------------------------------------------
+interface UnavailablePeriod {
+  startDate: string,
+  endDate: string,
+  _id: string
+}
+
+interface RoomItem {
+  _id: string,
+  hotel: string,
+  type: string,
+  number: number,
+  price: number,
+  unavailablePeriod: UnavailablePeriod[]
+}
+  
+interface RoomJson {
+  success: boolean,
+  count: number,
+  pagination: Object,
+  data: RoomItem[]
+}
+//---------------------------------------------------------------------------------
+
+// Booking ------------------------------------------------------------------------
 interface BookingItem {
   _id: string,
   checkInDate: string,
@@ -7,14 +65,8 @@ interface BookingItem {
   payments: PaymentItem[],
   user: UserItem,
   status: string,
-
+  tierAtBooking: string
 }
-
-interface PaymentCurrencyAmount {
-  amount: number;  
-  currency: string;
-}
-
   
 interface BookingJson {
   success: boolean,
@@ -41,75 +93,27 @@ interface BookingWithPopulate {
   payments: PaymentItemPopulate[],
 }
 
-interface UnavailablePeriod {
-  startDate: string,
-  endDate: string,
-  _id: string
-}
-
-interface RoomItem {
+interface BookingItemforPayment {
   _id: string,
-  hotel: string,
-  type: string,
-  number: number,
-  price: number,
-  unavailablePeriod: UnavailablePeriod[]
+  checkInDate: string,
+  checkOutDate: string,
+  room: RoomItem,
+  hotel: HotelItem, 
+  user: UserItem
 }
-  
-interface RoomJson {
-  success: boolean,
-  count: number,
-  pagination: Object,
-  data: RoomItem[]
-}
+//---------------------------------------------------------------------------------
 
-interface HotelItem {
-  _id: string,
-  name: string,
-  address: string,
-  tel: string,
-  bookings: BookingItem[],
-  rooms: RoomItem[],
-  picture: string,
-  subscriptionRank: number,
-  id: string
-}
-  
-interface HotelJson {
-  success: boolean,
-  count: number,
-  pagination: Object,
-  data: HotelItem[]
-}
-
-interface HotelResponse {
-  success: boolean,
-  data: HotelItem
-}
-
-interface UserItem {
-  _id: string
-  name: string
-  tel: string
-  email: string
-  role: string
-}
-
-interface UsersData {
-  success: boolean,
-  data: UserItem
-}
-
+// Payment ------------------------------------------------------------------------
 interface PaymentItem {
-  _id: string;
-  booking: BookingItemforPayment; 
-  user: UserItem; 
+  _id: string,
+  booking: BookingItemforPayment, 
+  user: UserItem, 
   // @ts-ignore
-  amount: number;
-  status: string;
-  method: string;
-  paymentDate?: Date;
-  canceledAt?: Date | null;
+  amount: number,
+  status: string,
+  method: string,
+  paymentDate?: Date,
+  canceledAt?: Date | null,
 }
 
 interface PaymentJson {
@@ -126,19 +130,52 @@ interface PaymentJsonOne {
   data: PaymentItem
 }
 
-interface BookingItemforPayment {
-  _id: string,
-  checkInDate: string,
-  checkOutDate: string,
-  room: RoomItem,
-  hotel: HotelItem, 
-  user: UserItem
+interface PaymentCurrencyAmount {
+  amount: number,  
+  currency: string
 }
 
 interface PaymentItemPopulate {
-  _id: string;
-  booking: string; 
-  amount: number;
-  status: string;
-  paymentDate?: Date;
+  _id: string,
+  booking: string, 
+  amount: number,
+  status: string,
+  paymentDate?: Date,
 }
+//---------------------------------------------------------------------------------
+
+// User ---------------------------------------------------------------------------
+interface UserItem {
+  _id: string,
+  name: string,
+  tel: string,
+  email: string,
+  role: string,
+  credit?: number,
+  membershipTier?: string,
+  membershipPoints?: number,
+  responsibleHotel?: string,
+  createdAt: string
+}
+
+interface StatisticItem {
+  _id: string,
+  totalUsers: number
+}
+
+interface UsersJson {
+  success: boolean,
+  allUser: number,
+  statistic: StatisticItem[]
+  count: number,
+  totalPages: number,
+  nowPage: number,
+  pagination: Object,
+  data: UserItem[]
+}
+
+interface UserJson {
+  success: boolean,
+  data: UserItem
+}
+//---------------------------------------------------------------------------------
