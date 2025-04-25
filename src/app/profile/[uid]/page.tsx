@@ -11,16 +11,16 @@ import TotalUserCard from "@/components/TotalUserCard";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import TotalPendingCard from "@/components/TotalPendingCard";
 
-export default async function ProfilePage({ params }: { params: { uid: string } }) {
+export default async function UserProfile({ params }: { params: { uid: string } }) {
     const session = await getServerSession(authOptions);
     if (!session || !session.user.token) return null;
 
-    const userProfile = await getUserProfile(session.user.token);
-    const user: UserItem = userProfile.data;
+
+    const userProfile: UserJson = await getUserProfile(session.user.token);
+    const user = userProfile.data;
+    if (user.role !== "admin") return <p className="text-center text-gray-500">Unauthorized. Only admin can access this path.</p>;
 
     return (
-
-        
         <div className="min-h-screen w-full text-white py-10 px-4">
             
             { user.role === "user" && (
@@ -31,14 +31,15 @@ export default async function ProfilePage({ params }: { params: { uid: string } 
                         <MembershipCard uid={params.uid} />
                     </div>
 
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                        <div className="p-[1px]"/>
-                        <RankCard uid={params.uid} />
-                        <DiscountCard uid={params.uid} />
-                        <CreditsCard uid={params.uid} />
+                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+                        <RankCard token={session.user.token} uid={params.uid} />
+                        <DiscountCard token={session.user.token} uid={params.uid} />
+                        <CreditsCard token={session.user.token} uid={params.uid} />
                     </div>
+
                 </div>
             )}
+          
             { user.role === "hotelManager" && (
                 <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
                     <div className="p-2"/>
@@ -53,6 +54,7 @@ export default async function ProfilePage({ params }: { params: { uid: string } 
                         <TotalUserCard uid={params.uid} />
                         <TotalPendingCard uid={params.uid} />
                     </div>
+
                 </div>
             )}
         </div>
