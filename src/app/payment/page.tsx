@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import getBookings from "@/libs/Booking/getBookings";
 import PaymentTable from "@/components/PaymentTable";
 import HeroSection from "@/components/HeroSection";
-import PageBar from "@/components/pageBar";
+import PageBar from "@/components/PageBar";
 
 export default function Payment() {
     const { data: session } = useSession();
@@ -165,9 +165,10 @@ export default function Payment() {
                 </div>)
                 }
                 <PageBar
-                            allPage={totalPages}
-                            handlePageChange={(newPage: number) => setPage(newPage)}
-                        />
+                    currentPage={page}
+                    allPage={totalPages}
+                    handlePageChange={(newPage: number) => setPage(newPage)}
+                />
             </div>
         </main>
     );

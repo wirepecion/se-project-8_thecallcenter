@@ -7,20 +7,17 @@ import CreditsCard from "@/components/CreditsCard";
 import DiscountCard from "@/components/DiscountCard";
 import RankCard from "@/components/RankCard";
 
-export default async function ProfilePage({ params }: { params: { uid: string } }) {
+export default async function UserProfile({ params }: { params: { uid: string } }) {
     const session = await getServerSession(authOptions);
     if (!session || !session.user.token) return null;
 
-    const userProfile = await getUserProfile(session.user.token);
+    const userProfile: UserJson = await getUserProfile(session.user.token);
     const user = userProfile.data;
+    if (user.role !== "admin") return null;
 
     return (
-
-        
         <div className="min-h-screen w-full text-white py-10 px-4">
-            
             <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
-                
                 <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                     <ProfileUserCard uid={params.uid} />
                     <MembershipCard uid={params.uid} />

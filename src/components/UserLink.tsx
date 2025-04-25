@@ -8,7 +8,7 @@ export default function UserLink({ profile }: { profile: any }) {
   return (
     <a
       //href="/api/auth/signout"
-      href ={`/profile/${profile._id}`}
+      href="/profile"
       className="border p-2 rounded-lg items-center text-xs font-sans font-semibold hover:bg-black hover:text-white whitespace-nowrap flex flex-row"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
