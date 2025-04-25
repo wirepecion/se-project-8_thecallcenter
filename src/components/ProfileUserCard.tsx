@@ -22,7 +22,8 @@ export default async function ProfileUserCard({
                     The Most Seamless And Secure Way To Book Unique Hotel Experiences Around The World.
                 </p>
                 <span className="bg-white text-[#4361ee] font-semibold text-sm py-1 px-4 rounded-md w-fit">
-                    {user.membershipTier || "No rank available"}
+                    {user.role === "user" && (user.membershipTier || "No rank available")}
+                    {user.role === "hotelManager" && "Hotel Manager"}
                 </span>
             </div>
 

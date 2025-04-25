@@ -7,6 +7,9 @@ interface HotelItem {
   bookings: BookingItem[],
   rooms: RoomItem[],
   picture: string,
+  subscriptionRank: number,
+  viewStatistics: number,
+  facilities: FacilityItem[],
   id: string
 }
   
@@ -20,6 +23,11 @@ interface HotelJson {
 interface HotelResponse {
   success: boolean,
   data: HotelItem
+}
+
+interface FacilityItem {
+  name: string,
+  rank: string
 }
 //---------------------------------------------------------------------------------
 
@@ -169,10 +177,5 @@ interface UsersJson {
 interface UserJson {
   success: boolean,
   data: UserItem
-}
-
-interface FacilityItem {
-  name: string,
-  rank: string
 }
 //---------------------------------------------------------------------------------
