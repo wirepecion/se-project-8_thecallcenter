@@ -1,16 +1,18 @@
 'use client';
 
-import getHotels from '@/libs/Hotel/getHotels';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Button from './Button';
 import InteractiveButton from './InteractiveButton';
 import { motion, AnimatePresence } from 'framer-motion';
+import randomBanners from '@/libs/Ads/randomBanners';
+import getHotels from '@/libs/Hotel/getHotels';
 
 export default function AdsBanner() {
     const [index, setIndex] = useState(0);
     const [direction, setDirection] = useState(0); 
     const [hotels, setHotels] = useState<HotelItem[]>([]);
+    const [bannerNames, setBannerNames] = useState<string[]>([]);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     const startInterval = () => {
@@ -35,8 +37,10 @@ export default function AdsBanner() {
 
     useEffect(() => {
         const fetchHotels = async () => {
-            const hotelJson = await getHotels();
-            setHotels(hotelJson.data);
+            const hotelsJson = await getHotels();
+            setHotels(hotelsJson.data);
+            const bannerJson = await randomBanners();
+            setBannerNames(bannerJson.data);
         };
 
         fetchHotels();
@@ -47,8 +51,8 @@ export default function AdsBanner() {
         };
     }, []);
 
-    const sortedHotels = hotels.sort((a, b) => b.subscriptionRank - a.subscriptionRank);
-    const currentHotel = sortedHotels[index % 5];
+    const currentBannerName = bannerNames[index % 5];
+    const currentHotel = hotels.find((hotel) => hotel.name === currentBannerName);
 
     if (!currentHotel) return <p className="text-center text-gray-500">Loading ads...</p>;
     return (
