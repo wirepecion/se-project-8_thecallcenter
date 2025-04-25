@@ -23,17 +23,20 @@ export default async function Membership({ params }: { params: { uid: string } }
                 description="Turn every stay into a rewarding experience."
                 imageSrc="/assets/girlinmember.png"
             />
-            {
-                session ? (
-                    <div className="flex justify-center ">
-                    <MembershipCard uid={params.uid} />
+            {session ? (
+                user?.membershipTier !== "none" ? (
+                    <div className="flex justify-center">
+                        <MembershipCard uid={params.uid} />
                     </div>
-                ): (
-                    <div className=" ">
+                ) : (
+                    <div>
                         <DescriptionMember />
                     </div>
                 )
-            }
+            ) : <div>
+            <DescriptionMember />
+        </div>}
+            
 
             <MembershipTable user={user} />
         </main>
