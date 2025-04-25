@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function WelcomeCard({name} : {name:string}) {
   return (
-    <div className="rounded-xl p-4 py-8 bg-blue-600 text-white rounded-2xl shadow-md">
+    <div className="p-4 py-8 bg-blue-600 text-white rounded-2xl shadow-md">
         <div className="p-6 flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-bold mb-6">Hello, {name}!</h2>
