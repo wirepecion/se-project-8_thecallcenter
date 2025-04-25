@@ -30,7 +30,7 @@ export default function ProfileRow({
     return (
         <>
             <tr className="border-t border-gray-200 shadow-md bg-gray-50 text-[#1A4F83]">
-                <td className="p-3 pl-10 pr-5 flex items-center gap-2 font-medium">
+                <td className="p-3 flex items-center gap-2 font-medium">
                     <Image
                         src="/img/userDark.png"
                         alt="user"
@@ -40,17 +40,15 @@ export default function ProfileRow({
                     />
                     {profile.name}
                 </td>
-                <td className="p-3 px-5">{profile.email}</td>
-                <td className="p-3 px-5">{profile.tel}</td>
-                <td className="p-3 px-5">{profile.membershipPoints}</td>
-                <td className={`p-3 px-5`}>
+                <td className="p-3">{profile.email}</td>
+                <td className="p-3">{profile.tel}</td>
+                <td className="p-3">{profile.membershipTier ? profile.membershipPoints : "-"}</td>
+                <td className="p-3">
                     <span className={`rounded-xl p-1 px-2 text-gray-100 ${getStyle(profile)}`}>
-                        {
-                          profile.membershipTier ? profile.membershipTier : profile.role
-                        }
+                        { profile.membershipTier ? profile.membershipTier : profile.role }
                     </span>
                 </td>
-                <td className="p-3 px-5">{profile.credit}</td>
+                <td className="p-3">{profile.credit}</td>
             </tr>
         </>
     );
