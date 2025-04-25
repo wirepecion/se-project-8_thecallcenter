@@ -18,10 +18,11 @@ export default function ProfileTable({
             </tr>
             </thead>
             <tbody>
-            {users?.map((userItem: UserItem) => (
-                <ProfileRow profile={userItem} />
-                )
-            )}
+            {   
+                users?.map((userItem: UserItem) => (
+                    <ProfileRow profile={userItem} />
+                ))
+            }
             </tbody>
         </table>
     );

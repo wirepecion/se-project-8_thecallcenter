@@ -6,8 +6,9 @@ export default function ProfileRow({
     profile: UserItem
   }) {
 
-    const getTierStyle = (tier: string | undefined) => {
-        switch (tier) {
+    const getStyle = (profile: UserItem) => {
+      if (profile.membershipTier) {
+        switch (profile.membershipTier) {
           case "bronze":
             return "bg-gradient-to-b from-[#D9805F] via-[#A64F3C] to-[#D9805F]";
           case "silver":
@@ -21,7 +22,10 @@ export default function ProfileRow({
           default:
             return "bg-gray-300";
         }
-      };
+      }
+      if (profile.role === 'admin') return "bg-gradient-to-b from-[#52BCEB] via-[#2F85C7] to-[#52BCEB]";
+      return "bg-gradient-to-b from-[#E2B3FC] via-[#C786EB] to-[#E2B3FC]";
+    };
 
     return (
         <>
@@ -40,8 +44,10 @@ export default function ProfileRow({
                 <td className="p-3 px-5">{profile.tel}</td>
                 <td className="p-3 px-5">{profile.membershipPoints}</td>
                 <td className={`p-3 px-5`}>
-                    <span className={`rounded-xl p-1 px-2 text-gray-100 ${getTierStyle(profile.membershipTier)}`}>
-                        {profile.membershipTier}
+                    <span className={`rounded-xl p-1 px-2 text-gray-100 ${getStyle(profile)}`}>
+                        {
+                          profile.membershipTier ? profile.membershipTier : profile.role
+                        }
                     </span>
                 </td>
                 <td className="p-3 px-5">{profile.credit}</td>
