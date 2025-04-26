@@ -26,7 +26,7 @@ export default async function Membership({ params }: { params: { uid: string } }
             {session ? (
                 user?.membershipTier !== "none" ? (
                     <div className="flex justify-center">
-                        <MembershipCard token={session.user.token}/>
+                        <MembershipCard token={session.user.token} uid={params.uid} />
                     </div>
                 ) : (
                     <div>
