@@ -47,11 +47,11 @@ export default function Hamburger({ profile }: { profile: any }) {
                 : "My Payments" }
               </a>
             </li>
-            <li>
+            {/* <li>
               <a href="/booking" className="block px-4 py-2 hover:bg-gray-100">
                 Rating
               </a>
-            </li>
+            </li> */}
             <li></li>
           </ul>
           <div className="py-1">
