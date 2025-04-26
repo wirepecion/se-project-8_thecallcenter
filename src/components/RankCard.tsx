@@ -1,6 +1,7 @@
 import Image from "next/image";
 import getUser from "@/libs/Auth/getUser";
 import getUserProfile from "@/libs/Auth/getUserProfile";
+import Link from "next/link";
 
 export default async function RankCard({ 
     token,
@@ -21,9 +22,9 @@ export default async function RankCard({
         <div className="bg-white rounded-xl shadow-md p-6 w-3/12 h-[150px] flex justify-between items-center max-w-md transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <div className="flex flex-col items-start">
                 <p className="text-gray-800 font-semibold text-2xl">Benefits</p>
-                <button className="text-sm font-semibold text-blue-500 mt-1 hover:underline">
+                <Link href="/membership" className="text-sm font-semibold text-blue-500 mt-1 hover:underline">
                     → see more
-                </button>
+                </Link>
             </div>
             <div className="w-20 h-20 relative">
                 <Image
