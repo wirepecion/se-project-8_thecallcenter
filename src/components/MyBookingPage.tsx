@@ -36,7 +36,7 @@ export default function MyBookingPage({
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const updatedBookings = await getBookings(sessionToken, page ? page.toString() : undefined);
+                const updatedBookings = await getBookings(sessionToken, page ? page.toString() : undefined, refundStatus ? refundStatus : status ? status : undefined)
                 setLoading(false);
                 setTotalPages(updatedBookings.totalPages);
                 setBookings(updatedBookings.data);
@@ -46,7 +46,7 @@ export default function MyBookingPage({
         };
 
         fetchData();
-    }, [page]);
+    }, [page, status, refundStatus]);
 
     const handleEditClick = (booking: BookingItem) => {
         setSelectedBooking(booking);
@@ -70,37 +70,14 @@ export default function MyBookingPage({
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         if (name === 'refundStatus') setRefundStatus(value);
+        setPage(1);
     };
 
     const handleFilterStatusChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         if (name === 'status') setStatus(value);
+        setPage(1);
     };
-    
-    const filterBookings = (bookings: BookingItem[]) => {
-        return bookings.filter((booking) => {
-            const latestPayment = booking.payments[booking.payments.length - 1];
-    
-            if (refundStatus === "refundable") {
-                if (latestPayment.status !== "completed") return false;
-                if (booking.status !== "confirmed" && booking.status !== "checkedIn") return false;
-            }
-    
-            if (refundStatus === "nonrefundable") {
-                if ((booking.status === "confirmed" || booking.status === "checkedIn") && latestPayment.status === "completed") {
-                    return false;
-                }
-            }
-    
-            if (status && booking.status !== status) {
-                return false;
-            }
-    
-            return true;
-        });
-    };
-
-    
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -130,8 +107,8 @@ export default function MyBookingPage({
                             className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
                         >
                             <option value="">All</option>
-                            <option value="refundable">Refundable</option>
-                            <option value="nonrefundable">Non-Refundable</option>
+                            <option value="confirmed,checkedIn">Refundable</option>
+                            <option value="pending,canceled,completed">Non-Refundable</option>
                         </select>
                     </div>
                     )}
@@ -147,7 +124,6 @@ export default function MyBookingPage({
                                 <option value="">All Status</option>
                                 <option value="pending" >Pending</option>
                                 <option value="confirmed">Confirmed</option>
-                                <option value="failed">Failed</option>
                                 <option value="canceled">Canceled</option>
                                 <option value="checkedIn">Checked In</option>
                                 <option value="completed">Completed</option>
@@ -170,9 +146,9 @@ export default function MyBookingPage({
                         ):(
 
                     <div>
-                    {filterBookings(bookings).length > 0 ? (
+                    {bookings.length > 0 ? (
                         <div className="w-full space-y-4">
-                            {filterBookings(bookings).map((bookingItem) => (
+                            {bookings.map((bookingItem) => (
                                 <BookingCard
                                     key={bookingItem._id}
                                     bookingData={bookingItem}
@@ -184,9 +160,9 @@ export default function MyBookingPage({
                         </div>
                     ) : (
                         <p className="text-center text-gray-500 h-screen">
-                            {refundStatus === "refundable"
+                            {refundStatus === "confirmed,checkedIn"
                                 ? "No refundable bookings found."
-                                : refundStatus === "nonrefundable"
+                                : refundStatus === "pending,canceled,completed"
                                 ? "No non-refundable bookings found."
                                 : "No bookings found."}
                         </p>
@@ -196,9 +172,6 @@ export default function MyBookingPage({
                 }
                 </div>
                         
-
-                
-
                 {isModalOpen && selectedBooking && (
                     <EditBookingModal
                         booking={selectedBooking}
