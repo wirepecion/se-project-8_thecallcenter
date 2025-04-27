@@ -7,6 +7,7 @@ import InteractiveButton from './InteractiveButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import randomBanners from '@/libs/Ads/randomBanners';
 import getHotels from '@/libs/Hotel/getHotels';
+import SlideArrowButton from './SlideArrowButton';
 
 export default function AdsBanner() {
     const [index, setIndex] = useState(0);
@@ -55,7 +56,7 @@ export default function AdsBanner() {
         <div> {        
             currentHotelBanner === undefined ? <p className="text-center text-gray-500">Loading ads...</p> :
             <div className="flex flex-col justify-center items-center text-black mb-20">  
-                <div className="relative w-[1100px] h-[600px] rounded-lg overflow-hidden shadow-lg">
+                <div className="relative w-screen h-[600px] rounded-lg overflow-hidden shadow-lg">
                     <AnimatePresence initial={false} custom={direction}>
                         <motion.div
                             key={currentHotelBanner._id}
@@ -90,15 +91,11 @@ export default function AdsBanner() {
                     </AnimatePresence>
 
                     <div className="absolute top-1/2 left-5 -translate-y-1/2 z-10 opacity-70">
-                        <InteractiveButton>
-                            <Button onClick={handleLeftClick} variant="white-outline">{"<"}</Button>
-                        </InteractiveButton>
+                        <SlideArrowButton direction="left" onClick={handleLeftClick} variant="primary"/>
                     </div>
 
                     <div className="absolute top-1/2 right-5 -translate-y-1/2 z-10 opacity-70">
-                        <InteractiveButton>
-                            <Button onClick={handleRightClick} variant="white-outline">{">"}</Button>
-                        </InteractiveButton>
+                        <SlideArrowButton direction="right" onClick={handleRightClick} variant="primary"/>
                     </div>
 
                     <div className="absolute bottom-0 left-0 w-full p-5 px-10 bg-gradient-to-r from-transparent to-white text-right z-10">
