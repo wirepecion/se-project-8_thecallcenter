@@ -3,7 +3,7 @@ import getUser from "@/libs/Auth/getUser";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import Link from "next/link";
 
-export default async function RankCard({ 
+export default async function RakCard({ 
     token,
     uid 
 }: { 

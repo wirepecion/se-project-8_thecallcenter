@@ -33,7 +33,7 @@ export default function MembershipTable({ user }: { user: UserItem | null }) {
     user?.membershipTier?.toLowerCase() === tier.toLowerCase();
 
   return (
-    <div className="overflow-x-auto px-2 pt-8 pb-8">
+    <div className="overflow-x-auto px-2 pt-8 ">
       <div className="w-max mx-auto">
         <table className="table-auto text-center border-collapse">
           <colgroup>
