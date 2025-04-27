@@ -1,0 +1,14 @@
+# .github/labeler.yml
+app:
+  - "src/app/**"
+components:
+  - "src/components/**"
+utils components:
+  - "src/components/utils/**"
+images:
+  - "public/**"
+docs:
+  - "**/*.md"
+tests:
+  - "tests/**"
+  - "**/*test*/**"
