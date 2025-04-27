@@ -23,7 +23,22 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: "HOTELIO",
+  title: "HOTELIO - Your Hotel Booking Companion",
+  description: "Hotelio is a platform that connects hotels and users, providing a seamless experience for booking and managing hotel stays.",
+  icons: {
+    icon: [
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: "/img/icons/hotel.png",
+        href: "/img/icons/hotel.png",
+      },
+      {
+        media: '(prefers-color-scheme: light)',
+        url: "/img/icons/hotel.png",
+        href: "/img/icons/hotel.png",
+      },
+    ]
+  },
 };
 
 export default async function RootLayout({
