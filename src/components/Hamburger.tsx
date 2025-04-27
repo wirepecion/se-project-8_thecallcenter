@@ -31,7 +31,7 @@ export default function Hamburger({ profile }: { profile: any }) {
           <ul className="py-1 text-sm text-gray-700">
             <li>
               <a href="/profile" className="block px-4 py-2 hover:bg-gray-100">
-                { profile.role=='admin' || profile.role=='hotelManager'? "All Profiles"
+                { profile.role=='admin' ? "All Profiles"
                 : "My Profile" }
               </a>
             </li>
