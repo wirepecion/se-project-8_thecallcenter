@@ -36,7 +36,7 @@ export default function MyBookingPage({
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const updatedBookings = await getBookings(sessionToken, page ? page.toString() : undefined);
+                const updatedBookings = await getBookings(sessionToken, page ? page.toString() : undefined, refundStatus ? refundStatus : status ? status : undefined)
                 setLoading(false);
                 setTotalPages(updatedBookings.totalPages);
                 setBookings(updatedBookings.data);
@@ -46,7 +46,7 @@ export default function MyBookingPage({
         };
 
         fetchData();
-    }, [page]);
+    }, [page, status, refundStatus]);
 
     const handleEditClick = (booking: BookingItem) => {
         setSelectedBooking(booking);
@@ -70,11 +70,13 @@ export default function MyBookingPage({
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         if (name === 'refundStatus') setRefundStatus(value);
+        setPage(1);
     };
 
     const handleFilterStatusChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         if (name === 'status') setStatus(value);
+        setPage(1);
     };
 
     const filterBookings = (bookings: BookingItem[]) => {
@@ -100,8 +102,6 @@ export default function MyBookingPage({
         });
     };
 
-
-
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             {showAlert && alertType && (
@@ -122,18 +122,19 @@ export default function MyBookingPage({
                     </h1>
 
                     {userProfile?.role === "user" && (
-                        <div className="w-full max-w-xs mb-10">
-                            <select
-                                name="refundStatus"
-                                value={refundStatus}
-                                onChange={handleFilterChange}
-                                className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
-                            >
-                                <option value="">All</option>
-                                <option value="refundable">Refundable</option>
-                                <option value="nonrefundable">Non-Refundable</option>
-                            </select>
-                        </div>
+                    <div className="w-full max-w-xs mb-10">
+                        <select
+                            name="refundStatus"
+                            value={refundStatus}
+                            onChange={handleFilterChange}
+                            className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+                        >
+                            <option value="">All</option>
+                            <option value="confirmed,checkedIn">Refundable</option>
+                            <option value="pending,canceled,completed">Non-Refundable</option>
+                        </select>
+                    </div>
+
                     )}
 
                     {(userProfile?.role === "hotelManager" || userProfile?.role === "admin") && (
@@ -147,7 +148,6 @@ export default function MyBookingPage({
                                 <option value="">All Status</option>
                                 <option value="pending" >Pending</option>
                                 <option value="confirmed">Confirmed</option>
-                                <option value="failed">Failed</option>
                                 <option value="canceled">Canceled</option>
                                 <option value="checkedIn">Checked In</option>
                                 <option value="completed">Completed</option>
@@ -192,8 +192,41 @@ export default function MyBookingPage({
                         allPage={totalPages}
                         handlePageChange={(newPage: number) => setPage(newPage)}
                     />
-                </div>
 
+                    {
+                        loading?( 
+                            <div className="flex justify-center items-center">
+                                <div className="text-gray-500 text-lg">Loading...</div>
+                            </div>
+                        ):(
+
+                    <div>
+                    {bookings.length > 0 ? (
+                        <div className="w-full space-y-4">
+                            {bookings.map((bookingItem) => (
+                                <BookingCard
+                                    key={bookingItem._id}
+                                    bookingData={bookingItem}
+                                    setBookings={setBookings}
+                                    onEditClick={handleEditClick}
+                                    onDeleteClick={handleDeleteBooking}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-center text-gray-500 h-screen">
+                            {refundStatus === "confirmed,checkedIn"
+                                ? "No refundable bookings found."
+                                : refundStatus === "pending,canceled,completed"
+                                ? "No non-refundable bookings found."
+                                : "No bookings found."}
+                        </p>
+                    )}
+                    </div>
+                    )
+                }
+                </div>
+                        
                 {isModalOpen && selectedBooking && (
                     <EditBookingModal
                         booking={selectedBooking}
