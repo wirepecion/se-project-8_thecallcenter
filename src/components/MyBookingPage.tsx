@@ -9,7 +9,7 @@ import EditBookingModal from "./EditBookingModal";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import { Alert } from "@mui/material";
 import getBookings from "@/libs/Booking/getBookings";
-import PageBar from "@/components/PageBar";
+import PageBar from "@/components/Pagebar";
 
 export default function MyBookingPage({
     initialUserProfile,
@@ -79,6 +79,29 @@ export default function MyBookingPage({
         setPage(1);
     };
 
+    const filterBookings = (bookings: BookingItem[]) => {
+        return bookings.filter((booking) => {
+            const latestPayment = booking.payments[booking.payments.length - 1];
+
+            if (refundStatus === "refundable") {
+                if (latestPayment.status !== "completed") return false;
+                if (booking.status !== "confirmed" && booking.status !== "checkedIn") return false;
+            }
+
+            if (refundStatus === "nonrefundable") {
+                if ((booking.status === "confirmed" || booking.status === "checkedIn") && latestPayment.status === "completed") {
+                    return false;
+                }
+            }
+
+            if (status && booking.status !== status) {
+                return false;
+            }
+
+            return true;
+        });
+    };
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             {showAlert && alertType && (
@@ -111,6 +134,7 @@ export default function MyBookingPage({
                             <option value="pending,canceled,completed">Non-Refundable</option>
                         </select>
                     </div>
+
                     )}
 
                     {(userProfile?.role === "hotelManager" || userProfile?.role === "admin") && (
@@ -131,7 +155,38 @@ export default function MyBookingPage({
                         </div>
                     )}
 
-                    
+                    {
+                        loading ? (
+                            <div className="flex justify-center items-center">
+                                <div className="text-gray-500 text-lg">Loading...</div>
+                            </div>
+                        ) : (
+
+                            <div>
+                                {filterBookings(bookings).length > 0 ? (
+                                    <div className="w-full space-y-4 pb-10 justify-end">
+                                        {filterBookings(bookings).map((bookingItem) => (
+                                            <BookingCard
+                                                key={bookingItem._id}
+                                                bookingData={bookingItem}
+                                                setBookings={setBookings}
+                                                onEditClick={handleEditClick}
+                                                onDeleteClick={handleDeleteBooking}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-center text-gray-500 h-screen">
+                                        {refundStatus === "refundable"
+                                            ? "No refundable bookings found."
+                                            : refundStatus === "nonrefundable"
+                                                ? "No non-refundable bookings found."
+                                                : "No bookings found."}
+                                    </p>
+                                )}
+                            </div>
+                        )
+                    }
                     <PageBar
                         currentPage={page}
                         allPage={totalPages}

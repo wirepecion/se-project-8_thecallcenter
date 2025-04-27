@@ -25,17 +25,17 @@ export default function PageBar({
     };
 
     return (
-        <div className="flex flex-row justify-between items-center w-fit bg-white p-4 rounded-lg mb-4">
+        <div className="flex flex-row justify-between items-center w-full bg-white rounded-lg">
 
             {currentPage > 1 ? (
                 <button
-                    className="bg-orange-300 rounded-lg p-4"
+                    className="bg-orange-300 rounded-lg p-4 w-2/12"
                     onClick={handlePrevPage}
                 >
-                    <p>prev</p>
+                    <p>Previous</p>
                 </button>
             ) : (
-                <div className="invisible p-4">prev</div>
+                <div className="invisible p-4 w-2/12">Previous</div>
             )}
 
             <div className="mx-10">
@@ -44,13 +44,13 @@ export default function PageBar({
 
             {currentPage < allPage ? (
                 <button
-                    className="bg-orange-300 rounded-lg p-4"
+                    className="bg-orange-300 rounded-lg p-4 w-2/12"
                     onClick={handleNextPage}
                 >
-                    <p>next</p>
+                    <p>Next</p>
                 </button>
             ) : (
-                <div className="invisible p-4">prev</div>
+                <div className="invisible p-4 w-2/12">Previous</div>
             )}
             
         </div>

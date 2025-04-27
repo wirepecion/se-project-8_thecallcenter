@@ -177,20 +177,25 @@ export default function PaymentRow({
 
   return (
     <>
-      <tr className="border-t border-gray-200 bg-gray-50">
-        <td className="p-3 text-center px-10">{payment.amount ? String(payment.amount) : 'N/A'}</td>
-        <td className="p-3 text-center px-10">{payment?.method?.trim?.() ? payment.method : "N/A"}</td>
-        <td className="p-3 text-center px-10">
+      <tr className="border-t justify-center align-middle">
+        <td className="p-3 text-center px-8">{payment.amount ? String(payment.amount) : 'N/A'}</td>
+        <td className="p-3 text-center px-8">{payment?.method?.trim?.() ? payment.method : "N/A"}</td>
+        <td className="p-3 text-center px-6">
           {payment.paymentDate
             ? new Date(payment.paymentDate).toLocaleDateString()
             : "N/A"}
         </td>
-        <td className="p-4 text-center px-5">
+        
+        <td className="p-4 text-center px-3">
           <span className={`rounded-xl p-1 px-2 ${getStatusStyle(payment.status)}`}>
             {payment.status}
           </span>
         </td>
-        <td className="p-5 text-center px-5">{booking.user.name || "N/A"}</td>
+
+        <td className="p-5 text-center px-9">
+          {booking.user.name || "N/A"}
+        </td>
+
         <td className="p-5 text-center">
           <div className="inline-flex items-center gap-1">
             <Tooltip title="Update">
