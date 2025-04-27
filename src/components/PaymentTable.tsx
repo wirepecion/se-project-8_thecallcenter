@@ -38,7 +38,7 @@ export default function PaymentTable({ bookings, onStatusChange, onDelete }: { b
   };
 
   return (
-    <div className="bg-gray-50 p-6 rounded-lg shadow-lg space-y-6">
+    <div>
 
       {/* Toggle Buttons */}
       <div className="flex flex-wrap gap-4">
@@ -148,16 +148,16 @@ export default function PaymentTable({ bookings, onStatusChange, onDelete }: { b
 
 
       <div className="overflow-x-auto mt-4 border rounded-lg shadow-lg">
-        <table className="min-w-full text-sm text-center text-black">
+        <table className="w-full text-sm text-center text-black">
           <thead>
             <tr className="bg-blue-200 text-gray-800">
-              <th className="p-4  font-medium">Amount</th>
+              <th className="p-4 font-medium">Amount</th>
               <th className="p-4 font-medium">Method</th>
               <th className="p-4 font-medium">Date</th>
               <th className="p-4 font-medium">Status</th>
               <th className="p-4 font-medium">User</th>
               <th className="p-4 font-medium">Actions</th>
-              <th className="p-4 w-1 font-medium"></th>
+              {/* <th className="p-4 w-1 font-medium"></th> */}
             </tr>
           </thead>
           <tbody>
