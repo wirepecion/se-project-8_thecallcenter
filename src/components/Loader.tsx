@@ -44,8 +44,8 @@ const Loader = () => {
 const StyledWrapper = styled.div`
   .main {
     position: relative;
-    width: 23.5vmax;
-    height: 23.5vmax;
+    width: 100wv;
+    height: 300hv;
     display: flex;
     justify-content: center;
     align-items: center;
