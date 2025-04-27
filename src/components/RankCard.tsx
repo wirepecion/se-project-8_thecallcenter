@@ -2,7 +2,7 @@ import Image from "next/image";
 import getUser from "@/libs/Auth/getUser";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 
-export default async function RankCard({ 
+export default async function RakCard({ 
     token,
     uid 
 }: { 

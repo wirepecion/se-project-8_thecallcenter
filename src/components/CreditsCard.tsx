@@ -22,7 +22,11 @@ export default async function CreditsCard({
             <div>
                 <p className="text-2xl font-bold text-blue-600">{user.credit}</p>
                 <p className="text-sm text-gray-600 font-semibold">Credits Remaining</p>
-                <p className="text-xs text-gray-500 mt-1">Tip: You can use your credits just like cash when making a payment.</p>
+                { user.role === "hotelManager" ? (
+                    <p className="text-xs text-gray-500 mt-1">You can use your credits to buy ads token.</p>
+                ) : (
+                    <p className="text-xs text-gray-500 mt-1">Tip: You can use your credits just like cash when making a payment.</p>
+                )}
             </div>
         </div>
     );
