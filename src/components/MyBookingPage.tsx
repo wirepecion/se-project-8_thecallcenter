@@ -155,13 +155,6 @@ export default function MyBookingPage({
                         </div>
                     )}
 
-                    
-                    <PageBar
-                        currentPage={page}
-                        allPage={totalPages}
-                        handlePageChange={(newPage: number) => setPage(newPage)}
-                    />
-
                     {
                         loading?( 
                             <div className="flex justify-center items-center">
@@ -171,7 +164,7 @@ export default function MyBookingPage({
 
                     <div>
                     {filterBookings(bookings).length > 0 ? (
-                        <div className="w-full space-y-4">
+                        <div className="w-full space-y-4 pb-10 justify-end">
                             {filterBookings(bookings).map((bookingItem) => (
                                 <BookingCard
                                     key={bookingItem._id}
@@ -194,11 +187,13 @@ export default function MyBookingPage({
                     </div>
                     )
                 }
+                    <PageBar
+                        currentPage={page}
+                        allPage={totalPages}
+                        handlePageChange={(newPage: number) => setPage(newPage)}
+                    />
                 </div>
                         
-
-                
-
                 {isModalOpen && selectedBooking && (
                     <EditBookingModal
                         booking={selectedBooking}
