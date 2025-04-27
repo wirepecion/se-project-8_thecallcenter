@@ -6,7 +6,7 @@ import GreetingBox from "@/components/profile-component/WelcomeCard";
 import MembershipProgressCard from "@/components/profile-component/MembershipProgressCard";
 import TierCountCard from "./TierCountCard";
 import ProfileTable from "./ProfileTable";
-import PageBar from "../PageBar";
+import PageBar from "@/components/Pagebar";
 
 export default function MyProfilePage({
     sessionToken,
@@ -95,11 +95,11 @@ export default function MyProfilePage({
                         </select>
                     </div>
     
-                    <PageBar
+                    {/* <PageBar
                         currentPage={page}
                         allPage={totalPages}
                         handlePageChange={(newPage: number) => setPage(newPage)}
-                    />
+                    /> */}
     
                     <div className="h-5 flex justify-center items-center">
                         {
@@ -112,6 +112,12 @@ export default function MyProfilePage({
                     </div>
 
                     <ProfileTable users={users} />
+
+                    <PageBar
+                        currentPage={page}
+                        allPage={totalPages}
+                        handlePageChange={(newPage: number) => setPage(newPage)}
+                    />
 
                 </div>
             </div>
