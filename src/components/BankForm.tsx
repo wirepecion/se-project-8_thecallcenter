@@ -49,7 +49,7 @@ export default function BankForm({
             Enter Your Bank Account Number
           </label>
           <input
-            type="text"
+            type="number"
             value={accountNumber}
             onChange={(e) => setAccountNumber(e.target.value)}
             className="w-full border text-black border-gray-300 p-2 rounded"
