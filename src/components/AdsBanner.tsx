@@ -7,6 +7,7 @@ import InteractiveButton from './InteractiveButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import randomBanners from '@/libs/Ads/randomBanners';
 import getHotels from '@/libs/Hotel/getHotels';
+import Loader from './Loader';
 
 export default function AdsBanner() {
     const [index, setIndex] = useState(0);
@@ -53,7 +54,7 @@ export default function AdsBanner() {
 
     return (
         <div> {        
-            currentHotelBanner === undefined ? <p className="text-center text-gray-500">Loading ads...</p> :
+            currentHotelBanner === undefined ? <Loader />:
             <div className="flex flex-col justify-center items-center text-black mb-20">  
                 <div className="relative w-[1100px] h-[600px] rounded-lg overflow-hidden shadow-lg">
                     <AnimatePresence initial={false} custom={direction}>
