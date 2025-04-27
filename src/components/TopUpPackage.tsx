@@ -1,131 +1,109 @@
-"use client"
+"use client";
 
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import reduceUserCredit from "@/libs/Auth/reduceUserCredit";
-import getHotel from "@/libs/Hotel/getHotel";
-import updateHotel from "@/libs/Hotel/updateHotel";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import Button from "./Button";
+import InteractiveButton from "./InteractiveButton";
 
+const packages = [
+  { name: "Starter Pack", tokens: 100, price: 150, costPerView: 1.5, bonus: "—" },
+  { name: "Growth Pack", tokens: 500, price: 700, costPerView: 1.4, bonus: "+5% extra" },
+  { name: "Business Pack", tokens: 1200, price: 1500, costPerView: 1.25, bonus: "+10% extra" },
+  { name: "Premium Pack", tokens: 3000, price: 3500, costPerView: 1.16, bonus: "+15% extra" },
+  { name: "Enterprise Pack", tokens: 10000, price: 10000, costPerView: 1.0, bonus: "+20% extra" },
+];
 
 export default function TopUpPackage() {
+  const { data: session } = useSession();
+  const [userProfile, setUserProfile] = useState<UserItem>();
+  const [tokenPackage, setTokenPackage] = useState<string | null>(null);
 
-    const { data: session } = useSession();
-    const [userProfile, setUserProfile] = useState<UserItem>();
-    const [resHotel, setResHotel] = useState<HotelItem>();
-
-     useEffect(() => {
-        async function fetchData() {
-          if (!session?.user?.token) return;
-          const profile = await getUserProfile(session.user.token);
-          const hotel = await getHotel(profile.data.responsibleHotel);
-          setUserProfile(profile.data);
-          setResHotel(hotel.data);
-        }
-        fetchData();
-    }, [session]);
-
-    const handleBuyPackage = async (name: string, token: number, credit: number) => {
-        Swal.fire({
-            title: `Are you sure yo want to buy ${name}?`,
-            text: `Amount of cost : ${credit} THB`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, i want!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                onBuyClick(name, token, credit);
-            }
-        });
-    };
-    
-    const onBuyClick = async (name: string, token: number, credit: number) => {
-       if ((userProfile?.credit ?? 0) < credit) {
-            Swal.fire({
-                title: "Error!",
-                text: "You don't have enough credits to buy this package.",
-                icon: "error"
-            });
-            return;
-        }
-        if (session?.user?.token) {
-            reduceUserCredit(credit, session.user.token);
-           // add tokens to the hotel manager's responsible hotel
-        } else {
-            Swal.fire({
-                title: "Error!",
-                text: "User token is missing. Please log in again.",
-                icon: "error"
-            });
-            return;
-        }
-        Swal.fire({
-        title: "Success!",
-          text: `You have successfully purchased ${name}`,
-          icon: "success"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.reload();
-            }
-        });
+  useEffect(() => {
+    async function fetchData() {
+      if (!session?.user?.token) return;
+      const profile = await getUserProfile(session.user.token);
+      setUserProfile(profile.data);
     }
+    fetchData();
+  }, [session]);
 
-    return (
-      <div className="flex justify-center items-center py-10 w-[1069px]">
-        <div className="overflow-x-auto w-full max-w-6xl">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-gray-700 font-semibold border-b">
-                <th className="py-4 px-6">Package Name</th>
-                <th className="py-4 px-6">Ads Tokens</th>
-                <th className="py-4 px-6">Price (THB)</th>
-                <th className="py-4 px-6">Cost per Ad View (THB)</th>
-                <th className="py-4 px-6">Bonus</th>
+  const handleBuyPackage = async (pack: typeof packages[number]) => {
+    Swal.fire({
+      title: `Are you sure you want to buy ${pack.name}?`,
+      text: `Amount of cost : ${pack.price} THB`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, I want!",
+    }).then((result) => {
+      if (result.isConfirmed) onBuyClick(pack);
+    });
+  };
+
+  const onBuyClick = async (pack: typeof packages[number]) => {
+    if ((userProfile?.credit ?? 0) < pack.price) {
+      Swal.fire("Error!", "You don't have enough credits.", "error");
+      return;
+    }
+    if (!session?.user?.token) {
+      Swal.fire("Error!", "User token is missing. Please log in again.", "error");
+      return;
+    }
+    await reduceUserCredit(pack.price, session.user.token);
+    Swal.fire("Success!", `You have successfully purchased ${pack.name}`, "success")
+      .then((result) => result.isConfirmed && window.location.reload());
+  };
+
+  return (
+    <div className="flex flex-col justify-center items-center py-10 w-[1069px]">
+      <div className="overflow-x-auto w-full max-w-6xl">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="text-gray-700 font-semibold border-b">
+              {["Package Name", "Ads Tokens", "Price (THB)", "Cost per Ad View (THB)", "Bonus"].map((head) => (
+                <th key={head} className="py-4 px-6">{head}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="text-black font-normal">
+            {packages.map((pack) => (
+              <tr
+                key={pack.name}
+                className={`border-b cursor-pointer transition-colors duration-200 ${
+                  tokenPackage === pack.name ? "bg-blue-500 text-white" : "hover:bg-blue-100"
+                }`}
+                onClick={() => setTokenPackage(pack.name)}
+              >
+                <td className="py-4 px-6">{pack.name}</td>
+                <td className="py-4 px-6">{pack.tokens.toLocaleString()} tokens</td>
+                <td className="py-4 px-6">฿{pack.price.toLocaleString()}</td>
+                <td className="py-4 px-6">฿{pack.costPerView.toFixed(2)}</td>
+                <td className="py-4 px-6">{pack.bonus}</td>
               </tr>
-            </thead>
-            <tbody className="text-black font-normal">
-              <tr className="border-b hover:bg-gray-100" onClick={() => handleBuyPackage("Starter Pack", 100, 150)}>
-                <td className="py-4 px-6">Starter Pack</td>
-                <td className="py-4 px-6">100 tokens</td>
-                <td className="py-4 px-6">฿150</td>
-                <td className="py-4 px-6">฿1.50</td>
-                <td className="py-4 px-6">—</td>
-              </tr>
-              <tr className="border-b hover:bg-gray-100" onClick={() => handleBuyPackage("Growth Pack" , 500, 700)}>
-                <td className="py-4 px-6">Growth Pack</td>
-                <td className="py-4 px-6">500 tokens</td>
-                <td className="py-4 px-6">฿700</td>
-                <td className="py-4 px-6">฿1.40</td>
-                <td className="py-4 px-6">+5% extra</td>
-              </tr>
-              <tr className="border-b hover:bg-gray-100" onClick={() => handleBuyPackage("Business Pack" , 1200, 1500)}>
-                <td className="py-4 px-6">Business Pack (Popular)</td>
-                <td className="py-4 px-6">1,200 tokens</td>
-                <td className="py-4 px-6">฿1,500</td>
-                <td className="py-4 px-6">฿1.25</td>
-                <td className="py-4 px-6">+10% extra</td>
-              </tr>
-              <tr className="border-b hover:bg-gray-100" onClick={() => handleBuyPackage("Premium Pack" , 3000, 3500)}>
-                <td className="py-4 px-6">Premium Pack</td>
-                <td className="py-4 px-6">3,000 tokens</td>
-                <td className="py-4 px-6">฿3,500</td>
-                <td className="py-4 px-6">฿1.16</td>
-                <td className="py-4 px-6">+15% extra</td>
-              </tr>
-              <tr className="border-b hover:bg-gray-100" onClick={() => handleBuyPackage("Enterprise Pack" , 10000, 10000)} >
-                <td className="py-4 px-6">Enterprise Pack</td>
-                <td className="py-4 px-6">10,000 tokens</td>
-                <td className="py-4 px-6">฿10,000</td>
-                <td className="py-4 px-6">฿1.00</td>
-                <td className="py-4 px-6">+20% extra</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
-    );
-  }
-  
+
+      <div className="flex justify-center mt-10">
+        <InteractiveButton>
+          <Button
+            variant="primary"
+            disabled={!tokenPackage}
+            onClick={() => {
+              const selected = packages.find((p) => p.name === tokenPackage);
+              if (selected) handleBuyPackage(selected);
+            }}
+            className={!tokenPackage ? "opacity-50 hover:opacity-50" : ""}
+          >
+            Buy Package
+          </Button>
+        </InteractiveButton>
+      </div>
+    </div>
+  );
+}
