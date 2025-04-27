@@ -6,7 +6,7 @@ import GreetingBox from "@/components/profile-component/WelcomeCard";
 import MembershipProgressCard from "@/components/profile-component/MembershipProgressCard";
 import TierCountCard from "./TierCountCard";
 import ProfileTable from "./ProfileTable";
-import PageBar from "../PageBar";
+import PageBar from "@/components/Pagebar";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
@@ -153,12 +153,6 @@ export default function MyProfilePage({
                         
                     </div>
     
-                    <PageBar
-                        currentPage={page}
-                        allPage={totalPages}
-                        handlePageChange={(newPage: number) => setPage(newPage)}
-                    />
-
                     <div className="h-5 flex justify-center items-center">
                         {
                             loading && ( 
@@ -170,6 +164,12 @@ export default function MyProfilePage({
                     </div>
 
                     <ProfileTable users={users} />
+
+                    <PageBar
+                        currentPage={page}
+                        allPage={totalPages}
+                        handlePageChange={(newPage: number) => setPage(newPage)}
+                    />
 
                 </div>
             </div>

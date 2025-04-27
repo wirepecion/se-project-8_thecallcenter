@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import getBookings from "@/libs/Booking/getBookings";
 import PaymentTable from "@/components/PaymentTable";
 import HeroSection from "@/components/HeroSection";
-import PageBar from "@/components/PageBar";
+import PageBar from "@/components/Pagebar";
 
 export default function Payment() {
     const { data: session } = useSession();
@@ -96,11 +96,12 @@ export default function Payment() {
                 description="View and manage payment transactions here."
                 imageSrc={"/img/Card.png"}
             />
-            <div className="max-w-4xl w-full p-8 rounded-lg">
+
+            <div className="max-w-3xl w-full p-4 rounded-lg bg-white">
                 { loading ? (
                     <p className="text-center text-gray-500">Loading payments...</p>
                 ) : (
-                <div>
+                <div className="pb-10 bg-white">
                 {userProfile?.role === "hotelManager" && (
                     <div className="max-w-4xl w-full p-4 text-right text-lg font-medium text-green-600">
                         <span className="font-medium bg-green-100 p-2 rounded-lg">
@@ -114,7 +115,7 @@ export default function Payment() {
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="bg-white border border-gray-300 rounded px-4 py-2 text-gray-700"
+                            className="rounded px-4 py-2 text-gray-700"
                         >
                             
                             <option value="unpaid">Unpaid</option>
