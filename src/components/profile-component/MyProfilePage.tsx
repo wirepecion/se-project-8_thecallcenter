@@ -7,6 +7,8 @@ import MembershipProgressCard from "@/components/profile-component/MembershipPro
 import TierCountCard from "./TierCountCard";
 import ProfileTable from "./ProfileTable";
 import PageBar from "../PageBar";
+import { Autocomplete } from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 export default function MyProfilePage({
     sessionToken,
@@ -18,10 +20,14 @@ export default function MyProfilePage({
 
     const [users, setUsers] = useState<UserItem[] | null>(null);
     const [statistics, setStatistic] = useState<StatisticItem[] | null>(null);
+    const [usersName, setUsersName] = useState<string[]>([]);
+
+    const [selectedName, setSelectedName] = useState<string>('');
 
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
-    const [filter, setFilter] = useState<string>('');
+    const [nameFilter, setNameFilter] = useState<string>('');
+    const [rankFilter, setRankFilter] = useState<string>('');
     const [loading, setLoading] = useState(true);
 
     const rank = ['bronze', 'silver', 'gold', 'platinum', 'diamond'];
@@ -34,6 +40,16 @@ export default function MyProfilePage({
         { name: 'Label 5', value: 139, color: '#DA70D6' },
         { name: 'Label 6', value: 139, color: '#1E90FF' },
     ];
+
+    const handleNameChange = (name: string | undefined) => {
+        if (!name) {
+            setNameFilter('');
+            setSelectedName('');
+        } else {
+            setNameFilter(name);
+            setSelectedName(name);
+        }
+    };
       
     const tiers = [
         { name: 'Bronze', accounts: 5, color: 'text-rose-300' },
@@ -47,18 +63,26 @@ export default function MyProfilePage({
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const allUsers: UsersJson = await getUsers(sessionToken, page ? page.toString() : undefined, filter);
+                const response: UsersJson = await getUsers(sessionToken, page ? page.toString() : undefined, rankFilter, nameFilter);
                 setLoading(false)
-                setUsers(allUsers.data);
-                setStatistic(allUsers.statistic);
-                setTotalPages(allUsers.totalPages);
+                setUsers(response.data);
+                setStatistic(response.statistic);
+                setTotalPages(response.totalPages);
+                
+                if (!nameFilter) {
+                    const userNames = response.allUsers
+                        .map((user: UserItem) => user.name)
+                        .sort((a: string, b: string) => a.localeCompare(b));
+                    setUsersName(userNames);
+                }
+
             } catch (error) {
                 console.error("Error fetching bookings:", error);
             }
         };
 
         fetchData();
-    }, [page, filter]);
+    }, [page, rankFilter, nameFilter]);
 
     return (
         <>
@@ -79,11 +103,18 @@ export default function MyProfilePage({
                 </div>
     
                 <div className="my-14">
-                    <div className="w-full max-w-xs mb-10">
+                    <div className="w-full mb-10 flex items-center space-x-4">
+                        
+                        {/* Rank Search */}
                         <select
-                            value={filter}
-                            onChange={(e) => { setFilter(e.target.value); setPage(1); }}
-                            className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+                            value={rankFilter}
+                            onChange={(e) => { 
+                                setRankFilter(e.target.value); 
+                                setPage(1); 
+                                setSelectedName(''); 
+                                setNameFilter(''); 
+                            }}
+                            className="w-full p-4 border rounded-lg bg-white shadow-lg ring-1 ring-gray-200 hover:ring-blue-400 transition duration-200 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         >
                             <option value="">All Tier</option>
                             <option value="bronze">Bronze</option>
@@ -93,6 +124,33 @@ export default function MyProfilePage({
                             <option value="diamond">Diamond</option>
                             <option value="none">None</option>
                         </select>
+
+                        {/* Search Bar */}
+                        <Autocomplete
+                            disablePortal
+                            options={usersName}
+                            getOptionLabel={(option) => option}
+                            onChange={(event, newValue) => {
+                                handleNameChange(newValue || ''); 
+                            }}
+                            value={selectedName ? selectedName : ''}
+                            fullWidth
+                            renderInput={(params: any) => (
+                                <TextField
+                                {...params}
+                                placeholder="Select a User"
+                                variant="outlined"
+                                className="w-full border rounded-lg bg-white shadow-lg ring-1 ring-gray-200 hover:ring-blue-400 transition duration-200 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                InputProps={{
+                                    ...params.InputProps,
+                                    className: "flex items-center px-4 rounded-xl",
+                                    classes: { notchedOutline: "border-none" }
+                                }}
+                                />
+                            )}
+                            isOptionEqualToValue={(option, value) => option === value}
+                        />
+                        
                     </div>
     
                     <PageBar
@@ -100,7 +158,7 @@ export default function MyProfilePage({
                         allPage={totalPages}
                         handlePageChange={(newPage: number) => setPage(newPage)}
                     />
-    
+
                     <div className="h-5 flex justify-center items-center">
                         {
                             loading && ( 

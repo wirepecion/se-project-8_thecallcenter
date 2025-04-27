@@ -7,11 +7,9 @@ import TextField from "@mui/material/TextField";
 import DateReserve from "./DateReserve";
 import { Alert, Button } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { FaHotel, FaBed, FaMoneyBillWave } from "react-icons/fa";
-import { UserData } from "next-auth/providers/42-school";
-import Link from "next/link";
+import { FaHotel, FaBed } from "react-icons/fa";
 
-export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem[], userProfile: UsersData }) {
+export default function BookingForm({ hotels, userProfile }: { hotels: HotelItem[], userProfile: UserJson }) {
     const [selectedHotel, setSelectedHotel] = useState<string>("");
     const [rooms, setRooms] = useState<RoomItem[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<RoomItem | null>(null);
