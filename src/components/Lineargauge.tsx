@@ -35,6 +35,12 @@ export default function ChartExample({
     direction: "horizontal",
     // cornerRadius: 99,
     // cornerMode: 'container',
+    padding: {
+      top: 20,
+      bottom: 20,
+      left: 60,
+      right: 60,   // ← plenty of room for the label
+    },
     label: {
       enabled: true,
       placement: "bar-inside-end",
@@ -49,6 +55,7 @@ export default function ChartExample({
       min: 0,
       max: 750,
       label: { enabled: false },
+      // fill: '#ffffff',
     },
     
     //thinkness: 100,
@@ -59,14 +66,14 @@ export default function ChartExample({
         { color: "#AFBCCA", stop: 250 },
         { color: "#EFBF04", stop: 500 },
         { color: "#BA55D3", stop: 750 },
-        { color: "#65A8E4", stop: 800 },
+        { color: "#ffffff", stop: 800 },
       ],
       fillMode: "discrete",
       //thickness: 100,
     },
     segmentation: {
       enabled: true,
-      interval: { values: [0, 50, 125, 250, 500, 750] },
+      interval: { values: [0, 50, 125, 250, 500, 755] },
       spacing: 3,
     },
     
@@ -100,9 +107,10 @@ export default function ChartExample({
 
   return (
     <Fragment>
-      <div>
+      <div className=" w-">
         <AgGauge options={options} />
       </div>
     </Fragment>
   );
 }
+
