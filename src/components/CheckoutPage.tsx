@@ -16,7 +16,7 @@ export default function CheckoutPage({
     paymentJson: PaymentJsonOne
     userProfile: UserProfile
 }) {
-    console.log('userProfile', userProfile);
+    // console.log('userProfile', userProfile);
     const subtotal = Number(paymentJson.data.amount);
     const discount = membershipDiscount(userProfile.membershipTier) / 100 * subtotal;
     const total = (subtotal - discount);

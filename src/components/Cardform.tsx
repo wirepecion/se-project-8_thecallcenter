@@ -110,7 +110,7 @@ export default function CardForm({
             <div className="w-1/2">
               <label className="block font-medium mb-1 text-black">Expiration Date</label>
               <input
-                type="number"
+                type="string"
                 placeholder="MM/YY"
                 value={expirationDate}
                 onChange={(e) => setExpirationDate(e.target.value)}
