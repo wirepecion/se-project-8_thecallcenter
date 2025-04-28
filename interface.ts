@@ -158,6 +158,18 @@ interface UserItem {
   createdAt: string
 }
 
+interface UserProfile {
+  _id: string,
+  name: string,
+  tel: string,
+  email: string,
+  role: string,
+  credit: number,
+  membershipTier: string,
+  membershipPoints: number,
+  createdAt: string
+}
+
 interface StatisticItem {
   _id: string,
   totalUsers: number
