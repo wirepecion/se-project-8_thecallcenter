@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 
+const today = new Date();
+const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+
 test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
 
   /* ---------------------------------------- Playwright Setup ----------------------------------------- */
@@ -24,24 +27,25 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   await page.getByRole('button', { name: 'Sign In' }).click();
 
   /* Starts booking */
-  await page.waitForTimeout(3000);
-  await page.getByRole('link', { name: 'BOOK NOW' }).click();
+  await page.waitForTimeout(6000);
   await page.evaluate(() => {
-    window.scrollBy(0, 1000); // Scroll down by 1000 pixels
+    window.scrollBy(0, 700); // Scroll down by 700 pixels
   });
+  await page.getByRole('link', { name: 'BOOK NOW' }).click();
 
   /* Select Hotel & Room */
   await page.getByRole('combobox', { name: 'Select Your Hotel' }).click();
-  await page.getByRole('combobox', { name: 'Select Your Hotel' }).fill('p');
-  await page.getByRole('option', { name: 'Peyton' }).click();
+  await page.getByRole('combobox', { name: 'Select Your Hotel' }).fill('go');
+  await page.getByRole('option', { name: 'Golden Hour Resort' }).click();
   await page.getByRole('combobox', { name: 'Select Your Room' }).click();
   await page.getByRole('combobox', { name: 'Select Your Room' }).fill('su');
   await page.getByRole('option', { name: 'Room 501 - suite - $' }).click();
 
   /* Select CheckIn/CheckOut Date */
   await page.getByRole('button', { name: 'Choose date' }).first().click();
+  await page.getByRole('button', { name: 'Next month' }).first().click();
   await page.getByRole('gridcell', { name: '22' }).click();
-  await page.getByRole('button', { name: 'Choose date, selected date is Apr 23,' }).click();
+  await page.getByRole('button', { name: 'Choose date, selected date is May 23,' }).click();
   await page.getByRole('gridcell', { name: '25' }).click();
   await page.getByRole('button', { name: 'BOOK NOW' }).click();
 
@@ -56,7 +60,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   await page.waitForTimeout(2000);
   await page.getByRole('combobox').selectOption('bbl');
   await page.getByRole('textbox').first().click();
-  await page.getByRole('textbox').first().fill('123456');
+  await page.getByRole('textbox').first().fill('1234567890123456');
 
   await page.waitForTimeout(3000);
   await page.getByRole('radio', { name: 'ThaiQR' }).check();
@@ -82,9 +86,9 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   await page.waitForTimeout(1500);
   await page.getByRole('radio', { name: 'Card' }).check();
   await page.getByRole('textbox', { name: '5678 9101 1121' }).click();
-  await page.getByRole('textbox', { name: '5678 9101 1121' }).fill('123456789');
+  await page.getByRole('textbox', { name: '5678 9101 1121' }).fill('1234567890123456');
   await page.getByRole('textbox', { name: 'MM/YY' }).click();
-  await page.getByRole('textbox', { name: 'MM/YY' }).fill('01/12');
+  await page.getByRole('textbox', { name: 'MM/YY' }).fill('05/26');
   await page.getByRole('textbox', { name: '123', exact: true }).click();
   await page.getByRole('textbox', { name: '123', exact: true }).fill('123');
   await page.getByRole('button', { name: 'Pay USD' }).click();
@@ -103,7 +107,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
 
   /* My Bookings */
   await page.waitForTimeout(1500);
-  await page.getByRole('button', { name: 'See Your Payment' }).click();
+  await page.getByRole('button', { name: 'See Your Booking' }).click();
   await page.locator('.MuiButtonBase-root').first().click();
   
   /* --------------------------------------------------------------------------------------------------- */
@@ -111,7 +115,8 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Log Out */
-  await page.getByRole('link', { name: 'user Patthadon Phengpinij patthadon.1807@' }).click();
+  await page.getByRole('button', { name: 'User avatar' }).click();
+  await page.getByRole('link', { name: 'Sign out' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
 
   /* --------------------------------------------------------------------------------------------------- */
@@ -121,7 +126,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* Login with hotel manager (Peyton) account */
   await page.getByRole('link', { name: 'Sign-In / Register' }).click();
   await page.getByRole('textbox', { name: 'Enter your email' }).click();
-  await page.getByRole('textbox', { name: 'Enter your email' }).fill('hotelManager3@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('GoldenHourResort.manager@gmail.com');
   await page.getByRole('textbox', { name: 'Enter your password' }).click();
   await page.getByRole('textbox', { name: 'Enter your password' }).fill('123456');
   await page.getByRole('button', { name: 'Sign In' }).click();
@@ -139,17 +144,21 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Complete Payment */
-  await page.getByRole('row', { name: '14250 Card 4/21/2025 pending' }).getByLabel('Complete').click();
+  await page.getByRole('row', { name: `15000 Card ${formattedDate} pending` }).getByLabel('Complete').click();
   
   await page.waitForTimeout(1500);
   await page.getByRole('button', { name: 'OK' }).click();
+  await page.evaluate(() => {
+    window.scrollBy(0, 400); // Scroll down by 1000 pixels
+  });
 
   /* --------------------------------------------------------------------------------------------------- */
   await page.pause();
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Log Out */
-  await page.getByRole('link', { name: 'user Mamie Hermiston II' }).click();
+  await page.getByRole('button', { name: 'User avatar' }).click();
+  await page.getByRole('link', { name: 'Sign out' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
 
   /* --------------------------------------------------------------------------------------------------- */
@@ -191,7 +200,8 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Log Out */
-  await page.getByRole('link', { name: 'user Patthadon Phengpinij patthadon.1807@' }).click();
+  await page.getByRole('button', { name: 'User avatar' }).click();
+  await page.getByRole('link', { name: 'Sign out' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
 
   /* --------------------------------------------------------------------------------------------------- */
@@ -213,6 +223,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* View all payments */
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.getByRole('link', { name: 'All Payments' }).click();
+  await page.waitForTimeout(2000);
   await page.evaluate(() => {
     window.scrollBy(0, 400); // Scroll down by 200 pixels
   });
@@ -238,6 +249,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   await page.locator('select[name="paymentMethod"]').selectOption('Card');
 
   await page.waitForTimeout(2000);
+  await page.locator('select[name="paymentMethod"]').selectOption('');
   await page.locator('select[name="status"]').selectOption('pending');
 
   await page.waitForTimeout(2000);
@@ -252,10 +264,10 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
 
   /* View all payments (play with update status feature) */
   await page.waitForTimeout(1500);
-  await page.getByRole('row', { name: '14250 Card 4/21/2025 canceled' }).getByLabel('Update').click();
+  await page.getByRole('row', { name: `15000 Card ${formattedDate} canceled` }).getByLabel('Update').click();
   await page.getByRole('combobox').selectOption('failed');
 
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Cancel' }).click();
 
   /* --------------------------------------------------------------------------------------------------- */
@@ -283,7 +295,8 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   /* --------------------------------------------------------------------------------------------------- */
 
   /* Log Out */
-  await page.getByRole('link', { name: 'user Percy Howell III admin@' }).click();
+  await page.getByRole('button', { name: 'User avatar' }).click();
+  await page.getByRole('link', { name: 'Sign out' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
 
   /* Login with user account */
