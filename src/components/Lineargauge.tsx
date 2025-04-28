@@ -33,20 +33,25 @@ export default function ChartExample({
   const options = useMemo<AgLinearGaugeOptions>(() => ({
     type: "linear-gauge",
     direction: "horizontal",
+    // cornerRadius: 99,
+    // cornerMode: 'container',
     label: {
       enabled: true,
-      placement: "outside-end",
+      placement: "bar-inside-end",
       avoidCollisions: true,
-      fontSize: 18,
+      fontSize: 15,
       fontWeight: "bold",
       color: "#000000",
     },
+    
     value: points,
     scale: {
       min: 0,
       max: 750,
       label: { enabled: false },
     },
+    
+    //thinkness: 100,
     bar: {
       fills: [
         { color: "#bbbbbb", stop: 50 },
@@ -57,12 +62,14 @@ export default function ChartExample({
         { color: "#65A8E4", stop: 800 },
       ],
       fillMode: "discrete",
+      //thickness: 100,
     },
     segmentation: {
       enabled: true,
       interval: { values: [0, 50, 125, 250, 500, 750] },
       spacing: 3,
     },
+    
     targets: [
       { value: 0,   text: "None",     placement: "before" },
       { value: 50,  text: "Bronze",   placement: "before" },
@@ -76,7 +83,18 @@ export default function ChartExample({
       { value: 250, shape: "line", size: 50, placement: "middle", strokeWidth: 3 },
       { value: 500, shape: "line", size: 50, placement: "middle", strokeWidth: 3 },
       { value: 750, shape: "line", size: 50, placement: "middle", strokeWidth: 3 },
-      { value: points, text: "You're Here", shape: "triangle", placement: "after", fill: "white", strokeWidth: 2, spacing: 8 }, 
+      { 
+        value: points, text: "You're Here", shape: "triangle", placement: "after", fill: "white", strokeWidth: 2, spacing: 4 
+      },
+      { 
+        value: points, 
+        text: `${points} points`, 
+        shape: "triangle", 
+        placement: "after", 
+        fill: "transparent", 
+        strokeWidth: 0, 
+        spacing: 20 
+      }
     ],
   }), [points]);
 
