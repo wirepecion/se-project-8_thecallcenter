@@ -28,7 +28,6 @@ export default function MyProfilePage({
     const [totalPages, setTotalPages] = useState<number>(0);
     const [nameFilter, setNameFilter] = useState<string>('');
     const [rankFilter, setRankFilter] = useState<string>('');
-    const [loading, setLoading] = useState(true);
 
     const rank = ['bronze', 'silver', 'gold', 'platinum', 'diamond'];
 
@@ -62,15 +61,13 @@ export default function MyProfilePage({
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setLoading(true)
                 const response: UsersJson = await getUsers(sessionToken, page ? page.toString() : undefined, rankFilter, nameFilter);
-                setLoading(false)
                 setUsers(response.data);
                 setStatistic(response.statistic);
                 setTotalPages(response.totalPages);
                 
                 if (!nameFilter) {
-                    const userNames = response.allUsers
+                    const userNames = response.allNameOfUsers
                         .map((user: UserItem) => user.name)
                         .sort((a: string, b: string) => a.localeCompare(b));
                     setUsersName(userNames);
@@ -151,16 +148,6 @@ export default function MyProfilePage({
                             isOptionEqualToValue={(option, value) => option === value}
                         />
                         
-                    </div>
-    
-                    <div className="h-5 flex justify-center items-center">
-                        {
-                            loading && ( 
-                                <div className="flex justify-center items-center">
-                                    <div className="text-gray-500 text-lg">Loading...</div>
-                                </div>
-                            )
-                        }
                     </div>
 
                     <ProfileTable users={users} />

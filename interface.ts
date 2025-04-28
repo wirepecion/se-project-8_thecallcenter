@@ -166,13 +166,13 @@ interface StatisticItem {
 interface UsersJson {
   success: boolean,
   allUser: number,
-  allUsers: UserItem[],
   statistic: StatisticItem[]
   count: number,
   totalPages: number,
   nowPage: number,
   pagination: Object,
-  data: UserItem[]
+  data: UserItem[],
+  allNameOfUsers: UserItem[]
 }
 
 interface UserJson {
