@@ -8,7 +8,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useRouter } from 'next/navigation';
 import Swal from "sweetalert2";
 
-export default function UserPaymentCard({ 
+export default function PaymentCard({ 
     paymentData, 
     handlePaymentUpdate, 
     onDelete,
@@ -19,7 +19,6 @@ export default function UserPaymentCard({
 }) {
     const [cancelOpen, setCancelOpen] = useState(false);
     const [updateOpen, setUpdateOpen] = useState(false);
-    // const [deleteOpen, setDeleteOpen] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const { data: session } = useSession();

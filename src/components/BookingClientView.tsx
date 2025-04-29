@@ -1,6 +1,7 @@
 "use client";
+
 import { useState } from "react";
-import BookingCard2 from "@/components/BookingCardWithEdit";
+import BookingCardWithEdit from "./BookingCardWithEdit";
 import PaymentCard from "@/components/PaymentCard";
 import deleteBooking from "@/libs/Booking/deleteBooking";
 import updateBooking from "@/libs/Booking/updateBooking";
@@ -13,6 +14,7 @@ import { useRouter } from "next/navigation";
 type Props = {
     bookingItem: BookingItem;
     paymentList: PaymentItem[];
+    updatePayment: (paymentId: string, updatedData: object) => Promise<any>;
     sessionToken: string;
     userRole: string;
 };
@@ -20,6 +22,7 @@ type Props = {
 export default function BookingClientView({
     bookingItem,
     paymentList,
+    updatePayment,
     sessionToken,
     userRole,
 }: Props) {
@@ -122,10 +125,9 @@ export default function BookingClientView({
 
     return (
         <main className="py-20">
-            <BookingCard2
+            <BookingCardWithEdit
                 key={bookingItem._id}
                 bookingData={bookingItem}
-                // setBookings={setBookings}
                 onEditClick={handleEditClick}
                 onRefundClick={handleRefundBooking}
                 onDeleteClick={handleDeleteBooking}
@@ -136,8 +138,7 @@ export default function BookingClientView({
             {paymentList.map((payment) => (
                 <PaymentCard
                     paymentData={payment}
-                    onStatusChange={() => console.log("Status updated")}
-                    role={userRole}
+                    handlePaymentUpdate={updatePayment}
                     onDelete={handleDeletePayment}
                 />
             ))}
