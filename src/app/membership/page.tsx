@@ -31,7 +31,7 @@ export default async function Membership({ params }: { params: { uid: string } }
             <MembershipTable user={user} />
             <div className="flex justify-center items-center w-full ">
                 <div className="w-11/12">
-                    {session && session.user?.token && (
+                    {session && session.user?.token && user?.role === "user" && (
                         <Lineargauge token={session.user.token} uid={params.uid} />
                     )}
                 </div>

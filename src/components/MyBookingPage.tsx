@@ -122,18 +122,18 @@ export default function MyBookingPage({
                     </h1>
 
                     {userProfile?.role === "user" && (
-                    <div className="w-full max-w-xs mb-10">
-                        <select
-                            name="refundStatus"
-                            value={refundStatus}
-                            onChange={handleFilterChange}
-                            className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
-                        >
-                            <option value="">All</option>
-                            <option value="confirmed,checkedIn">Refundable</option>
-                            <option value="pending,canceled,completed">Non-Refundable</option>
-                        </select>
-                    </div>
+                        <div className="w-full max-w-xs mb-10">
+                            <select
+                                name="refundStatus"
+                                value={refundStatus}
+                                onChange={handleFilterChange}
+                                className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
+                            >
+                                <option value="">All</option>
+                                <option value="confirmed,checkedIn">Refundable</option>
+                                <option value="pending,canceled,completed">Non-Refundable</option>
+                            </select>
+                        </div>
 
                     )}
 
@@ -192,41 +192,8 @@ export default function MyBookingPage({
                         allPage={totalPages}
                         handlePageChange={(newPage: number) => setPage(newPage)}
                     />
-
-                    {
-                        loading?( 
-                            <div className="flex justify-center items-center">
-                                <div className="text-gray-500 text-lg">Loading...</div>
-                            </div>
-                        ):(
-
-                    <div>
-                    {bookings.length > 0 ? (
-                        <div className="w-full space-y-4">
-                            {bookings.map((bookingItem) => (
-                                <BookingCard
-                                    key={bookingItem._id}
-                                    bookingData={bookingItem}
-                                    setBookings={setBookings}
-                                    onEditClick={handleEditClick}
-                                    onDeleteClick={handleDeleteBooking}
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="text-center text-gray-500 h-screen">
-                            {refundStatus === "confirmed,checkedIn"
-                                ? "No refundable bookings found."
-                                : refundStatus === "pending,canceled,completed"
-                                ? "No non-refundable bookings found."
-                                : "No bookings found."}
-                        </p>
-                    )}
-                    </div>
-                    )
-                }
                 </div>
-                        
+
                 {isModalOpen && selectedBooking && (
                     <EditBookingModal
                         booking={selectedBooking}

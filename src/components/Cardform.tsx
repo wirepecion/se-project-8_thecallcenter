@@ -99,7 +99,7 @@ export default function CardForm({
           <div className="mb-4">
             <label className="block font-medium mb-1 text-black">Card Number:</label>
             <input
-              type="text"
+              type="number"
               placeholder="1234 5678 9101 1121"
               value={cardNumber}
               onChange={(e) => setCardNumber(e.target.value)}
@@ -110,7 +110,7 @@ export default function CardForm({
             <div className="w-1/2">
               <label className="block font-medium mb-1 text-black">Expiration Date</label>
               <input
-                type="text"
+                type="string"
                 placeholder="MM/YY"
                 value={expirationDate}
                 onChange={(e) => setExpirationDate(e.target.value)}
@@ -120,7 +120,7 @@ export default function CardForm({
             <div className="w-1/2">
               <label className="block font-medium mb-1 text-black">CVV</label>
               <input
-                type="text"
+                type="number"
                 placeholder="123"
                 value={cvv}
                 onChange={(e) => setCvv(e.target.value)}

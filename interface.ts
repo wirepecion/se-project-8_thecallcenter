@@ -157,6 +157,18 @@ interface UserItem {
   createdAt: string
 }
 
+interface UserProfile {
+  _id: string,
+  name: string,
+  tel: string,
+  email: string,
+  role: string,
+  credit: number,
+  membershipTier: string,
+  membershipPoints: number,
+  createdAt: string
+}
+
 interface StatisticItem {
   _id: string,
   totalUsers: number
@@ -165,13 +177,13 @@ interface StatisticItem {
 interface UsersJson {
   success: boolean,
   allUser: number,
-  allUsers: UserItem[],
   statistic: StatisticItem[]
   count: number,
   totalPages: number,
   nowPage: number,
   pagination: Object,
-  data: UserItem[]
+  data: UserItem[],
+  allNameOfUsers: UserItem[]
 }
 
 interface UserJson {

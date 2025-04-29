@@ -26,9 +26,22 @@ export default function BankForm({
     onSuccess(total, selectedBank);
   };
 
+  const handleAccountNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    if (input.length > 9) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Too Many Digits',
+        text: 'Bank account number must be at most 9 digits!',
+      });
+      return;
+    }
+    setAccountNumber(input);
+  };
+
   return (
     <div className="mb-6">
-      
+
       <label className="block font-medium mb-2 text-black">Choose your bank:</label>
       <select
         value={selectedBank}
@@ -41,7 +54,6 @@ export default function BankForm({
         <option value="bbl">Bangkok Bank</option>
       </select>
 
-      
       {selectedBank && (
         <>
           <div className="pb-5"></div>
@@ -49,9 +61,9 @@ export default function BankForm({
             Enter Your Bank Account Number
           </label>
           <input
-            type="text"
+            type="number"
             value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            onChange={handleAccountNumberChange}
             className="w-full border text-black border-gray-300 p-2 rounded"
           />
         </>
