@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from "next/navigation";
+import SlideArrowButton from './SlideArrowButton';
 
 export default function PageBar({
     currentPage,
@@ -27,31 +27,43 @@ export default function PageBar({
     return (
         <div className="flex flex-row justify-between items-center w-full bg-white rounded-lg">
 
-            {currentPage > 1 ? (
-                <button
-                    className="bg-orange-300 rounded-lg p-4 w-2/12"
-                    onClick={handlePrevPage}
-                >
-                    <p>Previous</p>
-                </button>
-            ) : (
-                <div className="invisible p-4 w-2/12">Previous</div>
-            )}
+            {
+                currentPage > 1 ?
+                <SlideArrowButton
+                    direction = "left"
+                    onClick = { handlePrevPage }
+                    variant="primary"
+                />
+                :
+                <div className='invisible'>
+                    <SlideArrowButton
+                        direction = "left"
+                        onClick = { () => {} }
+                        variant="primary"
+                    />
+                </div>
+            }
 
             <div className="mx-10">
                 <p>{currentPage}/{allPage}</p>
             </div>
 
-            {currentPage < allPage ? (
-                <button
-                    className="bg-orange-300 rounded-lg p-4 w-2/12"
-                    onClick={handleNextPage}
-                >
-                    <p>Next</p>
-                </button>
-            ) : (
-                <div className="invisible p-4 w-2/12">Previous</div>
-            )}
+            {
+                currentPage < allPage ?
+                <SlideArrowButton 
+                    direction="right" 
+                    onClick={ handleNextPage } 
+                    variant="primary"
+                />
+                :
+                <div className='invisible'>
+                    <SlideArrowButton 
+                        direction="right" 
+                        onClick={ () => {} } 
+                        variant="primary"
+                    />
+                </div>
+            }
             
         </div>
     );
