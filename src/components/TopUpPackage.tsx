@@ -7,6 +7,8 @@ import getUserProfile from "@/libs/Auth/getUserProfile";
 import reduceUserCredit from "@/libs/Auth/reduceUserCredit";
 import Button from "./Button";
 import InteractiveButton from "./InteractiveButton";
+import getHotel from "@/libs/Hotel/getHotel";
+import updateHotel from "@/libs/Hotel/updateHotel";
 
 const packages = [
   { name: "Starter Pack", tokens: 100, price: 150, costPerView: 1.5, bonus: "—" },
@@ -20,15 +22,20 @@ export default function TopUpPackage() {
   const { data: session } = useSession();
   const [userProfile, setUserProfile] = useState<UserItem>();
   const [tokenPackage, setTokenPackage] = useState<string | null>(null);
+  const [resHotel, setResHotel] = useState<HotelItem | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       if (!session?.user?.token) return;
       const profile = await getUserProfile(session.user.token);
       setUserProfile(profile.data);
+      if (userProfile?.responsibleHotel) {
+        const hotel = await getHotel(userProfile.responsibleHotel);
+        setResHotel(hotel.data);
+      }
     }
     fetchData();
-  }, [session]);
+  }, [session, userProfile]);
 
   const handleBuyPackage = async (pack: typeof packages[number]) => {
     Swal.fire({
@@ -51,6 +58,12 @@ export default function TopUpPackage() {
     }
     if (!session?.user?.token) {
       Swal.fire("Error!", "User token is missing. Please log in again.", "error");
+      return;
+    }
+    if (resHotel?._id) {
+      await updateHotel(resHotel._id, { subscriptionRank: resHotel.subscriptionRank + pack.tokens }, session?.user.token);
+    } else {
+      Swal.fire("Error!", "Hotel ID is missing. Please try again.", "error");
       return;
     }
     await reduceUserCredit(pack.price, session.user.token);
