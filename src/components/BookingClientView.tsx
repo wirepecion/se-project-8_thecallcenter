@@ -139,6 +139,7 @@ export default function BookingClientView({
                 <PaymentCard
                     paymentData={payment}
                     handlePaymentUpdate={updatePayment}
+
                     onDelete={handleDeletePayment}
                 />
             ))}
