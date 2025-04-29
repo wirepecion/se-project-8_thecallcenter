@@ -4,6 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import getUserProfile from "@/libs/Auth/getUserProfile";
 import getBooking from "@/libs/Booking/getBooking";
 import BookingClientView from "@/components/BookingClientView";
+import { updatePayment } from "@/libs/Payment/updatePayment";
 
 export default async function View({ params }: { params: { bid: string } }) {
     const session = await getServerSession(authOptions);
@@ -14,14 +15,18 @@ export default async function View({ params }: { params: { bid: string } }) {
 
     const paymentList = bookingJson.data.payments;
 
+    const updatePaymentFunc = async (paymentId: string, updatedData: object) => {
+        "use server"
+        return await updatePayment(paymentId, updatedData, session.user.token);
+    };
+
     return (
         <main className="p-7 h-[1200px] text-white min-h-screen">
          
-            
         <BookingClientView
             bookingItem={bookingJson.data}
             paymentList={paymentList}
-            // initialBookings={bookingJson.data}
+            updatePayment={updatePaymentFunc}
             sessionToken={session.user.token}
             userRole={userProfile.data.role || "user"}
         />

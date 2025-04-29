@@ -3,27 +3,25 @@
 import { Button } from "@mui/material"
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
-import { refundCalculation } from "@/libs/libs/refundCalculation";
 
-export default function BookingCard2({
+export default function BookingCardWithEdit({
     bookingData,
-    // setBookings,
-    onEditClick,  // New prop to trigger edit
+    onEditClick, 
     onRefundClick,
-    onDeleteClick,  // New prop to trigger delete
+    onDeleteClick, 
     amount,
     role
 }: {
     bookingData: BookingItem;
-    // setBookings: React.Dispatch<React.SetStateAction<BookingItem[]>>;
-    onEditClick: (booking: BookingItem) => void;  // Prop type for the edit click handler
+    onEditClick: (booking: BookingItem) => void; 
     onRefundClick: (booking: BookingItem) => void;
-    onDeleteClick: (booking: BookingItem) => void;  // Prop type for the delete click handler
+    onDeleteClick: (booking: BookingItem) => void;
     amount: number;
     role: string;
 }) {
 
-    console.log("Role from bookingCard: " + role)
+    const isRefundable = (bookingData.status !== "canceled" && role === "user" && amount != 0);
+    const isEditable = (bookingData.status === "pending" || bookingData.status === "confirmed") && (dayjs().isBefore(dayjs(bookingData.checkInDate).subtract(3, 'day')));
 
     const handleDelete = () => {
         Swal.fire({
@@ -80,7 +78,6 @@ export default function BookingCard2({
         }
     };
 
-
     return (
         <div className="rounded-2xl bg-white flex flex-col justify-between shadow-md h-full p-6 text-blue-900">
             <div className="flex justify-between items-center">
@@ -104,18 +101,21 @@ export default function BookingCard2({
             <div className="flex space-x-3 items-center justify-end">
                 {/* Edit Button */}
 
-                <Button variant="contained" color="primary" onClick={() => onEditClick(bookingData)}>
-                    Edit
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={() => onEditClick(bookingData)} 
+                    disabled={!isEditable}>
+                        Edit
                 </Button>
 
-
-                { 
-                    (bookingData.status !== "canceled" && role === "user" && amount != 0) ? 
-                        <Button variant="contained" color="success" onClick={handleRefund}>
-                            Refund
-                        </Button>
-                    : ""
-                }
+                <Button 
+                    variant="contained" 
+                    color="success" 
+                    onClick={handleRefund}
+                    disabled={!isRefundable}>
+                        Refund
+                </Button>
 
                 {/* Delete Button */}
                 <Button variant="contained" color="error" onClick={handleDelete}>
