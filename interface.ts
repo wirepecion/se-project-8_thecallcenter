@@ -71,15 +71,11 @@ interface BookingItem {
 interface BookingJson {
   success: boolean,
   count: number,
+  total: number,
+  totalPages: number,
+  nowPage: number,
   pagination: Object,
-  data: BookingItem[]
-}
-
-interface BookingJsonwithPopulate {
-  success: boolean,
-  count: number,
-  pagination: Object,
-  data: BookingWithPopulate
+  data: BookingWithPopulate[]
 }
 
 interface BookingWithPopulate {
@@ -119,6 +115,9 @@ interface PaymentItem {
 interface PaymentJson {
   success: boolean,
   count: number,
+  total: number,
+  totalPages: number,
+  nowPage: number,
   pagination: Object,
   data: PaymentItem[]
 }
