@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PaymentRow from './PaymentRow';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
-export default function PaymentTable({ bookings, onStatusChange, onDelete }: { bookings: BookingWithPopulate[]; onStatusChange: (id: string, updatedData: object) => void; onDelete: (paymentId: string) => void }) {
+export default function PaymentTable({ bookings, onStatusChange, onDelete }: { bookings: BookingWithPopulate[]; onStatusChange: (id: string, updatedData: object) => void; onDelete: (paymentId: string) => void}) {
   const [minPrice, setMinPrice] = useState<number | string>('');
   const [maxPrice, setMaxPrice] = useState<number | string>('');
   const [startDate, setStartDate] = useState<string>('');
@@ -90,7 +90,6 @@ export default function PaymentTable({ bookings, onStatusChange, onDelete }: { b
         </div>
       )}
 
-    
       {showDateInputs && (
         <div className="mt-4 border border-green-200 bg-green-50 p-4 rounded-xl shadow-sm">
           <h3 className="text-lg font-semibold mb-3 text-green-600">📅 Date Range</h3>
@@ -145,7 +144,6 @@ export default function PaymentTable({ bookings, onStatusChange, onDelete }: { b
           </select>
         </div>
       </div>
-
 
       <div className="overflow-x-auto mt-4 border rounded-lg shadow-lg">
         <table className="w-full text-sm text-center text-black">
