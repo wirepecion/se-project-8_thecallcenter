@@ -23,7 +23,7 @@ export default function BookingCard2({
     role: string;
 }) {
 
-    console.log("Role from bookingCard: " + role)
+    const isEditable = dayjs().isBefore(dayjs(bookingData.checkInDate).subtract(3, 'day'));
 
     const handleDelete = () => {
         Swal.fire({
@@ -104,10 +104,9 @@ export default function BookingCard2({
             <div className="flex space-x-3 items-center justify-end">
                 {/* Edit Button */}
 
-                <Button variant="contained" color="primary" onClick={() => onEditClick(bookingData)}>
+                <Button variant="contained" color="primary" onClick={() => onEditClick(bookingData)} disabled={!isEditable}>
                     Edit
                 </Button>
-
 
                 { 
                     (bookingData.status !== "canceled" && role === "user" && amount != 0) ? 
