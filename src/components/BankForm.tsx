@@ -22,22 +22,36 @@ export default function BankForm({
       });
       return;
     }
-
+  
+    if (accountNumber.length !== 9) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Length',
+        text: 'Bank account number must be exactly 9 digits!',
+      });
+      return;
+    }
+  
     onSuccess(total, selectedBank);
   };
-
+  
   const handleAccountNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
+  
+    if (!/^\d*$/.test(input)) return;
+  
     if (input.length > 9) {
       Swal.fire({
         icon: 'error',
         title: 'Too Many Digits',
-        text: 'Bank account number must be at most 9 digits!',
+        text: 'Bank account number must be exactly 9 digits!',
       });
       return;
     }
+  
     setAccountNumber(input);
   };
+  
 
   return (
     <div className="mb-6">
