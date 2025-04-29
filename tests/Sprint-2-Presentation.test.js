@@ -33,7 +33,7 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
 
   /* US1-2 : View different benefits of membership tiers (should show silver tier) */
   await page.getByRole('link', { name: 'Membership' }).click();
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(5000);
   await page.evaluate(() => {
     window.scrollBy(0, 1000); // Scroll down by 1000 pixels
   });
@@ -86,6 +86,7 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   /* Confirm booking and view booking */
   await page.getByRole('button', { name: 'Pay USD' }).click();
   await page.getByRole('button', { name: 'See Your Booking' }).click();
+  await page.waitForTimeout(1000); 
   await page.locator('.MuiButtonBase-root').first().click();
   await page.pause();
 
@@ -93,7 +94,7 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.getByRole('link', { name: 'Sign out' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
-  await page.pause();
+  await page.waitForTimeout(2000);
 
   /* Log-in with hotel manager account (Nova Terrace) */
   await page.getByRole('link', { name: 'Sign-In / Register' }).click();
@@ -107,16 +108,21 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   /* US1-5 : View tier at booking of user's booking */ 
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.getByRole('link', { name: 'All Bookings' }).click();
+  await page.waitForTimeout(1000); 
   await page.locator('.MuiButtonBase-root').first().click();
   await page.pause();
 
   /* Confirm payment */
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.getByRole('link', { name: 'All Payments' }).click();
+  await page.waitForTimeout(4000);
   await page.evaluate(() => {
     window.scrollBy(0, 400); // Scroll down by 400 pixels
   });
-  await page.getByRole('row', { name: `13250 Bank ${formattedDate} pending` }).getByLabel('Complete').click();
+  await page.pause();
+
+  await page.getByRole('button', { name: 'Update' }).first().click();
+  await page.getByRole('button', { name: 'Update' }).click();
   await page.getByRole('button', { name: 'OK' }).click();
   await page.evaluate(() => {
     window.scrollBy(0, 400); // Scroll down by 400 pixels
@@ -148,7 +154,7 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.getByRole('link', { name: 'Sign out' }).click();
   await page.getByRole('button', { name: 'Log Out' }).click();
-  await page.pause();
+  await page.waitForTimeout(2000);
 
   /* Log-in with admin account */
   await page.getByRole('link', { name: 'Sign-In / Register' }).click();
@@ -177,7 +183,8 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   await page.getByRole('combobox', { name: 'Select a User' }).click();
   await page.getByRole('combobox', { name: 'Select a User' }).fill('ti');
   await page.getByRole('option', { name: 'titan' }).click();
-  await page.waitForTimeout(2000);
+  await page.pause();
+
   await page.getByRole('cell', { name: 'user titan' }).click();
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.pause();
@@ -185,6 +192,7 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   /* Update user's booking status to "completed" */
   await page.getByRole('button', { name: 'User avatar' }).click();
   await page.getByRole('link', { name: 'All Bookings' }).click();
+  await page.waitForTimeout(1000);
   await page.locator('.MuiButtonBase-root').first().click();
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Edit' }).click();
@@ -226,6 +234,33 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   /* US 1-3 : User view their own's updated membership tier */
   await page.getByRole('link', { name: 'user titan titan@gmail.com' }).click();
   await page.getByRole('link', { name: 'Membership' }).click();
+  await page.evaluate(() => {
+    window.scrollBy(0, 1000); // Scroll down by 1000 pixels
+  });
+  await page.pause();
+
+  /* Log-out from user's account */
+  await page.getByRole('button', { name: 'User avatar' }).click();
+  await page.getByRole('link', { name: 'Sign out' }).click();
+  await page.getByRole('button', { name: 'Log Out' }).click();
+  await page.pause();
+
+  /* Log-in with admin account */
+  await page.getByRole('link', { name: 'Sign-In / Register' }).click();
+  await page.getByRole('textbox', { name: 'Enter your email' }).click();
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('admin@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('123456');
+  await page.getByRole('button', { name: 'Sign In' }).click();
+
+  /* Admin delete user's booking for handle running test next time */
+  await page.getByRole('button', { name: 'User avatar' }).click();
+  await page.getByRole('link', { name: 'All Bookings' }).click();
+  await page.locator('.MuiButtonBase-root').first().click();
+  await page.waitForTimeout(1000);
+  await page.getByRole('button', { name: 'Delete' }).first().click();
+  await page.getByRole('button', { name: 'Yes, delete it!' }).click();
+  await page.getByRole('button', { name: 'OK' }).click();
   await page.pause();
 
 });
