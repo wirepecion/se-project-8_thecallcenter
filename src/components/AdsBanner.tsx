@@ -6,7 +6,6 @@ import Button from './Button';
 import InteractiveButton from './InteractiveButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import randomBanners from '@/libs/Ads/randomBanners';
-import getHotels from '@/libs/Hotel/getHotels';
 import SlideArrowButton from './SlideArrowButton';
 import Loader from './Loader';
 
@@ -15,9 +14,9 @@ export default function AdsBanner() {
     const [index, setIndex] = useState(0);
     const [direction, setDirection] = useState(0); 
     const [hotelsBanner, setHotelsBanner] = useState<HotelItem[]>([]);
-    const [currentHotelBanner, setCurrentHotelBanner] = useState<HotelItem | undefined>(undefined);
     const [loading, setLoading] = useState(true);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const hasFetchedRef = useRef(false);
 
     const startInterval = () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
@@ -41,27 +40,29 @@ export default function AdsBanner() {
 
     useEffect(() => {
         const fetchHotels = async () => {
+            if (hasFetchedRef.current) return;
+            hasFetchedRef.current = true;
+            
             const hotelBannerJson = await randomBanners();
             setHotelsBanner(hotelBannerJson.data);
-            setCurrentHotelBanner(hotelsBanner[index % 5]);
         };
-
+    
         fetchHotels();
         startInterval();
-
+    
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
-    }, [index]);
+    }, []);
 
     return (
         <div> {        
-            currentHotelBanner === undefined ? <Loader />:
+            hotelsBanner[index] === undefined ? <Loader />:
             <div className="flex flex-col justify-center items-center text-black mb-20">  
                 <div className="relative w-screen h-[600px] rounded-lg overflow-hidden shadow-lg">
                     <AnimatePresence initial={false} custom={direction}>
                         <motion.div
-                            key={currentHotelBanner._id}
+                            key={hotelsBanner[index]._id}
                             custom={direction}
                             initial={{ x: direction > 0 ? 1100 : -1100, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
@@ -69,10 +70,10 @@ export default function AdsBanner() {
                             transition={{ duration: 0.6 }}
                             className="absolute inset-0"
                         >
-                            {currentHotelBanner?.picture && (
+                            {hotelsBanner[index]?.picture && (
                                 <div className="relative w-full h-full">
                                     <Image
-                                    src={currentHotelBanner.picture}
+                                    src={hotelsBanner[index].picture}
                                     alt="Hotel cover"
                                     fill
                                     priority
@@ -101,12 +102,12 @@ export default function AdsBanner() {
                     </div>
 
                     <div className="absolute bottom-0 left-0 w-full p-5 px-10 bg-gradient-to-r from-transparent to-white text-right z-10">
-                        <h2 className="text-3xl font-bold">{currentHotelBanner?.name}</h2>
-                        <h4 className="text-xl font-bold">{currentHotelBanner?.address}</h4>
-                        <h4 className="text-xl font-bold">Tel: {currentHotelBanner?.tel}</h4>
+                        <h2 className="text-3xl font-bold">{hotelsBanner[index]?.name}</h2>
+                        <h4 className="text-xl font-bold">{hotelsBanner[index]?.address}</h4>
+                        <h4 className="text-xl font-bold">Tel: {hotelsBanner[index]?.tel}</h4>
                         <div className="mt-5">
                             <InteractiveButton>
-                                <Button href={`/hotel/${currentHotelBanner?._id}`} variant="primary">VIEW MORE</Button>
+                                <Button href={`/hotel/${hotelsBanner[index]?._id}`} variant="primary">VIEW MORE</Button>
                             </InteractiveButton>
                         </div>
                     </div>
