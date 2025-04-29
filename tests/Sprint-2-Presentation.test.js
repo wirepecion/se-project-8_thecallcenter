@@ -228,4 +228,31 @@ test('Sprint 2 - EPIC 1 Run Through', async ({ page }) => {
   await page.getByRole('link', { name: 'Membership' }).click();
   await page.pause();
 
+   /* Log-out from user's account */
+   await page.getByRole('button', { name: 'User avatar' }).click();
+   await page.getByRole('link', { name: 'Sign out' }).click();
+   await page.getByRole('button', { name: 'Log Out' }).click();
+   await page.pause();
+
+   /* Log-in with admin account */
+  await page.getByRole('link', { name: 'Sign-In / Register' }).click();
+  await page.getByRole('textbox', { name: 'Enter your email' }).click();
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('admin@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('123456');
+  await page.getByRole('button', { name: 'Sign In' }).click();
+
+  /* Admin delete user's booking for handle running test next time */
+  await page.getByRole('button', { name: 'User avatar' }).click();
+  await page.getByRole('link', { name: 'All Bookings' }).click();
+  await page.locator('.MuiButtonBase-root').first().click();
+  await page.getByRole('button', { name: 'Delete' }).first().click();
+  await page.getByRole('button', { name: 'Yes, delete it!' }).click();
+  await page.getByRole('button', { name: 'OK' }).click();
+  await page.pause();
+
+  /* Swagger Showcase */
+  await page.goto('http://localhost:5000/api-docs/');
+  await page.pause();
+
 });
