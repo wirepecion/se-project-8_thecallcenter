@@ -9,6 +9,7 @@ on:
   schedule:
   - cron: '01 1 * * *'
 
+
 jobs:
   stale:
 
@@ -25,3 +26,4 @@ jobs:
         stale-pr-message: 'Stale pull request message'
         stale-issue-label: 'no-issue-activity'
         stale-pr-label: 'no-pr-activity'
+
