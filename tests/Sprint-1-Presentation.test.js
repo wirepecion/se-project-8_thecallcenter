@@ -35,7 +35,7 @@ test('Sprint 1 - EPIC 2 Run Through', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'User avatar' })).toBeVisible();
 
   /* Starts booking */
-  await page.waitForTimeout(6000);
+  await page.waitForTimeout(2000);
   await page.evaluate(() => {
     window.scrollBy(0, 700); // Scroll down by 700 pixels
   });
