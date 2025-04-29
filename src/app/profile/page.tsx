@@ -26,7 +26,7 @@ export default async function Profile() {
                 user.role === "admin" ? (
                     <MyProfilePage sessionToken={session?.user?.token} name={userProfile.data.name}/>
                 ) : user.role === "hotelManager" ? (
-                    <div className="min-h-screen w-full text-white py-10 px-4">
+                    <div className="w-full text-white py-10 px-4">
                         <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
                             <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                                 <ProfileUserCard token={session.user.token} />
@@ -45,7 +45,7 @@ export default async function Profile() {
                         </div>
                     </div>
                 ) : (
-                    <div className="min-h-screen w-full text-white py-10 px-4">
+                    <div className="w-full text-white py-10 px-4">
                         <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
                             <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                                 <ProfileUserCard token={session.user.token}/>

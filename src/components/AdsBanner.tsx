@@ -57,7 +57,11 @@ export default function AdsBanner() {
 
     return (
         <div> {        
-            hotelsBanner[index] === undefined ? <Loader />:
+            hotelsBanner[index] === undefined ? 
+                <div className="pt-16">
+                    <Loader />
+                </div>
+            :
             <div className="flex flex-col justify-center items-center text-black mb-20">  
                 <div className="relative w-screen h-[600px] rounded-lg overflow-hidden shadow-lg">
                     <AnimatePresence initial={false} custom={direction}>

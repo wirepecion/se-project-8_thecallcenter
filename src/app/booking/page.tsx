@@ -44,7 +44,7 @@ export default function Booking() {
   const role = profile.data.role;
 
   return (
-    <main className="h-auto min-h-screen">
+    <main className="h-auto">
       {role === "user" && (
         <>
           <HeroSection
