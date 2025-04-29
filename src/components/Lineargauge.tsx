@@ -48,12 +48,13 @@ export default function ChartExample({
       fontSize: 15,
       fontWeight: "bold",
       color: "#000000",
+      text: `${points}`,
     },
     
-    value: points,
+    value: points > 800 ? 800 : points,
     scale: {
       min: 0,
-      max: 750,
+      max: 800,
       label: { enabled: false },
       // fill: '#ffffff',
     },
@@ -66,14 +67,14 @@ export default function ChartExample({
         { color: "#AFBCCA", stop: 250 },
         { color: "#EFBF04", stop: 500 },
         { color: "#BA55D3", stop: 750 },
-        { color: "#ffffff", stop: 800 },
+        { color: "#b9f2ff", stop: 800 },
       ],
       fillMode: "discrete",
       //thickness: 100,
     },
     segmentation: {
       enabled: true,
-      interval: { values: [0, 50, 125, 250, 500, 755] },
+      interval: { values: [0, 50, 125, 250, 500, 750 ,800] },
       spacing: 3,
     },
     
@@ -90,11 +91,12 @@ export default function ChartExample({
       { value: 250, shape: "line", size: 50, placement: "middle", strokeWidth: 3 },
       { value: 500, shape: "line", size: 50, placement: "middle", strokeWidth: 3 },
       { value: 750, shape: "line", size: 50, placement: "middle", strokeWidth: 3 },
+      
       { 
-        value: points, text: "You're Here", shape: "triangle", placement: "after", fill: "white", strokeWidth: 2, spacing: 4 
+        value: points > 800 ? 800 : points, text: "You're Here", shape: "triangle", placement: "after", fill: "white", strokeWidth: 2, spacing: 4 
       },
       { 
-        value: points, 
+        value: points > 800 ? 800 : points, 
         text: `${points} points`, 
         shape: "triangle", 
         placement: "after", 
