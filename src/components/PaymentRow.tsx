@@ -12,12 +12,9 @@ import {
   Snackbar,
   Alert,
   Button,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import EditIcon from '@mui/icons-material/Edit';
-import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Tooltip, IconButton } from '@mui/material';
@@ -140,8 +137,6 @@ export default function PaymentRow({
     }
   };
 
-
-
   const handleDelete = async () => {
     try {
       await deletePayment(payment._id, session?.user.token);
@@ -232,11 +227,11 @@ export default function PaymentRow({
                 onChange={(e) => setStatusForChoose(e.target.value)}
                 className="w-full p-3 border rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-300"
               >
+                {}
                 <option value="unpaid">Unpaid</option>
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
                 <option value="failed">Failed</option>
-                <option value="canceled">Canceled</option>
               </select>
             )}
             { userProfile?.role === "hotelManager" && (
