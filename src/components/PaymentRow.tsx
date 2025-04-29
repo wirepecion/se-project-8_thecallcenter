@@ -32,7 +32,7 @@ export default function PaymentRow({
 }: {
   payment: PaymentItem;
   booking: BookingItem;
-  onStatusChange: (id: string, newStatus: string) => void;
+  onStatusChange: (id: string, updatedData: object) => void;
   onDelete: (id: string) => void;
 }) {
   const { data: session } = useSession();
@@ -79,7 +79,7 @@ export default function PaymentRow({
             setUpdateOpen(false);
 
             if (updatedStatus) {
-              onStatusChange(payment._id, updatedStatus);
+              onStatusChange(payment._id, { status: updatedStatus});
             }
 
             Swal.fire({
@@ -96,17 +96,12 @@ export default function PaymentRow({
       });
     } else if (method) {
       try {
-        await updatePayment(
-          payment._id,
-          { status: statusForChoose, method, amount },
-          session?.user.token
-        );
 
         setSnackbarMessage("Payment updated successfully");
         setSnackbarOpen(true);
         setUpdateOpen(false);
 
-        onStatusChange(payment._id, statusForChoose || payment.status);
+        onStatusChange(payment._id, { status: statusForChoose, method, amount });
 
         Swal.fire({
           title: "Success!",
@@ -132,7 +127,7 @@ export default function PaymentRow({
       setSnackbarMessage("Payment updated successfully");
       setSnackbarOpen(true);
       setUpdateOpen(false);
-      onStatusChange(payment._id , 'completed' );
+      onStatusChange(payment._id , { status: 'completed' });
       
       Swal.fire({
         title: "Success!",

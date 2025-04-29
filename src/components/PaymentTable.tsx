@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PaymentRow from './PaymentRow';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
-export default function PaymentTable({ bookings, onStatusChange, onDelete }: { bookings: BookingItem[]; onStatusChange: (id: string, newStatus: string) => void; onDelete: (paymentId: string) => void }) {
+export default function PaymentTable({ bookings, onStatusChange, onDelete }: { bookings: BookingWithPopulate[]; onStatusChange: (id: string, updatedData: object) => void; onDelete: (paymentId: string) => void }) {
   const [minPrice, setMinPrice] = useState<number | string>('');
   const [maxPrice, setMaxPrice] = useState<number | string>('');
   const [startDate, setStartDate] = useState<string>('');

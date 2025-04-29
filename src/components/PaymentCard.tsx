@@ -1,7 +1,8 @@
+"use client"
+
 import { useState } from "react";
 import dayjs from "dayjs";
 import { updatePayment } from "@/libs/Payment/updatePayment";
-import { deletePayment } from "@/libs/Payment/deletePayment";
 import { useSession } from "next-auth/react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Alert, Select, MenuItem } from "@mui/material";
 import { useRouter } from 'next/navigation';
@@ -9,13 +10,11 @@ import Swal from "sweetalert2";
 
 export default function UserPaymentCard({ 
     paymentData, 
-    onStatusChange, 
-    role, 
-    onDelete 
+    handlePaymentUpdate, 
+    onDelete,
 }: { 
     paymentData: PaymentItem; 
-    onStatusChange: (id: string, newStatus: string) => void; 
-    role: string; 
+    handlePaymentUpdate: (paymentId: string, updatedData: object) => void,
     onDelete: (paymentId: string) => void; 
 }) {
     const [cancelOpen, setCancelOpen] = useState(false);
@@ -32,18 +31,11 @@ export default function UserPaymentCard({
     const [method, setMethod] = useState(paymentData.method);
     const [updateMethod, setUpdateMethod] = useState<string | undefined>(paymentData.method);
 
-
-    // const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
-    // const [showAlert, setShowAlert] = useState(false);
-    // const [errorMessage, setErrorMessage] = useState("");
-
-    const isAdmin = role === "admin";
-
     const handlePay = async () => {
         try {
-            await updatePayment(paymentData._id, { status: "pending" }, session?.user.token);
+            handlePaymentUpdate(paymentData._id, { status: "pending" });
             setStatus("pending");
-            onStatusChange(paymentData._id, "pending"); 
+            handlePaymentUpdate(paymentData._id, { status: status }); 
             setSnackbarMessage("Payment is now pending.");
             setSnackbarOpen(true);
         } catch (error) {
@@ -58,7 +50,6 @@ export default function UserPaymentCard({
             if (status) updatedData.status = status;
             if (method) updatedData.method = method;
             if (amount) updatedData.amount = amount;
-            if (status) onStatusChange(paymentData._id, status); 
 
             await updatePayment(paymentData._id, updatedData, session?.user.token);
 
@@ -148,9 +139,6 @@ export default function UserPaymentCard({
                     >
                         {status !== "unpaid" ? "Paid" : "Pay"}
                     </Button>
-
-
-                  
 
                     <Button
                         variant="contained"

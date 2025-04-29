@@ -1,12 +1,12 @@
 import BACKEND_URL from "../config";
 
 export default async function getBookings(token: string | undefined, pageQuery?: string, filterQuery?: string) {
-    let page = pageQuery ? `page=${pageQuery}` : '';
-    let filter = filterQuery ? `filter=${filterQuery}` : '';
+    const queryParams = new URLSearchParams();
+    
+    if (pageQuery) queryParams.append("page", pageQuery);
+    if (filterQuery) queryParams.append("filter", filterQuery);
 
-    let query = page && filter ? `${page}&${filter}` : page || filter ? `${page}${filter}` : '';
-
-    const response = await fetch(`${BACKEND_URL}/api/v1/bookings?${query}`, {
+    const response = await fetch(`${BACKEND_URL}/api/v1/bookings?${queryParams.toString()}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
