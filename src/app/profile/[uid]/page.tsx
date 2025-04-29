@@ -15,7 +15,7 @@ export default async function UserProfile({ params }: { params: { uid: string } 
     if (user.role !== "admin") return <p className="text-center text-gray-500">Unauthorized. Only admin can access this path.</p>;
 
     return (
-        <div className="min-h-screen w-full text-white py-10 px-4">
+        <div className="w-full text-white py-10 px-4">
             
                 <div className="max-w-screen-lg mx-auto flex flex-col gap-12">
                     <div className="p-2"/>

@@ -20,7 +20,7 @@ export default async function Membership({ params }: { params: { uid: string } }
     
 
     return (
-        <main className="min-h-screen  ">
+        <main>
 
             <HeroSection
                 title={<>Membership<br /> Loyalty Program</>}

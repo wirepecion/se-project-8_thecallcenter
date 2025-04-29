@@ -21,15 +21,16 @@ export default async function View({ params }: { params: { bid: string } }) {
     };
 
     return (
-        <main className="p-7 h-[1200px] text-white min-h-screen">
-         
-        <BookingClientView
-            bookingItem={bookingJson.data}
-            paymentList={paymentList}
-            updatePayment={updatePaymentFunc}
-            sessionToken={session.user.token}
-            userRole={userProfile.data.role || "user"}
-        />
+        <main className="text-white min-h-screen">
+            <div className="p-7">
+                <BookingClientView
+                    bookingItem={bookingJson.data}
+                    paymentList={paymentList}
+                    updatePayment={updatePaymentFunc}
+                    sessionToken={session.user.token}
+                    userRole={userProfile.data.role || "user"}
+                />
+            </div>
         </main>
     );
 }

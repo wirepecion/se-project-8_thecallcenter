@@ -60,8 +60,10 @@ export default async function RootLayout({
         <NextAuthProvider session={nextAuthSession}>
           <div className="relative z-20">
             <NavBar />
-            <div className="p-4 pt-16"></div>
-            {children}
+            <div className="min-h-screen">
+              <div className="p-4 pt-16"></div>
+              {children}
+            </div>
           </div>
         </NextAuthProvider>
       </body>

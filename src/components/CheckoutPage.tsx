@@ -54,7 +54,7 @@ export default function CheckoutPage({
 
         ) : (
 
-            <main className="w-full min-h-screen flex flex-row">
+            <main className="w-full flex flex-row">
                 
                 <CheckoutPayment
                     token={token}

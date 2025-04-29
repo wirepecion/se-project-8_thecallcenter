@@ -124,7 +124,7 @@ export default function BookingClientView({
 
 
     return (
-        <main className="py-20">
+        <main className="pt-20">
             <BookingCardWithEdit
                 key={bookingItem._id}
                 bookingData={bookingItem}
@@ -149,11 +149,9 @@ export default function BookingClientView({
                     onClose={handleModalClose}
                     sessionToken={sessionToken}
                     userRole={userRole}
-                    // setBookings={setBookings}
                 />
             )}
 
-        
         </main>
     );
 }
