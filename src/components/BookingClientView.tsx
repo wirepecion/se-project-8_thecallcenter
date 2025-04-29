@@ -136,8 +136,9 @@ export default function BookingClientView({
             {paymentList.map((payment) => (
                 <PaymentCard
                     paymentData={payment}
-                    onStatusChange={() => console.log("Status updated")}
-                    role={userRole}
+                    handlePaymentUpdate={() => console.log("Payment updated")}
+                    // onStatusChange={() => console.log("Status updated")}
+                    // role={userRole}
                     onDelete={handleDeletePayment}
                 />
             ))}
