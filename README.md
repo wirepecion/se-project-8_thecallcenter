@@ -53,37 +53,39 @@ src/
     ├── Booking/         # CRUD operations for bookings
     └── Payment/         # Payment validation services
 ```
+-----
 
-🚀 How to Run
-Clone the repo:
+## 🚀 How to Run
 
-```Bash
-git clone [https://github.com/yourusername/hotel-booking-frontend.git](https://github.com/yourusername/hotel-booking-frontend.git)
-```
-1. Install dependencies:
+### Manual Setup
 
-```Bash
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+2.  **Start the Server:**
+    ```bash
+    npm start
+    ```
+3.  **Run Tests:**
+    ```bash
+    npm test
+    ```
 
-npm install
-```
-2. Run the development server:
-```Bash
+-----
 
-npm run dev
-```
-3. Run End-to-End Tests:
+## 👨‍💻 Contributors
 
-```Bash
-npx playwright test
-```
-👨‍💻 Contributors
-The Call Center Team
-- Nattarat Samartkit
-- Worachart Poungtabtim
-- Patcharapon Srisuwan
-- Jedsada Meesuk
-- Patcharapon Ongkakul
-- Patthadon Phengpinij
-- Warapong Thongkhundam
-- Titiporn Somboon
-- Siravut Chunu
+**The Call Center Team**
+
+  * **Nattarat Samartkit**
+  * **Worachart Poungtabtim**
+  * **Patcharapon Srisuwan**
+  * **Jedsada Meesuk**
+  * **Patcharapon Ongkakul**
+  * **Patthadon Phengpinij**
+  * **Warapong Thongkhundam**
+  * **Titiporn Somboon**
+  * **Siravut Chunu**
+
+<!-- end list -->
